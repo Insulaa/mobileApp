@@ -1,0 +1,25 @@
+@import 'src/assets/styles/spacing';
+@import 'src/assets/styles/colours';
+
+.base {
+  font-weight: unset !important;
+  text-transform: initial !important;
+}
+
+.base.bold {
+  font-weight: bold !important;
+}
+
+.base.gray {
+  color: $grey-dark !important;
+}
+
+.base.upper {
+  text-transform: uppercase !important;
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
