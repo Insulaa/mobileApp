@@ -4,7 +4,7 @@ import {RootState} from '../../redux/rootReducer';
 import {Button} from '@material-ui/core';
 import Typography from '../Typography/Typography';
 import {actions as userActions} from '../../redux/userStore';
-
+import {Text} from 'react-native';
 const MainContainer = () => {
   const dispatch = useDispatch();
 
@@ -14,11 +14,7 @@ const MainContainer = () => {
     email: userEmail,
   } = useSelector((state: RootState) => state.userStore);
 
-  return (
-    <div>
-      <Typography variant="b2-bold">HI</Typography>
-    </div>
-  );
+  return <Text>HI</Text>;
 };
 
 export default MainContainer;

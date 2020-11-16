@@ -14,36 +14,31 @@ import {Provider} from 'react-redux';
 import rootReducer from '../../redux/rootReducer';
 
 import MainContainer from '../MainContainer/MainContainer';
+import store from '../../redux/store';
 
 declare const global: {HermesInternal: null | {}};
-
-const AppWrapper = () => {
-  const store = createStore(rootReducer);
-
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-};
 
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+      <Provider store={store}>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <Header />
+            {global.HermesInternal == null ? null : (
+              <View style={styles.engine}>
+                <Text style={styles.footer}>Engine: Hermes</Text>
+              </View>
+            )}
+            <View style={styles.body}>
+              <MainContainer />
             </View>
-          )}
-          <View style={styles.body}></View>
-        </ScrollView>
-      </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
+      </Provider>
     </>
   );
 };
