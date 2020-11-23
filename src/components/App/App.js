@@ -9,15 +9,15 @@ import {
 import axios from 'axios';
 
 const App = () => {
-  let [user, setUser] = React.useState('');
+  let [user, setUser] = React.useState('A');
 
   const fetchUser = () => {
     axios
       .get(
-        'http://localhost:3000/views/patients/?user_id=a38df304-c3f8-4bbf-843d-640f7c664657',
+        'http://10.0.2.2:8000/views/patients/?user_id=a38df304-c3f8-4bbf-843d-640f7c664657',
       )
       .then((response) => {
-        console.log('SHOULD WORK');
+        setUser(response.data[0]['last_name']);
       })
       .catch((error) => {
         console.log(error);
