@@ -1,71 +1,64 @@
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
-import axios from 'axios';
+import 'react-native-gesture-handler';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {View, Text, TouchableHighlight, StyleSheet, Button} from 'react-native';
+import styles from './styles';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import HomeScreen from '../HomeScreen/HomeScreen';
 
-const App = () => {
-  let [user, setUser] = React.useState('A');
+const Tab = createMaterialTopTabNavigator();
 
-  const fetchUser = () => {
-    axios
-      .get(
-        'http://10.0.2.2:8000/views/patients/?user_id=a38df304-c3f8-4bbf-843d-640f7c664657',
-      )
-      .then((response) => {
-        setUser(response.data[0]['last_name']);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
+function MyTabBar({navigation}) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>First API Call</Text>
-      <Text style={styles.body}>Press the Button to get User Info</Text>
-      <TouchableHighlight onPress={fetchUser}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Get User</Text>
-        </View>
-      </TouchableHighlight>
-      <View>
-        <Text>{user}</Text>
-      </View>
-      <StatusBar style="auto" />
+    <View style={{flexDirection: 'row'}}>
+      <Button
+        title="Home"
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+      />
+      <Button
+        title="Medications"
+        onPress={() => {
+          navigation.navigate('Medications');
+        }}
+      />
     </View>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#AAA',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-  },
-  title: {
-    fontSize: 36,
-    alignSelf: 'center',
-    color: 'black',
-  },
-  body: {
-    fontSize: 20,
-    alignSelf: 'center',
-  },
-  button: {
-    padding: 10,
-    marginVertical: 15,
-    backgroundColor: 'blue',
-  },
-  buttonText: {
-    color: 'black',
-  },
-});
+function MedicationsScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Medication Screen</Text>
+    </View>
+  );
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Glucose"
+        tabBar={(props) => <MyTabBar {...props} />}
+        tabBarOptions={{
+          activeTintColor: '#e91e63',
+          labelStyle: {fontSize: 12},
+          style: {backgroundColor: 'powderblue'},
+        }}>
+        <Tab.Screen
+          name="Glucose"
+          component={HomeScreen}
+          options={{tabBarLabel: 'Home'}}
+        />
+        <Tab.Screen
+          name="Medications"
+          component={MedicationsScreen}
+          options={{tabBarLabel: 'Medications'}}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default App;
