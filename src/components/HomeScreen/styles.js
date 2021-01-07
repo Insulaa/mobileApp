@@ -20,7 +20,7 @@ export default StyleSheet.create({
   button: {
     padding: 10,
     marginVertical: 15,
-    backgroundColor: 'blue',
+    backgroundColor: '#FBF6F6',
   },
   buttonText: {
     color: 'black',

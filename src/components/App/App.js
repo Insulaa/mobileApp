@@ -1,36 +1,76 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, TouchableHighlight, StyleSheet, Button} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+  StyleSheet,
+  Button,
+} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
+import Header from '../Header/Header';
 
 const Tab = createMaterialTopTabNavigator();
 
 function MyTabBar({navigation}) {
   return (
-    <View style={{flexDirection: 'row'}}>
-      <Button
-        title="Home"
+    <View style={styles.container}>
+      <TouchableHighlight
+        style={styles.button}
         onPress={() => {
           navigation.navigate('Home');
-        }}
-      />
-      <Button
-        title="Medications"
+        }}>
+        <Text>GLUCOSE</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.button}
         onPress={() => {
           navigation.navigate('Medications');
-        }}
-      />
+        }}>
+        <Text>MEDICATION</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('Exercise');
+        }}>
+        <Text>EXERCISE</Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('Diet');
+        }}>
+        <Text>DIET</Text>
+      </TouchableHighlight>
     </View>
   );
 }
 
 function MedicationsScreen({navigation}) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>Medication Screen</Text>
+    </View>
+  );
+}
+
+function ExerciseScreen({navigation}) {
+  return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Exercise Screen</Text>
+    </View>
+  );
+}
+
+function DietScreen({navigation}) {
+  return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Diet Screen</Text>
     </View>
   );
 }
@@ -38,16 +78,17 @@ function MedicationsScreen({navigation}) {
 const App = () => {
   return (
     <NavigationContainer>
+      <Header />
       <Tab.Navigator
-        initialRouteName="Glucose"
+        initialRouteName="Home"
         tabBar={(props) => <MyTabBar {...props} />}
         tabBarOptions={{
-          activeTintColor: '#e91e63',
-          labelStyle: {fontSize: 12},
-          style: {backgroundColor: 'powderblue'},
+          labelStyle: {fontSize: 16},
+          tabStyle: {width: 100},
+          style: {backgroundColor: 'white'},
         }}>
         <Tab.Screen
-          name="Glucose"
+          name="Home"
           component={HomeScreen}
           options={{tabBarLabel: 'Home'}}
         />
@@ -55,6 +96,16 @@ const App = () => {
           name="Medications"
           component={MedicationsScreen}
           options={{tabBarLabel: 'Medications'}}
+        />
+        <Tab.Screen
+          name="Exercise"
+          component={ExerciseScreen}
+          options={{tabBarLabel: 'Exercise'}}
+        />
+        <Tab.Screen
+          name="Diet"
+          component={DietScreen}
+          options={{tabBarLabel: 'Diet'}}
         />
       </Tab.Navigator>
     </NavigationContainer>

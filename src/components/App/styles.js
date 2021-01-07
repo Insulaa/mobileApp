@@ -2,11 +2,13 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#AAA',
+    height: 36,
+    backgroundColor: '#FBF6F6',
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     color: '#fff',
+    flexDirection: 'row',
   },
   title: {
     fontSize: 36,
@@ -18,9 +20,14 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    padding: 10,
-    marginVertical: 15,
-    backgroundColor: 'blue',
+    paddingTop: 14,
+    paddingBottom: 4,
+    fontSize: 14,
+    backgroundColor: 'white',
+    flex: 1,
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderRightWidth: 0.5,
   },
   buttonText: {
     color: 'black',
