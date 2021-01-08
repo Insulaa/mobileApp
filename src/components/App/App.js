@@ -19,34 +19,34 @@ const Tab = createMaterialTopTabNavigator();
 function MyTabBar({navigation}) {
   return (
     <View style={styles.container}>
-      <TouchableHighlight
-        style={styles.button}
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           navigation.navigate('Home');
         }}>
         <Text>GLUCOSE</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        style={styles.button}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           navigation.navigate('Medications');
         }}>
-        <Text>MEDICATION</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        style={styles.button}
+        <Text>MEDICATIONS</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           navigation.navigate('Exercise');
         }}>
         <Text>EXERCISE</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        style={styles.button}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           navigation.navigate('Diet');
         }}>
         <Text>DIET</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 }

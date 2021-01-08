@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: 36,
+    height: 48,
     backgroundColor: '#FBF6F6',
     display: 'flex',
     alignItems: 'center',
@@ -11,24 +11,27 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     alignSelf: 'center',
     color: 'black',
+    alignItems: 'center',
   },
   body: {
     fontSize: 20,
     alignSelf: 'center',
   },
-  button: {
-    paddingTop: 14,
-    paddingBottom: 4,
+  tab: {
+    paddingTop: 16,
+    paddingBottom: 12,
+    marginBottom: 6,
     fontSize: 14,
-    backgroundColor: 'white',
+    backgroundColor: '#FBF6F6',
     flex: 1,
     alignItems: 'center',
     borderStyle: 'solid',
     borderRightWidth: 0.5,
   },
+
   buttonText: {
     color: 'black',
   },
