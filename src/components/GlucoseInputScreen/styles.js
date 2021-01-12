@@ -2,34 +2,31 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: 48,
-    backgroundColor: '#FBF6F6',
+    flex: 1,
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
     color: '#fff',
-    flexDirection: 'row',
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    overflow: 'hidden',
   },
   title: {
-    fontSize: 32,
-    alignSelf: 'center',
+    fontSize: 30,
+    textAlign: 'center',
     color: 'black',
-    alignItems: 'center',
   },
   body: {
     fontSize: 20,
     alignSelf: 'center',
   },
-  tab: {
-    paddingTop: 16,
-    paddingBottom: 12,
-    marginBottom: 6,
-    fontSize: 14,
+  button: {
+    padding: 10,
+    marginVertical: 15,
     backgroundColor: '#FBF6F6',
-    flex: 1,
-    alignItems: 'center',
-    borderStyle: 'solid',
-    borderRightWidth: 0.5,
   },
   mainButton: {
     width: 320,
@@ -47,5 +44,18 @@ export default StyleSheet.create({
     fontSize: 28,
     color: 'white',
     textAlign: 'center',
+  },
+  clickableText: {
+    color: '#21A1FD',
+    fontSize: 20,
+  },
+  input: {
+    borderBottomWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 120,
+    alignSelf: 'center',
+    fontSize: 40,
   },
 });

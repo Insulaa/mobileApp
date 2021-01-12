@@ -1,18 +1,16 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  TouchableHighlight,
-  StyleSheet,
-  Button,
-} from 'react-native';
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
+import {View, Text, TouchableOpacity, Button} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
 import Header from '../Header/Header';
+import {createStackNavigator} from '@react-navigation/stack';
+import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -51,63 +49,61 @@ function MyTabBar({navigation}) {
   );
 }
 
-function MedicationsScreen({navigation}) {
+const MedicationsScreen = () => {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>Medication Screen</Text>
     </View>
   );
-}
+};
 
-function ExerciseScreen({navigation}) {
+const ExerciseScreen = () => {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>Exercise Screen</Text>
     </View>
   );
-}
+};
 
-function DietScreen({navigation}) {
+const DietScreen = () => {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text>Diet Screen</Text>
     </View>
   );
-}
+};
+
+const HomeTabs = () => {
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <MyTabBar {...props} />}
+      tabBarOptions={{
+        labelStyle: {fontSize: 16},
+        tabStyle: {width: 100},
+        style: {backgroundColor: 'white'},
+      }}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Medications" component={MedicationsScreen} />
+      <Tab.Screen name="Exercise" component={ExerciseScreen} />
+      <Tab.Screen name="Diet" component={DietScreen} />
+    </Tab.Navigator>
+  );
+};
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Header />
-      <Tab.Navigator
-        initialRouteName="Home"
-        tabBar={(props) => <MyTabBar {...props} />}
-        tabBarOptions={{
-          labelStyle: {fontSize: 16},
-          tabStyle: {width: 100},
-          style: {backgroundColor: 'white'},
+      <Stack.Navigator
+        initialRouteName="GlucoseInput"
+        screenOptions={{
+          headerShown: false,
         }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{tabBarLabel: 'Home'}}
-        />
-        <Tab.Screen
-          name="Medications"
-          component={MedicationsScreen}
-          options={{tabBarLabel: 'Medications'}}
-        />
-        <Tab.Screen
-          name="Exercise"
-          component={ExerciseScreen}
-          options={{tabBarLabel: 'Exercise'}}
-        />
-        <Tab.Screen
-          name="Diet"
-          component={DietScreen}
-          options={{tabBarLabel: 'Diet'}}
-        />
-      </Tab.Navigator>
+        <Stack.Screen name="Home" component={HomeTabs} />
+        <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
