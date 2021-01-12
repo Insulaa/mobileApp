@@ -2,12 +2,18 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
+  Button,
   StatusBar,
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
 import styles from './styles';
+import {TextInput} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
+import {withNavigation} from 'react-navigation';
+import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 
 const HomeScreen = () => {
   let [user, setUser] = React.useState('A');
@@ -27,16 +33,17 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>First API Call</Text>
-      <Text style={styles.body}>Press the Button to get User Info</Text>
-      <TouchableHighlight onPress={fetchUser}>
-        <View style={styles.button}>
+      <Text style={styles.title}>Glucose Levels</Text>
+      <Text style={styles.body}>Todays Readings</Text>
+      <TouchableOpacity onPress={fetchUser}>
+        <View style={styles.mainButton}>
           <Text style={styles.buttonText}>Get User</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
       <View>
         <Text>{user}</Text>
       </View>
+      <GlucoseScreenButton />
       <StatusBar style="auto" />
     </View>
   );
