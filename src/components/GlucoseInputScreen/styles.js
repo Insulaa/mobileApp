@@ -14,48 +14,38 @@ export default StyleSheet.create({
     borderStyle: 'solid',
     overflow: 'hidden',
   },
+  inputContainer: {
+    width: 260,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignSelf: 'center',
+  },
   title: {
     fontSize: 30,
     textAlign: 'center',
     color: 'black',
   },
-  body: {
-    fontSize: 20,
-    alignSelf: 'center',
-  },
-  button: {
-    padding: 10,
-    marginVertical: 15,
-    backgroundColor: '#FBF6F6',
-  },
-  mainButton: {
-    width: 320,
-    padding: 10,
-    marginTop: 60,
-    alignSelf: 'center',
-    borderRadius: 10,
-  },
-  skipButton: {
-    padding: 2,
-    marginTop: 60,
-    alignSelf: 'center',
-  },
-  buttonText: {
-    fontSize: 28,
-    color: 'white',
-    textAlign: 'center',
-  },
-  clickableText: {
-    color: '#21A1FD',
-    fontSize: 20,
-  },
-  input: {
+  numberInput: {
     borderBottomWidth: 1,
     borderColor: '#777',
     padding: 8,
     margin: 10,
     width: 120,
-    alignSelf: 'center',
     fontSize: 40,
+    textAlign: 'center',
+  },
+  unitInputContainer: {
+    width: 110,
+    height: 60,
+    alignSelf: 'flex-end',
+    padding: 10,
+  },
+  unitInput: {
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#777',
   },
 });
