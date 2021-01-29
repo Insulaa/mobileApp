@@ -13,19 +13,49 @@ import {CommonActions, useNavigation} from '@react-navigation/native';
 import HomeButton from '../Buttons/HomeButton';
 import {useState} from 'react';
 import SkipButton from '../Buttons/SkipButton';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const GlucoseInputScreen = () => {
   const navigation = useNavigation();
   let [glucoseLevel, setGlucoseLevel] = useState(0);
+  let [glucoseUnit, setGlucoseUnit] = useState('mg');
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Enter Your {'\n'}Glucose Reading!</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(val) => setGlucoseLevel(val)}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.numberInput}
+          onChangeText={(val) => setGlucoseLevel(val)}
+          keyboardType="numeric"
+        />
+        <DropDownPicker
+          items={[
+            {
+              label: 'mg/dL',
+              value: 'mg',
+            },
+            {
+              label: 'mmol/L',
+              value: 'mmol',
+            },
+          ]}
+          defaultValue={glucoseUnit}
+          style={styles.unitInput}
+          labelStyle={{
+            fontSize: 16,
+            textAlign: 'left',
+            color: '#000',
+          }}
+          activeLabelStyle={{fontWeight: 'bold'}}
+          containerStyle={styles.unitInputContainer}
+          itemStyle={{
+            justifyContent: 'flex-start',
+          }}
+          dropDownStyle={{backgroundColor: '#fafafa'}}
+          onChangeItem={(item) => setGlucoseUnit(item.value)}
+        />
+      </View>
       <SkipButton />
       <HomeButton />
     </View>
