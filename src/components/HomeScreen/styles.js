@@ -14,14 +14,31 @@ export default StyleSheet.create({
     borderStyle: 'solid',
     overflow: 'hidden',
   },
+  glucoseReadingsContainer: {
+    flex: 2,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  buttonsContainer: {
+    flex: 4,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   title: {
+    flex: 1,
+    top: 20,
+    alignSelf: 'center',
     fontSize: 30,
-    textAlign: 'center',
     color: 'black',
+    marginBottom: 20,
   },
   body: {
+    flex: 1,
     fontSize: 20,
     alignSelf: 'center',
+    marginTop: 20,
   },
   buttonText: {
     fontSize: 28,
@@ -31,7 +48,6 @@ export default StyleSheet.create({
   mainButton: {
     width: 320,
     padding: 10,
-    marginTop: 60,
     alignSelf: 'center',
     borderRadius: 10,
   },

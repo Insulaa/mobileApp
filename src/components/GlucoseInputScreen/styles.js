@@ -15,7 +15,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   inputContainer: {
-    width: 260,
+    width: 240,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -36,7 +36,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   unitInputContainer: {
-    width: 110,
+    width: 120,
     height: 60,
     alignSelf: 'flex-end',
     padding: 10,

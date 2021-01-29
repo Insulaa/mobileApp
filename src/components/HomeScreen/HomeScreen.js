@@ -14,6 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
 import {withNavigation} from 'react-navigation';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
+import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
 
 const HomeScreen = () => {
   let [user, setUser] = React.useState('A');
@@ -35,16 +36,22 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Glucose Levels</Text>
       <Text style={styles.body}>Todays Readings</Text>
-      <TouchableOpacity onPress={fetchUser}>
-        <View style={styles.mainButton}>
-          <Text style={styles.buttonText}>Get User</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.glucoseReadingsContainer}>
+        <GlucoseReadingIcon />
+        <GlucoseReadingIcon />
+        <GlucoseReadingIcon />
+      </View>
+      <Text style={styles.body}>14 Day Average</Text>
+      <View style={styles.glucoseReadingsContainer}>
+        <GlucoseReadingIcon />
+      </View>
       <View>
         <Text>{user}</Text>
       </View>
-      <GlucoseScreenButton />
-      <StatusBar style="auto" />
+      <View style={styles.buttonsContainer}>
+        <GlucoseScreenButton />
+        <StatusBar style="auto" />
+      </View>
     </View>
   );
 };
