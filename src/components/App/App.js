@@ -29,7 +29,7 @@ function MyTabBar({navigation}) {
         onPress={() => {
           navigation.navigate('Medications');
         }}>
-        <Text>MEDICATIONS</Text>
+        <Text>MEDS</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.tab}

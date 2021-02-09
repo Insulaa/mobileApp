@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 
-const GlucoseScreenButton = () => {
+const GlucoseScreenButton = ({buttonText}) => {
   const navigation = useNavigation();
 
   return (
@@ -13,7 +13,7 @@ const GlucoseScreenButton = () => {
         <LinearGradient
           colors={['#1D6EA8', '#21A1FD']}
           style={styles.mainButton}>
-          <Text style={styles.buttonText}>ADD READING</Text>
+          <Text style={styles.buttonText}>{buttonText}</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>

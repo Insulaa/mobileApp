@@ -28,17 +28,17 @@ export default StyleSheet.create({
   },
   title: {
     flex: 1,
-    top: 20,
+    top: 15,
     alignSelf: 'center',
-    fontSize: 30,
+    fontSize: 32,
     color: 'black',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   body: {
     flex: 1,
-    fontSize: 20,
+    fontSize: 22,
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonText: {
     fontSize: 28,

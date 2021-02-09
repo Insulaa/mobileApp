@@ -2,13 +2,14 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 60,
+    marginTop: 40,
   },
   mainButton: {
     width: 300,
     padding: 10,
     alignSelf: 'center',
     borderRadius: 10,
+    marginTop: 20,
   },
   buttonText: {
     fontSize: 28,

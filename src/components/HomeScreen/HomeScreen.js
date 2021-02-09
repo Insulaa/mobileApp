@@ -45,11 +45,9 @@ const HomeScreen = () => {
       <View style={styles.glucoseReadingsContainer}>
         <GlucoseReadingIcon />
       </View>
-      <View>
-        <Text>{user}</Text>
-      </View>
       <View style={styles.buttonsContainer}>
-        <GlucoseScreenButton />
+        <GlucoseScreenButton buttonText="ADD READING" />
+        <GlucoseScreenButton buttonText="EXPORT DATA" />
         <StatusBar style="auto" />
       </View>
     </View>
