@@ -17,20 +17,8 @@ import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
 
 const HomeScreen = () => {
-  let [user, setUser] = React.useState('A');
-
-  const fetchUser = () => {
-    axios
-      .get(
-        'http://10.0.2.2:8000/views/patients/?user_id=a38df304-c3f8-4bbf-843d-640f7c664657',
-      )
-      .then((response) => {
-        setUser(response.data[0]['last_name']);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  let [user, setUser] = React.useState('');
+  let [glucoseReadings, setGlucoseReadings] = React.useState([]);
 
   return (
     <View style={styles.container}>

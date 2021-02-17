@@ -19,6 +19,7 @@ const GlucoseInputScreen = () => {
   const navigation = useNavigation();
   let [glucoseLevel, setGlucoseLevel] = useState(0);
   let [glucoseUnit, setGlucoseUnit] = useState('mg');
+  let [glucoseReadings, setGlucoseReadings] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -57,7 +58,13 @@ const GlucoseInputScreen = () => {
         />
       </View>
       <SkipButton />
-      <HomeButton />
+      <HomeButton
+        buttonText="SUBMIT"
+        onPress={() => {
+          navigation.navigate('Home');
+          setGlucoseReadings(glucoseReadings.concat(glucoseLevel));
+        }}
+      />
     </View>
   );
 };
