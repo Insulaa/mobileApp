@@ -11,6 +11,8 @@ import HomeScreen from '../HomeScreen/HomeScreen';
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
+import LoginScreen from '../LoginScreen/LoginScreen';
+import RegisterScreen from "../RegisterScreen/RegisterScreen"
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -92,15 +94,25 @@ const HomeTabs = () => {
 
 const Stack = createStackNavigator();
 
+const Auth = () => {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
+    </Stack.Navigator>
+  );
+};
+
 const App = () => {
   return (
     <NavigationContainer>
       <Header />
       <Stack.Navigator
-        initialRouteName="GlucoseInput"
+        initialRouteName="Auth"
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name="Auth" component={Auth} />
         <Stack.Screen name="Home" component={HomeTabs} />
         <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
       </Stack.Navigator>
