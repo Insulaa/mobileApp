@@ -12,7 +12,7 @@ import styles from './styles';
 import RegisterButton from '../Buttons/RegisterButton';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import Loader from '../Loader/loader.js';
+import Loader from '../Loader/loader';
 
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('');
@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}) => {
     }
     setLoading(true);
     let dataToSend = {email: userEmail, password: userPassword};
-    let formBody = [];
+    let formBody: string[] = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
       let encodedValue = encodeURIComponent(dataToSend[key]);

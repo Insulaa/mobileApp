@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import styles from './styles';
-import Loader from '../Loader/loader.js';
+import Loader from '../Loader/loader';
 
 const RegisterScreen = (props) => {
   const [userFirstName, setUserFirstName] = useState('');
