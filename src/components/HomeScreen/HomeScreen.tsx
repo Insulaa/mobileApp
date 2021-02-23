@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,67 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import styles from './styles';
-import {TextInput} from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
-import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
-import {withNavigation} from 'react-navigation';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
 
-const HomeScreen = () => {
-  let [user, setUser] = React.useState('A');
+type GlucoseListType = {
+  date: string;
+  glucose_reading: number;
+  id: number;
+  patient_id: number;
+  timestamp: string;
+}
 
-  const fetchUser = () => {
+
+const HomeScreen = () => {
+  const [userGlucoseReadings, setUserGlucoseReadings] = React.useState<GlucoseListType[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState("");
+
+  let glucoseReadings: GlucoseListType[] = [];
+  let glucoseReading: GlucoseListType = {
+    date: '',
+    glucose_reading: -1,
+    id: -1,
+    patient_id: -1,
+    timestamp: ''
+  };
+
+  const addReading = (reading: GlucoseListType) => setUserGlucoseReadings(state => [...state, reading]);
+
+  useEffect(() => {
+    getUserGlucoseData();
+  }, []);
+
+  const getUserGlucoseData = () => {
     axios
-      .get(
-        'http://10.0.2.2:8000/views/patients/?user_id=a38df304-c3f8-4bbf-843d-640f7c664657',
-      )
+      .get<GlucoseListType[]>(
+        'http://10.0.2.2:8000/GlucoseToday/?patient_id=1',
+        {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        })
       .then((response) => {
-        setUser(response.data[0]['last_name']);
+        response.data.map (
+          reading => {
+            glucoseReading.date = reading.date;
+            glucoseReading.glucose_reading = reading.glucose_reading;
+            glucoseReading.id = reading.id;
+            glucoseReading.patient_id = reading.patient_id;
+            glucoseReading.timestamp = reading.timestamp;
+            addReading(glucoseReading);
+          }
+        )
+      })
+      .then(() => {
+        setLoading(false);
+        console.log(userGlucoseReadings);
+        console.log(loading);
       })
       .catch((error) => {
         console.log(error);
+        setError(error);
       });
   };
 
@@ -36,14 +77,19 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Glucose Levels</Text>
       <Text style={styles.body}>Todays Readings</Text>
+      {!loading &&
       <View style={styles.glucoseReadingsContainer}>
-        <GlucoseReadingIcon />
-        <GlucoseReadingIcon />
-        <GlucoseReadingIcon />
+        <GlucoseReadingIcon glucoseReading={userGlucoseReadings[0].glucose_reading} units="mg/dL" time={userGlucoseReadings[0].timestamp}/>
+        <GlucoseReadingIcon glucoseReading={userGlucoseReadings[0].glucose_reading} units="mg/dL" time={userGlucoseReadings[0].timestamp}/>
+        <GlucoseReadingIcon glucoseReading={userGlucoseReadings[0].glucose_reading} units="mg/dL" time={userGlucoseReadings[0].timestamp}/>
       </View>
+      }
       <Text style={styles.body}>14 Day Average</Text>
       <View style={styles.glucoseReadingsContainer}>
-        <GlucoseReadingIcon />
+        <Text>
+          
+        </Text>
+        <GlucoseReadingIcon glucoseReading={userGlucoseReadings[0].glucose_reading} units="mg/dL" time={userGlucoseReadings[0].timestamp}/>
       </View>
       <View style={styles.buttonsContainer}>
         <GlucoseScreenButton buttonText="ADD READING" />

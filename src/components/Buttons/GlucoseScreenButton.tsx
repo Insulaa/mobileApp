@@ -9,10 +9,9 @@ const GlucoseScreenButton = ({buttonText}) => {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('GlucoseInput')}>
+      <TouchableOpacity onPress={() => navigation.navigate('GlucoseInput')} style={styles.mainButton}>
         <LinearGradient
-          colors={['#1D6EA8', '#21A1FD']}
-          style={styles.mainButton}>
+          colors={['#1D6EA8', '#21A1FD']}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </LinearGradient>
       </TouchableOpacity>
