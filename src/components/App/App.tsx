@@ -12,7 +12,7 @@ import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
 import LoginScreen from '../LoginScreen/LoginScreen';
-import RegisterScreen from "../RegisterScreen/RegisterScreen"
+import RegisterScreen from '../RegisterScreen/RegisterScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -97,8 +97,16 @@ const Stack = createStackNavigator();
 const Auth = () => {
   return (
     <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
