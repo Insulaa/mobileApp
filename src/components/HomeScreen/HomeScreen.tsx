@@ -1,21 +1,15 @@
-import React, {useState, Component, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Button,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StatusBar} from 'react-native';
 import axios, {AxiosResponse} from 'axios';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
-import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
-import {UserGlucoseReadings, GlucoseReading} from '../../api/interfaces';
-import {render} from 'react-dom';
-import {max} from 'moment';
+import {
+  UserGlucoseReadings,
+  GlucoseReading,
+  GlucoseLevelOnly,
+  AllGlucoseLevelsOnly,
+} from '../../api/interfaces';
 
 const HomeScreen = () => {
   const [glucoseReadings, setGlucoseReadings] = useState<UserGlucoseReadings>({
@@ -24,6 +18,16 @@ const HomeScreen = () => {
     error: null,
   });
   const [numberOfReadings, setNumberOfReadings] = useState<number>(0);
+
+  const [
+    fourteenDayReadings,
+    setFourteenDayReadings,
+  ] = useState<AllGlucoseLevelsOnly>({
+    glucoseLevels: [],
+    isLoading: true,
+    error: null,
+  });
+  const [fourteenDayAverage, setFourteenDayAverage] = useState<number>(0);
 
   const getUserGlucoseLevels = () => {
     axios
@@ -45,6 +49,42 @@ const HomeScreen = () => {
       });
   };
 
+  const getFourteenDayReadings = () => {
+    axios
+      .get<GlucoseLevelOnly[]>(
+        'http://10.0.2.2:8000/FourteenDayAvg/?patient_id=1',
+      )
+      .then((response: AxiosResponse) => {
+        setFourteenDayReadings({
+          glucoseLevels: response.data,
+          isLoading: false,
+          error: null,
+        });
+      })
+      .catch((err) => {
+        setFourteenDayReadings({
+          glucoseLevels: [],
+          isLoading: false,
+          error: err,
+        });
+        console.log(err);
+      });
+  };
+
+  const calculateFourteenDayAverage = ({
+    glucoseLevels,
+  }: {
+    glucoseLevels: GlucoseLevelOnly[];
+  }) => {
+    var glucoseSum = 0;
+    glucoseLevels.map((reading) => {
+      glucoseSum += reading.glucose_reading;
+    });
+    const average = (glucoseSum / glucoseLevels.length).toFixed(1);
+    console.log(average);
+    setFourteenDayAverage(Number(average));
+  };
+
   useEffect(() => {
     getUserGlucoseLevels();
   }, [numberOfReadings]);
@@ -55,12 +95,20 @@ const HomeScreen = () => {
     }
   }, [glucoseReadings]);
 
+  useEffect(() => {
+    getFourteenDayReadings();
+  }, []);
+
+  useEffect(() => {
+    calculateFourteenDayAverage(fourteenDayReadings);
+  }, [fourteenDayReadings]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Glucose Levels</Text>
       <Text style={styles.body}>Todays Readings</Text>
       <View style={styles.glucoseReadingsContainer}>
-        {!glucoseReadings.isLoading && (
+        {!glucoseReadings.isLoading && glucoseReadings.error === null && (
           <>
             {numberOfReadings > 2 && (
               <GlucoseReadingIcon
@@ -110,8 +158,11 @@ const HomeScreen = () => {
       </View>
       <Text style={styles.body}>14 Day Average</Text>
       <View style={styles.glucoseReadingsContainer}>
-        <Text></Text>
-        <GlucoseReadingIcon isEmpty={false} glucoseReading={10} units="mg/dL" />
+        <GlucoseReadingIcon
+          isEmpty={false}
+          glucoseReading={fourteenDayAverage}
+          units="mg/dL"
+        />
       </View>
       <View style={styles.buttonsContainer}>
         <GlucoseScreenButton buttonText="ADD READING" />

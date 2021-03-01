@@ -35,13 +35,16 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
               <Text style={styles.numberText}>{reading.glucoseReading}</Text>
               <Text style={styles.unitText}>{reading.units}</Text>
             </View>
-            <Moment
-              element={Text}
-              style={styles.timeText}
-              format="h:mm A"
-              parse="HH:mm:ss">
-              {reading.time}
-            </Moment>
+            {reading.time && (
+              <Moment
+                element={Text}
+                style={styles.timeText}
+                format="h:mm A"
+                parse="HH:mm:ss">
+                {reading.time}
+              </Moment>
+            )}
+            {!reading.time && <Text></Text>}
           </>
         )}
       </View>
