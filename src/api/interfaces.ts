@@ -1,4 +1,3 @@
-  
   export interface UserGlucoseReadings {
     readings: GlucoseReading[];
     isLoading: boolean;

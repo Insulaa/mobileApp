@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container: {
     marginTop: 40,
+    borderRadius: 10,
   },
   mainButton: {
     width: 300,
@@ -15,6 +16,7 @@ export default StyleSheet.create({
     fontSize: 28,
     color: 'white',
     textAlign: 'center',
+    borderRadius: 10,
   },
   skipButton: {
     padding: 2,
