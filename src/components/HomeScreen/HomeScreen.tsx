@@ -14,6 +14,8 @@ import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import {UserGlucoseReadings, GlucoseReading} from '../../api/interfaces';
+import {render} from 'react-dom';
+import {max} from 'moment';
 
 const HomeScreen = () => {
   const [glucoseReadings, setGlucoseReadings] = useState<UserGlucoseReadings>({
@@ -23,15 +25,9 @@ const HomeScreen = () => {
   });
   const [numberOfReadings, setNumberOfReadings] = useState<number>(0);
 
-  console.log('Glucose Readings: ', glucoseReadings);
-  if (numberOfReadings > 0) {
-    console.log('HIHIHIHI');
-    console.log('READINGS: ', glucoseReadings.readings[0]['glucose_reading']);
-  }
-
-  useEffect(() => {
+  const getUserGlucoseLevels = () => {
     axios
-      .get<GlucoseReading[]>('http://10.0.2.2:8000/GlucoseToday/?patient_id=1')
+      .get<GlucoseReading[]>('http://10.0.2.2:8000/GlucoseToday/?patient_id=2')
       .then((response: AxiosResponse) => {
         setGlucoseReadings({
           readings: response.data,
@@ -47,6 +43,10 @@ const HomeScreen = () => {
         });
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    getUserGlucoseLevels();
   }, [numberOfReadings]);
 
   useEffect(() => {
@@ -62,71 +62,37 @@ const HomeScreen = () => {
       <View style={styles.glucoseReadingsContainer}>
         {!glucoseReadings.isLoading && (
           <>
-            {numberOfReadings >= 3 && (
-              <>
-                <GlucoseReadingIcon
-                  glucoseReading={
-                    glucoseReadings.readings[numberOfReadings - 3][
-                      'glucose_reading'
-                    ]
-                  }
-                  units="mg/dL"
-                  time={
-                    glucoseReadings.readings[numberOfReadings - 3]['timestamp']
-                  }
-                />
-                <GlucoseReadingIcon
-                  glucoseReading={
-                    glucoseReadings.readings[numberOfReadings - 2][
-                      'glucose_reading'
-                    ]
-                  }
-                  units="mg/dL"
-                  time={
-                    glucoseReadings.readings[numberOfReadings - 2]['timestamp']
-                  }
-                />
-                <GlucoseReadingIcon
-                  glucoseReading={
-                    glucoseReadings.readings[numberOfReadings - 1][
-                      'glucose_reading'
-                    ]
-                  }
-                  units="mg/dL"
-                  time={
-                    glucoseReadings.readings[numberOfReadings - 1]['timestamp']
-                  }
-                />
-              </>
-            )}
-            {numberOfReadings == 2 && (
-              <>
-                <GlucoseReadingIcon
-                  glucoseReading={
-                    glucoseReadings.readings[numberOfReadings - 2][
-                      'glucose_reading'
-                    ]
-                  }
-                  units="mg/dL"
-                  time={
-                    glucoseReadings.readings[numberOfReadings - 2]['timestamp']
-                  }
-                />
-                <GlucoseReadingIcon
-                  glucoseReading={
-                    glucoseReadings.readings[numberOfReadings - 1][
-                      'glucose_reading'
-                    ]
-                  }
-                  units="mg/dL"
-                  time={
-                    glucoseReadings.readings[numberOfReadings - 1]['timestamp']
-                  }
-                />
-              </>
-            )}
-            {numberOfReadings == 1 && (
+            {numberOfReadings > 2 && (
               <GlucoseReadingIcon
+                isEmpty={false}
+                glucoseReading={
+                  glucoseReadings.readings[numberOfReadings - 3][
+                    'glucose_reading'
+                  ]
+                }
+                units="mg/dL"
+                time={
+                  glucoseReadings.readings[numberOfReadings - 3]['timestamp']
+                }
+              />
+            )}
+            {numberOfReadings > 1 && (
+              <GlucoseReadingIcon
+                isEmpty={false}
+                glucoseReading={
+                  glucoseReadings.readings[numberOfReadings - 2][
+                    'glucose_reading'
+                  ]
+                }
+                units="mg/dL"
+                time={
+                  glucoseReadings.readings[numberOfReadings - 2]['timestamp']
+                }
+              />
+            )}
+            {numberOfReadings > 0 && (
+              <GlucoseReadingIcon
+                isEmpty={false}
                 glucoseReading={
                   glucoseReadings.readings[numberOfReadings - 1][
                     'glucose_reading'
@@ -138,17 +104,14 @@ const HomeScreen = () => {
                 }
               />
             )}
+            {numberOfReadings < 3 && <GlucoseReadingIcon isEmpty={true} />}
           </>
         )}
       </View>
       <Text style={styles.body}>14 Day Average</Text>
       <View style={styles.glucoseReadingsContainer}>
         <Text></Text>
-        <GlucoseReadingIcon
-          glucoseReading={10}
-          units="mg/dL"
-          time={'11:15 AM'}
-        />
+        <GlucoseReadingIcon isEmpty={false} glucoseReading={10} units="mg/dL" />
       </View>
       <View style={styles.buttonsContainer}>
         <GlucoseScreenButton buttonText="ADD READING" />
