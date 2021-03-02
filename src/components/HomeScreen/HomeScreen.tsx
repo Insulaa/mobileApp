@@ -81,7 +81,6 @@ const HomeScreen = () => {
       glucoseSum += reading.glucose_reading;
     });
     const average = (glucoseSum / glucoseLevels.length).toFixed(1);
-    console.log(average);
     setFourteenDayAverage(Number(average));
   };
 
