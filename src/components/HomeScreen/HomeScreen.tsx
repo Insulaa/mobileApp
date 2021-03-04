@@ -4,12 +4,7 @@ import axios, {AxiosResponse} from 'axios';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
-import {
-  UserGlucoseReadings,
-  GlucoseReading,
-  GlucoseLevelOnly,
-  AllGlucoseLevelsOnly,
-} from '../../api/interfaces';
+import {GlucoseLevelOnly, AllGlucoseLevelsOnly} from '../../api/interfaces';
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {actions as glucoseActions} from '../../redux/glucoseStore';
@@ -24,15 +19,13 @@ const HomeScreen = () => {
     error: glucoseFetchError,
   } = useSelector((state: RootState) => state.glucoseStore);
 
-  const patientId = 1;
+  const patientId = 2;
 
   useEffect(() => {
     dispatch(
       glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
     );
   }, []);
-
-  const [numberOfReadings, setNumberOfReadings] = useState<number>(0);
 
   const [
     fourteenDayReadings,

@@ -59,10 +59,30 @@ const doFetchGlucoseReadingsAsync = (props: {
     }
 };
 
+const doAddGlucoseReadingAsync = (props: {
+    patientId: number;
+    glucoseLevel: number;
+    glucoseService: GlucoseService;
+}) : AppThunk => async (dispatch) => {
+    const {
+        patientId, glucoseLevel, glucoseService
+    } = props;
+    try {
+        dispatch(glucoseActionsCreators.doSetGlucoseReadingsFetchInProgress());
+        const reading = await glucoseService.addGlucoseReading({patientId, glucoseLevel});
+        if (reading) {
+            dispatch(glucoseActionsCreators.doAddGlucoseReading(reading));
+        }
+    } catch (error) {
+        dispatch(glucoseActionsCreators.deSetGlucoseFetchError(error.toString()));
+    }
+}
+
 export const { reducer } = glucoseSlice;
 export const actions = {
   doSetGlucoseReadingsFetchInProgress: glucoseActionsCreators.doSetGlucoseReadingsFetchInProgress,
   doSetGlucoseReadings: glucoseActionsCreators.doSetGlucoseReadings,
   deSetGlucoseFetchError: glucoseActionsCreators.deSetGlucoseFetchError,
   doFetchGlucoseReadingsAsync,
+  doAddGlucoseReadingAsync
 }
