@@ -1,10 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-} from '@react-navigation/native';
-import {View, Text, TouchableOpacity, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
@@ -13,8 +10,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
 import LoginScreen from '../LoginScreen/LoginScreen';
 import RegisterScreen from '../RegisterScreen/RegisterScreen';
+import store from '../../redux/store';
+import {Provider} from 'react-redux';
+import ServicesContext from '../../servicesContext';
+import createServices from '../../api/services';
 
 const Tab = createMaterialTopTabNavigator();
+const services = createServices();
 
 function MyTabBar({navigation}) {
   return (
@@ -115,15 +117,19 @@ const App = () => {
   return (
     <NavigationContainer>
       <Header />
-      <Stack.Navigator
-        initialRouteName="Auth"
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Auth" component={Auth} />
-        <Stack.Screen name="Home" component={HomeTabs} />
-        <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
-      </Stack.Navigator>
+      <Provider store={store}>
+        <ServicesContext.Provider value={services}>
+          <Stack.Navigator
+            initialRouteName="Auth"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="Auth" component={Auth} />
+            <Stack.Screen name="Home" component={HomeTabs} />
+            <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+          </Stack.Navigator>
+        </ServicesContext.Provider>
+      </Provider>
     </NavigationContainer>
   );
 };
