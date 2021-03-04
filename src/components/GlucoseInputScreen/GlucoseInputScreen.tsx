@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles';
 import {TextInput} from 'react-native-gesture-handler';
@@ -7,27 +7,29 @@ import {useState} from 'react';
 import SkipButton from '../Buttons/SkipButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useNavigation} from '@react-navigation/native';
-import axios, {AxiosResponse} from 'axios';
+import ServicesContext from '../../servicesContext';
+import {useDispatch} from 'react-redux';
+import {actions as glucoseActions} from '../../redux/glucoseStore';
 
 const GlucoseInputScreen = () => {
+  const dispatch = useDispatch();
+  const {glucoseService} = useContext(ServicesContext);
+
+  const patientId = 2;
+
   let [glucoseLevel, setGlucoseLevel] = useState(0);
   let [glucoseUnit, setGlucoseUnit] = useState('mg');
   const navigation = useNavigation();
 
   const onSubmitButtonPress = () => {
-    updateUserGlucoseLevel(glucoseLevel);
+    dispatch(
+      glucoseActions.doAddGlucoseReadingAsync({
+        patientId,
+        glucoseLevel,
+        glucoseService,
+      }),
+    );
     navigation.navigate('Home');
-  };
-
-  const updateUserGlucoseLevel = (glucoseLevel: number) => {
-    axios({
-      method: 'post',
-      url: 'http://10.0.2.2:8000/views/glucoseLevels/',
-      data: {
-        glucose_reading: glucoseLevel,
-        patient: 1,
-      },
-    });
   };
 
   return (

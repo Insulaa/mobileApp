@@ -1,23 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StatusBar} from 'react-native';
 import axios, {AxiosResponse} from 'axios';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
-import {
-  UserGlucoseReadings,
-  GlucoseReading,
-  GlucoseLevelOnly,
-  AllGlucoseLevelsOnly,
-} from '../../api/interfaces';
+import {GlucoseLevelOnly, AllGlucoseLevelsOnly} from '../../api/interfaces';
+import {RootState} from '../../redux/rootReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {actions as glucoseActions} from '../../redux/glucoseStore';
+import ServicesContext from '../../servicesContext';
 
 const HomeScreen = () => {
-  const [glucoseReadings, setGlucoseReadings] = useState<UserGlucoseReadings>({
-    readings: [],
-    isLoading: true,
-    error: null,
-  });
-  const [numberOfReadings, setNumberOfReadings] = useState<number>(0);
+  const dispatch = useDispatch();
+  const {glucoseService} = useContext(ServicesContext);
+  const {
+    readings: glucoseReadings,
+    isLoading: isGlucoseDataLoading,
+    error: glucoseFetchError,
+  } = useSelector((state: RootState) => state.glucoseStore);
+
+  const patientId = 2;
+
+  useEffect(() => {
+    dispatch(
+      glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
+    );
+  }, []);
 
   const [
     fourteenDayReadings,
@@ -29,30 +37,10 @@ const HomeScreen = () => {
   });
   const [fourteenDayAverage, setFourteenDayAverage] = useState<number>(0);
 
-  const getUserGlucoseLevels = () => {
-    axios
-      .get<GlucoseReading[]>('http://10.0.2.2:8000/GlucoseToday/?patient_id=2')
-      .then((response: AxiosResponse) => {
-        setGlucoseReadings({
-          readings: response.data,
-          isLoading: false,
-          error: null,
-        });
-      })
-      .catch((err) => {
-        setGlucoseReadings({
-          readings: [],
-          isLoading: false,
-          error: err,
-        });
-        console.log(err);
-      });
-  };
-
   const getFourteenDayReadings = () => {
     axios
       .get<GlucoseLevelOnly[]>(
-        'http://10.0.2.2:8000/FourteenDayAvg/?patient_id=1',
+        'http://10.0.2.2:8000/FourteenDayAvg/?patient_id=2',
       )
       .then((response: AxiosResponse) => {
         setFourteenDayReadings({
@@ -85,18 +73,8 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getUserGlucoseLevels();
-  }, [numberOfReadings]);
-
-  useEffect(() => {
-    if (glucoseReadings.readings.length > 0) {
-      setNumberOfReadings(glucoseReadings.readings.length);
-    }
-  }, [glucoseReadings]);
-
-  useEffect(() => {
     getFourteenDayReadings();
-  }, []);
+  }, [glucoseReadings]);
 
   useEffect(() => {
     calculateFourteenDayAverage(fourteenDayReadings);
@@ -107,51 +85,41 @@ const HomeScreen = () => {
       <Text style={styles.title}>Glucose Levels</Text>
       <Text style={styles.body}>Todays Readings</Text>
       <View style={styles.glucoseReadingsContainer}>
-        {!glucoseReadings.isLoading && glucoseReadings.error === null && (
+        {!isGlucoseDataLoading && glucoseFetchError === null && (
           <>
-            {numberOfReadings > 2 && (
+            {glucoseReadings.length > 2 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings.readings[numberOfReadings - 3][
-                    'glucose_reading'
-                  ]
+                  glucoseReadings[glucoseReadings.length - 3]['glucose_reading']
                 }
                 units="mg/dL"
-                time={
-                  glucoseReadings.readings[numberOfReadings - 3]['timestamp']
-                }
+                time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
               />
             )}
-            {numberOfReadings > 1 && (
+            {glucoseReadings.length > 1 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings.readings[numberOfReadings - 2][
-                    'glucose_reading'
-                  ]
+                  glucoseReadings[glucoseReadings.length - 2]['glucose_reading']
                 }
                 units="mg/dL"
-                time={
-                  glucoseReadings.readings[numberOfReadings - 2]['timestamp']
-                }
+                time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
               />
             )}
-            {numberOfReadings > 0 && (
+            {glucoseReadings.length > 0 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings.readings[numberOfReadings - 1][
-                    'glucose_reading'
-                  ]
+                  glucoseReadings[glucoseReadings.length - 1]['glucose_reading']
                 }
                 units="mg/dL"
-                time={
-                  glucoseReadings.readings[numberOfReadings - 1]['timestamp']
-                }
+                time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
               />
             )}
-            {numberOfReadings < 3 && <GlucoseReadingIcon isEmpty={true} />}
+            {glucoseReadings.length < 3 && (
+              <GlucoseReadingIcon isEmpty={true} />
+            )}
           </>
         )}
       </View>
