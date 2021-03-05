@@ -1,19 +1,21 @@
 import React from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 
-const GlucoseScreenButton = ({buttonText}) => {
-  const navigation = useNavigation();
+type GlucoseScreenButtonProps = {
+  buttonText: string;
+  onPress?: React.MouseEventHandler<any>;
+};
 
+const GlucoseScreenButton = (props: GlucoseScreenButtonProps) => {
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('GlucoseInput')}>
+      <TouchableOpacity onPress={props.onPress}>
         <LinearGradient
           colors={['#1D6EA8', '#21A1FD']}
           style={styles.mainButton}>
-          <Text style={styles.buttonText}>{buttonText}</Text>
+          <Text style={styles.buttonText}>{props.buttonText}</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>

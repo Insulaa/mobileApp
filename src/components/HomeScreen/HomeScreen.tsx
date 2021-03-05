@@ -7,12 +7,18 @@ import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
 import {GlucoseLevelOnly, AllGlucoseLevelsOnly} from '../../api/interfaces';
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {actions as glucoseActions} from '../../redux/glucoseStore';
+import {
+  actions as glucoseActions,
+  GlucoseEditInfo,
+} from '../../redux/glucoseStore';
 import ServicesContext from '../../servicesContext';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const {glucoseService} = useContext(ServicesContext);
+  const navigation = useNavigation();
+
   const {
     readings: glucoseReadings,
     isLoading: isGlucoseDataLoading,
@@ -80,6 +86,11 @@ const HomeScreen = () => {
     calculateFourteenDayAverage(fourteenDayReadings);
   }, [fourteenDayReadings]);
 
+  const handleIconButtonPress = (glucoseEditInfo: GlucoseEditInfo) => {
+    dispatch(glucoseActions.doSetGlucoseInputStatusAsync({glucoseEditInfo}));
+    navigation.navigate('GlucoseInput');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Glucose Levels</Text>
@@ -95,6 +106,13 @@ const HomeScreen = () => {
                 }
                 units="mg/dL"
                 time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
+                onPress={() =>
+                  handleIconButtonPress({
+                    isEdit: true,
+                    glucoseReadingId:
+                      glucoseReadings[glucoseReadings.length - 3]['id'],
+                  })
+                }
               />
             )}
             {glucoseReadings.length > 1 && (
@@ -105,6 +123,13 @@ const HomeScreen = () => {
                 }
                 units="mg/dL"
                 time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
+                onPress={() =>
+                  handleIconButtonPress({
+                    isEdit: true,
+                    glucoseReadingId:
+                      glucoseReadings[glucoseReadings.length - 2]['id'],
+                  })
+                }
               />
             )}
             {glucoseReadings.length > 0 && (
@@ -115,10 +140,25 @@ const HomeScreen = () => {
                 }
                 units="mg/dL"
                 time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
+                onPress={() =>
+                  handleIconButtonPress({
+                    isEdit: true,
+                    glucoseReadingId:
+                      glucoseReadings[glucoseReadings.length - 1]['id'],
+                  })
+                }
               />
             )}
             {glucoseReadings.length < 3 && (
-              <GlucoseReadingIcon isEmpty={true} />
+              <GlucoseReadingIcon
+                isEmpty={true}
+                onPress={() =>
+                  handleIconButtonPress({
+                    isEdit: false,
+                    glucoseReadingId: -1,
+                  })
+                }
+              />
             )}
           </>
         )}
@@ -132,7 +172,15 @@ const HomeScreen = () => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <GlucoseScreenButton buttonText="ADD READING" />
+        <GlucoseScreenButton
+          buttonText="ADD READING"
+          onPress={() =>
+            handleIconButtonPress({
+              isEdit: false,
+              glucoseReadingId: -1,
+            })
+          }
+        />
         <GlucoseScreenButton buttonText="EXPORT DATA" />
         <StatusBar style="auto" />
       </View>

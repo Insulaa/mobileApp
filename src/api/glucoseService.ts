@@ -44,6 +44,22 @@ class GlucoseService {
             console.log(error);
         }
     }
+    public async updateGlucoseReading(props: {patientId: number; glucoseLevel: number; readingId: number }) {
+        const {patientId, glucoseLevel, readingId} = props;
+        const apiUrl = `http://10.0.2.2:8000/views/glucoseLevels/${readingId}/`;
+        const body = {
+            glucose_reading: glucoseLevel,
+            patient: patientId,
+        };
+        try {
+            const response = await axios.put(apiUrl, body);
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default GlucoseService;

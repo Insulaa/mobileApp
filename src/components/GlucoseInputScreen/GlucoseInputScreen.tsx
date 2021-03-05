@@ -8,12 +8,17 @@ import SkipButton from '../Buttons/SkipButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useNavigation} from '@react-navigation/native';
 import ServicesContext from '../../servicesContext';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/rootReducer';
 import {actions as glucoseActions} from '../../redux/glucoseStore';
 
 const GlucoseInputScreen = () => {
   const dispatch = useDispatch();
   const {glucoseService} = useContext(ServicesContext);
+
+  const {glucoseEditInfo} = useSelector(
+    (state: RootState) => state.glucoseStore,
+  );
 
   const patientId = 2;
 
@@ -22,13 +27,25 @@ const GlucoseInputScreen = () => {
   const navigation = useNavigation();
 
   const onSubmitButtonPress = () => {
-    dispatch(
-      glucoseActions.doAddGlucoseReadingAsync({
-        patientId,
-        glucoseLevel,
-        glucoseService,
-      }),
-    );
+    if (glucoseEditInfo.isEdit) {
+      const readingId = glucoseEditInfo.glucoseReadingId;
+      dispatch(
+        glucoseActions.doUpdateGlucoseReadingAsync({
+          patientId,
+          glucoseLevel,
+          readingId,
+          glucoseService,
+        }),
+      );
+    } else {
+      dispatch(
+        glucoseActions.doAddGlucoseReadingAsync({
+          patientId,
+          glucoseLevel,
+          glucoseService,
+        }),
+      );
+    }
     navigation.navigate('Home');
   };
 
