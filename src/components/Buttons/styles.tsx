@@ -27,4 +27,10 @@ export default StyleSheet.create({
     color: '#21A1FD',
     fontSize: 20,
   },
+  itemContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

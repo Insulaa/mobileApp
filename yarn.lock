@@ -2421,6 +2421,11 @@ cross-spawn@^7.0.0:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-in-js-loader@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/css-in-js-loader/-/css-in-js-loader-0.1.2.tgz#ea7f23eb279f6b5ec2fee784c6c05ca76b11d99e"
+  integrity sha1-6n8j6yefa17C/ueExsBcp2sR2Z4=
+
 cssom@^0.4.1:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/cssom/-/cssom-0.4.4.tgz"

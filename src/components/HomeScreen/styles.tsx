@@ -51,9 +51,4 @@ export default StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
   },
-  buttonText: {
-    fontSize: 28,
-    color: 'white',
-    textAlign: 'center',
-  },
 });
