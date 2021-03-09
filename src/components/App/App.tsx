@@ -5,6 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
+import MedicationsScreen from '../MedicationsScreen/MedicationsScreen'
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
@@ -52,14 +53,6 @@ function MyTabBar({navigation}) {
     </View>
   );
 }
-
-const MedicationsScreen = () => {
-  return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Medication Screen</Text>
-    </View>
-  );
-};
 
 const ExerciseScreen = () => {
   return (
@@ -120,7 +113,7 @@ const App = () => {
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
           <Stack.Navigator
-            initialRouteName="Auth"
+            initialRouteName="Home"
             screenOptions={{
               headerShown: false,
             }}>
