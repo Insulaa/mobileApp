@@ -17,6 +17,7 @@ export default StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: 'center',
+    marginBottom: 8,
   },
   buttonsContainer: {
     display: 'flex',
@@ -29,14 +30,14 @@ export default StyleSheet.create({
     marginRight: 30,
   },
   button: {
-      display: 'flex',
-      justifyContent: 'flex-start',
-      backgroundColor: '#21A1FD',
-      marginLeft: 40,
-      marginRight: 40,
-      width: 60,
-      height: 60,
-      borderRadius: 30,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    backgroundColor: '#21A1FD',
+    marginLeft: 40,
+    marginRight: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
   medicationsContainer: {
     flex: 8,
@@ -44,9 +45,37 @@ export default StyleSheet.create({
     flexDirection: 'column',
     marginTop: 40,
   },
-  medicationEntry: {
+  listHeaderContainer: {
+    height: 35,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  }
+    backgroundColor: '#21A1FD',
+  },
+  listRowContainer: {
+    height: 30,
+    marginTop: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  headerEntry: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  rowEntry: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+  },
+  headerText: {
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  entryText: {
+    textAlign: 'center',
+    fontSize: 16,
+  },
 });
