@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StatusBar, FlatList, SectionList} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -49,7 +50,11 @@ const medicationData = [
 ];
 
 const MedicationsScreen = () => {
-  const check = true;
+  const navigation = useNavigation();
+
+  const onAddMedicationButtonClick = () => {
+    navigation.navigate('AddMedication');
+  };
 
   const createListHeader = () => {
     return (
@@ -74,15 +79,9 @@ const MedicationsScreen = () => {
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>
         <View style={styles.button}>
-          <MedicationScreenButton />
+          <MedicationScreenButton onPress={onAddMedicationButtonClick} />
         </View>
         <Text style={styles.title}>Add Medication</Text>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.button}>
-          <MedicationScreenButton />
-        </View>
-        <Text style={styles.title}>Export Summary</Text>
       </View>
       <View style={styles.medicationsContainer}>
         <Text style={styles.title}>Current Diabetes Medications</Text>

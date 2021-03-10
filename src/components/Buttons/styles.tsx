@@ -5,6 +5,9 @@ export default StyleSheet.create({
     marginTop: 40,
     borderRadius: 10,
   },
+  smallerContainer: {
+    borderRadius: 0,
+  },
   mainButton: {
     width: 300,
     padding: 10,

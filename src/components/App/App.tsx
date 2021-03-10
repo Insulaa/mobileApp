@@ -5,7 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
-import MedicationsScreen from '../MedicationsScreen/MedicationsScreen'
+import MedicationsScreen from '../MedicationsScreen/MedicationsScreen';
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
@@ -15,6 +15,7 @@ import store from '../../redux/store';
 import {Provider} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
+import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -113,13 +114,17 @@ const App = () => {
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
           <Stack.Navigator
-            initialRouteName="Home"
+            initialRouteName="Auth"
             screenOptions={{
               headerShown: false,
             }}>
             <Stack.Screen name="Auth" component={Auth} />
             <Stack.Screen name="Home" component={HomeTabs} />
             <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+            <Stack.Screen
+              name="AddMedication"
+              component={AddMedicationScreen}
+            />
           </Stack.Navigator>
         </ServicesContext.Provider>
       </Provider>
