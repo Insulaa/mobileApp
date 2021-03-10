@@ -86,7 +86,9 @@ const GlucoseInputScreen = () => {
         />
       </View>
       <SkipButton />
-      <HomeButton onPress={onSubmitButtonPress} />
+      <View style={{marginTop: 40}}>
+        <HomeButton onPress={onSubmitButtonPress} />
+      </View>
     </View>
   );
 };

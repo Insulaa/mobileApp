@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const HomeButton = ({onPress}: {onPress: React.MouseEventHandler<any>}) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.smallerContainer}>
       <TouchableOpacity onPress={onPress}>
         <LinearGradient
           colors={['#1D6EA8', '#21A1FD']}
