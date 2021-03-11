@@ -24,6 +24,7 @@ export default StyleSheet.create({
     fontSize: 18,
     marginTop: 5,
     marginLeft: 30,
+    marginBottom: 0,
   },
   inputContainer: {
     width: 240,
@@ -43,11 +44,11 @@ export default StyleSheet.create({
     paddingBottom: 0,
   },
   medicationInputContainer: {
-    width: 320,
-    height: 50,
-    alignSelf: 'flex-end',
-    padding: 10,
-    paddingLeft: 0,
+    width: 315,
+    alignSelf: 'flex-start',
+    marginTop: 0,
+    marginBottom: 10,
+    marginLeft: 40,
   },
   dropdownInputContainer: {
     width: 120,

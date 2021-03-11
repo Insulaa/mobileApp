@@ -3,7 +3,7 @@ import { AppThunk } from "./store";
 import MedicationService, { MedicationMasterData } from '../api/medicationService'
 
 export type MedicationMasterDataState = {
-    medications: MedicationMasterData[];
+    medications: MedicationMasterData["medication_name"][];
     isLoading: boolean;
     error: string | null;
 }
@@ -23,7 +23,9 @@ const medicationSlice = createSlice({
             state.error = null;
         },
         doSetMedicationMasterData(state: MedicationMasterDataState, { payload }: PayloadAction<MedicationMasterData[]>){
-            state.medications = payload;
+            payload.map((medication) => {
+                state.medications = [...state.medications, medication.medication_name];
+            })
             state.isLoading = false;
             state.error = null;
         },

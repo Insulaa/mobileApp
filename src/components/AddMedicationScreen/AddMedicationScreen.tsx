@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, SafeAreaView, StatusBar} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
@@ -10,7 +10,8 @@ import ServicesContext from '../../servicesContext';
 import {RootState} from '../../redux/rootReducer';
 import {actions as medicationActions} from '../../redux/medicationStore';
 import {MedicationMasterData} from '../../api/medicationService';
-import {Dropdown} from 'react-native-material-dropdown';
+import {Dropdown} from 'react-native-material-dropdown-v2';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 const AddMedicationScreen = () => {
   const apiUrl = 'http://10.0.2.2:8000/views/MedicationMaster/';
@@ -18,9 +19,29 @@ const AddMedicationScreen = () => {
   const dispatch = useDispatch();
   const {medicationService} = useContext(ServicesContext);
 
-  const [medicationNames, setMedicationNames] = useState<string[]>([]);
-  const [query, setQuery] = useState('');
+  type medicationType = {
+    id: number;
+    name: string;
+  };
+
+  type medicationNameType = medicationType[];
+
+  const [medicationNames, setMedicationNames] = useState<medicationNameType>([
+    {
+      id: 1,
+      name: 'Codeine',
+    },
+    {
+      id: 2,
+      name: 'Advil',
+    },
+    {
+      id: 3,
+      name: 'Other Med',
+    },
+  ]);
   const [selection, setSelection] = useState('');
+  const [isCurrent, setIsCurrent] = useState(false);
 
   const {
     medications: medicationList,
@@ -32,11 +53,7 @@ const AddMedicationScreen = () => {
     dispatch(
       medicationActions.doFetchMedicationMasterDataAsync({medicationService}),
     );
-    let names: string[] = [];
-    medicationList.map((medication: MedicationMasterData) => {
-      names.push(medication.medication_name);
-    });
-    setMedicationNames(names);
+    console.log(medicationList);
   }, []);
 
   return (
@@ -46,9 +63,39 @@ const AddMedicationScreen = () => {
       <View style={styles.container}>
         <View>
           <Text style={styles.heading}>Medication Name</Text>
-          <View style={styles.inputContainer}>
-            <Dropdown data={medicationList} />
-          </View>
+          <SearchableDropdown
+            items={medicationNames}
+            containerStyle={styles.medicationInputContainer}
+            onItemSelect={(item) => {
+              setSelection(item);
+            }}
+            selectedItems={selection}
+            itemStyle={{
+              padding: 8,
+              marginTop: 2,
+              backgroundColor: '#D8D8D8',
+              borderColor: '#bbb',
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+            itemTextStyle={{color: '#222', fontSize: 16}}
+            itemsContainerStyle={{maxHeight: 140}}
+            textInputProps={{
+              fontSize: 16,
+              placeholder: 'Select Medication',
+              underlineColorAndroid: 'transparent',
+              style: {
+                padding: 12,
+                borderBottomWidth: 1,
+                borderColor: '#777',
+                borderRadius: 5,
+              },
+            }}
+            resetValue={false}
+            listProps={{
+              nestedScrollEnabled: true,
+            }}
+          />
         </View>
         <View>
           <Text style={styles.heading}>Dosage</Text>
@@ -57,6 +104,7 @@ const AddMedicationScreen = () => {
               style={styles.input}
               placeholder="1000"
               keyboardType="numeric"
+              label="Dosage"
             />
             <DropDownPicker
               items={[
@@ -243,6 +291,10 @@ const AddMedicationScreen = () => {
             rightText="Until Present"
             style={styles.checkbox}
             rightTextStyle={styles.checkboxText}
+            onClick={() => {
+              setIsCurrent(!isCurrent);
+            }}
+            isChecked={isCurrent}
           />
         </View>
         <View>
