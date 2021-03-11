@@ -114,7 +114,7 @@ const App = () => {
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
           <Stack.Navigator
-            initialRouteName="Auth"
+            initialRouteName="Home"
             screenOptions={{
               headerShown: false,
             }}>

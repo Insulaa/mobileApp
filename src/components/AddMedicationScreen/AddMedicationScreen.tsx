@@ -1,14 +1,44 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StatusBar, FlatList, SectionList} from 'react-native';
+import {View, Text, SafeAreaView, StatusBar} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import MedicationScreenButton from '../Buttons/MedicationScreenButton';
 import styles from './styles';
-import {TextInput} from 'react-native-gesture-handler';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import CheckBox from 'react-native-check-box';
 import HomeButton from '../Buttons/HomeButton';
+import {useDispatch, useSelector} from 'react-redux';
+import ServicesContext from '../../servicesContext';
+import {RootState} from '../../redux/rootReducer';
+import {actions as medicationActions} from '../../redux/medicationStore';
+import {MedicationMasterData} from '../../api/medicationService';
+import {Dropdown} from 'react-native-material-dropdown';
 
 const AddMedicationScreen = () => {
+  const apiUrl = 'http://10.0.2.2:8000/views/MedicationMaster/';
+
+  const dispatch = useDispatch();
+  const {medicationService} = useContext(ServicesContext);
+
+  const [medicationNames, setMedicationNames] = useState<string[]>([]);
+  const [query, setQuery] = useState('');
+  const [selection, setSelection] = useState('');
+
+  const {
+    medications: medicationList,
+    isLoading: isMedicationListLoading,
+    error: medicationListError,
+  } = useSelector((state: RootState) => state.medicationStore);
+
+  useEffect(() => {
+    dispatch(
+      medicationActions.doFetchMedicationMasterDataAsync({medicationService}),
+    );
+    let names: string[] = [];
+    medicationList.map((medication: MedicationMasterData) => {
+      names.push(medication.medication_name);
+    });
+    setMedicationNames(names);
+  }, []);
+
   return (
     <>
       <Text style={styles.title}>Add a New Medication</Text>
@@ -17,26 +47,7 @@ const AddMedicationScreen = () => {
         <View>
           <Text style={styles.heading}>Medication Name</Text>
           <View style={styles.inputContainer}>
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              placeholder="Choose Medication"
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'left',
-                color: '#000',
-              }}
-              containerStyle={styles.medicationInputContainer}
-            />
+            <Dropdown data={medicationList} />
           </View>
         </View>
         <View>
