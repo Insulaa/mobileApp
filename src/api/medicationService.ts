@@ -6,6 +6,20 @@ export type MedicationMasterData = {
     medication_name: string;
 }
 
+export type UserMedication = {
+    medication_input_id: number;
+    patient: number;
+    medication: MedicationMasterData
+    image: string;
+    dosage: number;
+    unit: string;
+    frequency: number;
+    frequency_period: string;
+    currently_taking: boolean;
+    start: string;
+    end: string | null;
+}
+
 class MedicationService {
     public async getMasterMedicationList() {
         const apiUrl = "http://10.0.2.2:8000/views/MedicationMaster/"
@@ -13,6 +27,49 @@ class MedicationService {
         try {
             const response = await axios.get<MedicationMasterData[]>(apiUrl);
             if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    public async getUserMedicationsCurrent(props: {patientId: number}) {
+        const {patientId} = props;
+        const apiUrl = qs.stringifyUrl({
+            url: 'http://10.0.2.2:8000/views/getMedications/',
+            query: {
+                patient_id: patientId,
+            }
+        });
+        try {
+            const response = await axios.get<UserMedication []>(apiUrl);
+            if (response.status === 200 || response.status === 204) {
+                return response.data;
+            }
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    public async addUserMedication(props: {patientId: number, image: string | null, dosage: number, unit: string, frequency: number, frequencyPeriod: string,
+    isCurrent: boolean, startDate: string: endDate: string | null}) {
+        const {patientId, image, dosage, unit, frequency, frequencyPeriod, isCurrent, startDate, endDate } = props;
+        const apiUrl = 'http://10.0.2.2:8000/views/medications/';
+        const body = {
+            patient: patientId,
+            image: image,
+            dosage: dosage,
+            unit: unit,
+            frequency: frequency,
+            frequency_period: frequencyPeriod,
+            currently_taking: isCurrent,
+            start: startDate,
+            end: endDate
+        };
+        try {
+            const response = await axios.post(apiUrl, body);
+            if (response.status === 201) {
                 return response.data;
             }
         } catch (error) {

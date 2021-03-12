@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, Button} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
@@ -10,22 +10,36 @@ import ServicesContext from '../../servicesContext';
 import {RootState} from '../../redux/rootReducer';
 import {actions as medicationActions} from '../../redux/medicationStore';
 import {MedicationMasterData} from '../../api/medicationService';
-import {Dropdown} from 'react-native-material-dropdown-v2';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import DropdownMenu from 'react-native-dropdown-menu';
+import DatePicker from 'react-native-datepicker';
+
+const frequencyTypesList: {label: string; value: string}[] = [
+  {
+    label: 'Daily',
+    value: 'daily',
+  },
+  {
+    label: 'Weekly',
+    value: 'weekly',
+  },
+];
+
+const unitTypesList: {label: string; value: string}[] = [
+  {
+    label: 'mg',
+    value: 'mg',
+  },
+];
 
 const AddMedicationScreen = () => {
-  const apiUrl = 'http://10.0.2.2:8000/views/MedicationMaster/';
-
   const dispatch = useDispatch();
   const {medicationService} = useContext(ServicesContext);
 
   const [selection, setSelection] = useState<MedicationMasterData[]>([]);
-  const [selectionId, setSelectionId] = useState<number>(-1);
-  const [selectionText, setSelectionText] = useState<string | undefined>('');
   const [isCurrent, setIsCurrent] = useState(false);
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const {
     medications: medicationList,
@@ -42,252 +56,166 @@ const AddMedicationScreen = () => {
 
   return (
     <>
-      <Text style={styles.title}>Add a New Medication</Text>
+      {!isMedicationListLoading && !medicationListError && (
+        <>
+          <Text style={styles.title}>Add a New Medication</Text>
 
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.heading}>Medication Name</Text>
-          <View style={styles.medicationInputContainer}></View>
-
-          <SearchableDropdown
-            items={medicationList}
-            containerStyle={styles.medicationInputContainer}
-            selectedItems={selection}
-            onItemSelect={(item) => {
-              setSelection(item);
-            }}
-            itemStyle={{
-              padding: 8,
-              marginTop: 2,
-              backgroundColor: '#D8D8D8',
-              borderColor: '#bbb',
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-            itemTextStyle={{color: '#222', fontSize: 16}}
-            itemsContainerStyle={{maxHeight: 140}}
-            textInputProps={{
-              fontSize: 16,
-              placeholder: 'Select Medication',
-              underlineColorAndroid: 'transparent',
-              style: {
-                padding: 12,
-                borderBottomWidth: 1,
-                borderColor: '#777',
-                borderRadius: 5,
-              },
-            }}
-            resetValue={false}
-            multi={false}
-            setSort={(item, searchedText) =>
-              item.name.toLowerCase().startsWith(searchedText.toLowerCase())
-            }
-          />
-        </View>
-        <View>
-          <Text style={styles.heading}>Dosage</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="1000"
-              keyboardType="numeric"
-              label="Dosage"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dropdownInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="mg"
-            />
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.heading}>Medication Name</Text>
+              <View style={styles.medicationInputContainer}>
+                <SearchableDropdown
+                  items={medicationList}
+                  selectedItems={selection}
+                  onItemSelect={(item) => {
+                    setSelection(item);
+                  }}
+                  itemStyle={{
+                    padding: 8,
+                    marginTop: 2,
+                    backgroundColor: '#D8D8D8',
+                    borderColor: '#bbb',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                  }}
+                  itemTextStyle={{color: '#222', fontSize: 16}}
+                  itemsContainerStyle={{maxHeight: 140}}
+                  textInputProps={{
+                    fontSize: 16,
+                    placeholder: 'Select Medication',
+                    underlineColorAndroid: 'transparent',
+                    style: {
+                      padding: 12,
+                      borderBottomWidth: 1,
+                      borderColor: '#777',
+                      borderRadius: 5,
+                    },
+                  }}
+                  resetValue={false}
+                  multi={false}
+                  setSort={(item, searchedText) =>
+                    item.name
+                      .toLowerCase()
+                      .startsWith(searchedText.toLowerCase())
+                  }
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.heading}>Dosage</Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="1000"
+                  keyboardType="numeric"
+                />
+                <DropDownPicker
+                  items={unitTypesList}
+                  containerStyle={styles.dropdownInputContainer}
+                  style={styles.dropDownInput}
+                  labelStyle={{
+                    fontSize: 16,
+                    textAlign: 'center',
+                    color: '#000',
+                  }}
+                  placeholder="Unit"
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.heading}>Taken (i.e. 3 / Daily)</Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="2"
+                  keyboardType="numeric"
+                />
+                <DropDownPicker
+                  items={frequencyTypesList}
+                  containerStyle={styles.dropdownInputContainer}
+                  style={styles.dropDownInput}
+                  labelStyle={{
+                    fontSize: 16,
+                    textAlign: 'center',
+                    color: '#000',
+                  }}
+                  placeholder="Choose"
+                />
+              </View>
+            </View>
+            <View>
+              <View style={styles.dateInputContainer}>
+                <View style={styles.dateContainer}>
+                  <Text style={styles.calendarHeading}>Start Date</Text>
+                  <DatePicker
+                    style={styles.datePickerStyle}
+                    placeHolder="Select Date"
+                    date={startDate}
+                    mode="date"
+                    onDateChange={setStartDate}
+                    format="DD-MM-YYYY"
+                    minDate="01-01-2000"
+                    maxDate="01-01-2030"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0,
+                      },
+                      dateInput: {
+                        marginLeft: 36,
+                      },
+                    }}
+                  />
+                </View>
+                {!isCurrent && (
+                  <View style={styles.dateContainer}>
+                    <Text style={styles.calendarHeading}>End Date</Text>
+                    <DatePicker
+                      style={styles.datePickerStyle}
+                      placeHolder="Select Date"
+                      date={endDate}
+                      mode="date"
+                      onDateChange={setEndDate}
+                      format="DD-MM-YYYY"
+                      minDate="01-01-2000"
+                      maxDate="01-01-2030"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0,
+                        },
+                        dateInput: {
+                          marginLeft: 36,
+                        },
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
+              <CheckBox
+                rightText="Currently Taking"
+                style={styles.checkbox}
+                rightTextStyle={styles.checkboxText}
+                onClick={() => {
+                  setIsCurrent(!isCurrent);
+                }}
+                isChecked={isCurrent}
+              />
+            </View>
+            <View>
+              <HomeButton onPress={() => {}} />
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.heading}>Frequency</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="2"
-              keyboardType="numeric"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dropdownInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="Daily"
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.heading}>Start Date</Text>
-          <View style={styles.inputContainer}>
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="DD"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="MM"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="YYYY"
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.heading}>End Date</Text>
-          <View style={styles.inputContainer}>
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="DD"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="MM"
-            />
-            <DropDownPicker
-              items={[
-                {
-                  label: 'mg/dL',
-                  value: 'mg',
-                },
-                {
-                  label: 'mmol/L',
-                  value: 'mmol',
-                },
-              ]}
-              containerStyle={styles.dateInputContainer}
-              style={styles.dropDownInput}
-              labelStyle={{
-                fontSize: 16,
-                textAlign: 'center',
-                color: '#000',
-              }}
-              placeholder="YYYY"
-            />
-          </View>
-          <CheckBox
-            rightText="Until Present"
-            style={styles.checkbox}
-            rightTextStyle={styles.checkboxText}
-            onClick={() => {
-              setIsCurrent(!isCurrent);
-            }}
-            isChecked={isCurrent}
-          />
-        </View>
-        <View>
-          <HomeButton onPress={() => {}} />
-        </View>
-      </View>
+        </>
+      )}
     </>
   );
 };
