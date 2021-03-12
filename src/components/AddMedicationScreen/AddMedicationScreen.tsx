@@ -12,6 +12,9 @@ import {actions as medicationActions} from '../../redux/medicationStore';
 import {MedicationMasterData} from '../../api/medicationService';
 import {Dropdown} from 'react-native-material-dropdown-v2';
 import SearchableDropdown from 'react-native-searchable-dropdown';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import DropdownMenu from 'react-native-dropdown-menu';
 
 const AddMedicationScreen = () => {
   const apiUrl = 'http://10.0.2.2:8000/views/MedicationMaster/';
@@ -19,28 +22,9 @@ const AddMedicationScreen = () => {
   const dispatch = useDispatch();
   const {medicationService} = useContext(ServicesContext);
 
-  type medicationType = {
-    id: number;
-    name: string;
-  };
-
-  type medicationNameType = medicationType[];
-
-  const [medicationNames, setMedicationNames] = useState<medicationNameType>([
-    {
-      id: 1,
-      name: 'Codeine',
-    },
-    {
-      id: 2,
-      name: 'Advil',
-    },
-    {
-      id: 3,
-      name: 'Other Med',
-    },
-  ]);
-  const [selection, setSelection] = useState('');
+  const [selection, setSelection] = useState<MedicationMasterData[]>([]);
+  const [selectionId, setSelectionId] = useState<number>(-1);
+  const [selectionText, setSelectionText] = useState<string | undefined>('');
   const [isCurrent, setIsCurrent] = useState(false);
 
   const {
@@ -63,13 +47,15 @@ const AddMedicationScreen = () => {
       <View style={styles.container}>
         <View>
           <Text style={styles.heading}>Medication Name</Text>
+          <View style={styles.medicationInputContainer}></View>
+
           <SearchableDropdown
-            items={medicationNames}
+            items={medicationList}
             containerStyle={styles.medicationInputContainer}
+            selectedItems={selection}
             onItemSelect={(item) => {
               setSelection(item);
             }}
-            selectedItems={selection}
             itemStyle={{
               padding: 8,
               marginTop: 2,
@@ -92,9 +78,10 @@ const AddMedicationScreen = () => {
               },
             }}
             resetValue={false}
-            listProps={{
-              nestedScrollEnabled: true,
-            }}
+            multi={false}
+            setSort={(item, searchedText) =>
+              item.name.toLowerCase().startsWith(searchedText.toLowerCase())
+            }
           />
         </View>
         <View>

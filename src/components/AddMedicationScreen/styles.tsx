@@ -46,8 +46,6 @@ export default StyleSheet.create({
   medicationInputContainer: {
     width: 315,
     alignSelf: 'flex-start',
-    marginTop: 0,
-    marginBottom: 10,
     marginLeft: 40,
   },
   dropdownInputContainer: {

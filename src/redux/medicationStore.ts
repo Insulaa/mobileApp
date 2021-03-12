@@ -3,12 +3,23 @@ import { AppThunk } from "./store";
 import MedicationService, { MedicationMasterData } from '../api/medicationService'
 
 export type MedicationMasterDataState = {
-    medications: MedicationMasterData["medication_name"][];
+    medications: MedicationMasterData[];
     isLoading: boolean;
     error: string | null;
 }
 
-const medicationMasterDataInititalState: MedicationMasterDataState = {
+export type Medication = {
+    id: number;
+    name: string;
+}
+
+export type MedicationDataState = {
+    medications: Medication[];
+    isLoading: boolean;
+    error: string | null;
+}
+
+const medicationMasterDataInititalState: MedicationDataState = {
     medications: [],
     isLoading: false,
     error: null
@@ -18,18 +29,22 @@ const medicationSlice = createSlice({
     name: "medicationStore",
     initialState: medicationMasterDataInititalState,
     reducers: {
-        doSetMedicationMasterDataFetchInProgress(state: MedicationMasterDataState){
+        doSetMedicationMasterDataFetchInProgress(state: MedicationDataState){
             state.isLoading = true;
             state.error = null;
         },
-        doSetMedicationMasterData(state: MedicationMasterDataState, { payload }: PayloadAction<MedicationMasterData[]>){
-            payload.map((medication) => {
-                state.medications = [...state.medications, medication.medication_name];
-            })
+        doSetMedicationMasterData(state: MedicationDataState, { payload }: PayloadAction<MedicationMasterData[]>){
+            payload.map((med) => {
+                const medication = {
+                    id: med.medication_id,
+                    name: med.medication_name
+                };
+                state.medications = [...state.medications, medication];
+            }) 
             state.isLoading = false;
             state.error = null;
         },
-        doSetMedicationMasterDataFetchError(state: MedicationMasterDataState, { payload }: PayloadAction<string>){
+        doSetMedicationMasterDataFetchError(state: MedicationDataState, { payload }: PayloadAction<string>){
             state.isLoading = false;
             state.error = payload;
         }

@@ -4,7 +4,6 @@ import axios from 'axios';
 export type MedicationMasterData = {
     medication_id: number;
     medication_name: string;
-    medication_unit: string;
 }
 
 class MedicationService {
