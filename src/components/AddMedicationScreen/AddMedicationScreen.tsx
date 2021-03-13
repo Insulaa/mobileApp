@@ -9,7 +9,10 @@ import HomeButton from '../Buttons/HomeButton';
 import {useDispatch, useSelector} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import {RootState} from '../../redux/rootReducer';
-import {actions as medicationActions} from '../../redux/medicationStore';
+import {
+  actions as medicationActions,
+  Medication,
+} from '../../redux/medicationStore';
 import {actions as userMedicationActions} from '../../redux/userMedicationStore';
 import {MedicationMasterData} from '../../api/medicationService';
 import SearchableDropdown from 'react-native-searchable-dropdown';
@@ -38,14 +41,14 @@ const AddMedicationScreen = () => {
   const {medicationService} = useContext(ServicesContext);
   const navigation = useNavigation();
 
-  const [selection, setSelection] = useState<MedicationMasterData[]>([]);
-  const [isCurrent, setIsCurrent] = useState(false);
-  const [dosage, setDosage] = useState(-1);
-  const [medicationUnit, setMedicationUnit] = useState('');
-  const [frequency, setFrequency] = useState(-1);
-  const [frequencyPeriod, setFrequencyPeriod] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [selection, setSelection] = useState<Medication[]>([]);
+  const [isCurrent, setIsCurrent] = useState<boolean>(false);
+  const [dosage, setDosage] = useState<number>(-1);
+  const [medicationUnit, setMedicationUnit] = useState<string>('');
+  const [frequency, setFrequency] = useState<number>(-1);
+  const [frequencyPeriod, setFrequencyPeriod] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string | null>(null);
 
   const patientId = 1;
 
@@ -63,10 +66,11 @@ const AddMedicationScreen = () => {
   }, []);
 
   const onSubmitMedicationButtonPress = () => {
+    console.log(selection);
     dispatch(
       userMedicationActions.doAddUserCurrentMedicationAsync({
         patientId,
-        medication: selection[0].medication_id,
+        medication: selection[0].id,
         image: 'posts/default.jpg',
         dosage,
         unit: medicationUnit,
@@ -239,6 +243,9 @@ const AddMedicationScreen = () => {
                 rightTextStyle={styles.checkboxText}
                 onClick={() => {
                   setIsCurrent(!isCurrent);
+                  if (isCurrent) {
+                    setEndDate(null);
+                  }
                 }}
                 isChecked={isCurrent}
               />

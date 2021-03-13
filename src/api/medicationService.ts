@@ -90,6 +90,7 @@ class MedicationService {
       end: endDate,
     };
     try {
+      console.log(body);
       const response = await axios.post(apiUrl, body);
       if (response.status === 201) {
         return response.data;
