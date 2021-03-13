@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StatusBar, Button} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
@@ -9,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import {RootState} from '../../redux/rootReducer';
 import {actions as medicationActions} from '../../redux/medicationStore';
+import {actions as userMedicationActions} from '../../redux/userMedicationStore';
 import {MedicationMasterData} from '../../api/medicationService';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import DatePicker from 'react-native-datepicker';
@@ -34,12 +36,18 @@ const unitTypesList: {label: string; value: string}[] = [
 const AddMedicationScreen = () => {
   const dispatch = useDispatch();
   const {medicationService} = useContext(ServicesContext);
+  const navigation = useNavigation();
 
   const [selection, setSelection] = useState<MedicationMasterData[]>([]);
   const [isCurrent, setIsCurrent] = useState(false);
+  const [dosage, setDosage] = useState(-1);
+  const [medicationUnit, setMedicationUnit] = useState('');
+  const [frequency, setFrequency] = useState(-1);
+  const [frequencyPeriod, setFrequencyPeriod] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const patientId = 1;
 
   const {
     medications: medicationList,
@@ -54,6 +62,25 @@ const AddMedicationScreen = () => {
     console.log(medicationList);
   }, []);
 
+  const onSubmitMedicationButtonPress = () => {
+    dispatch(
+      userMedicationActions.doAddUserCurrentMedicationAsync({
+        patientId,
+        medication: selection[0].medication_id,
+        image: 'posts/default.jpg',
+        dosage,
+        unit: medicationUnit,
+        frequency,
+        frequencyPeriod,
+        isCurrent,
+        startDate,
+        endDate,
+        medicationService,
+      }),
+    );
+    navigation.goBack();
+  };
+
   return (
     <>
       {!isMedicationListLoading && !medicationListError && (
@@ -66,9 +93,11 @@ const AddMedicationScreen = () => {
               <View style={styles.medicationInputContainer}>
                 <SearchableDropdown
                   items={medicationList}
-                  selectedItems={selection}
-                  onItemSelect={(item) => {
-                    setSelection(item);
+                  selectedItems={selection[0]}
+                  onItemSelect={(item: MedicationMasterData) => {
+                    const items: MedicationMasterData[] = [];
+                    items.push(item);
+                    setSelection(items);
                   }}
                   itemStyle={{
                     padding: 8,
@@ -108,6 +137,7 @@ const AddMedicationScreen = () => {
                   style={styles.input}
                   placeholder="1000"
                   keyboardType="numeric"
+                  onChangeText={(val) => setDosage(Number(val))}
                 />
                 <DropDownPicker
                   items={unitTypesList}
@@ -119,6 +149,7 @@ const AddMedicationScreen = () => {
                     color: '#000',
                   }}
                   placeholder="Unit"
+                  onChangeItem={(item) => setMedicationUnit(item.value)}
                 />
               </View>
             </View>
@@ -129,6 +160,7 @@ const AddMedicationScreen = () => {
                   style={styles.input}
                   placeholder="2"
                   keyboardType="numeric"
+                  onChangeText={(val) => setFrequency(Number(val))}
                 />
                 <DropDownPicker
                   items={frequencyTypesList}
@@ -140,6 +172,7 @@ const AddMedicationScreen = () => {
                     color: '#000',
                   }}
                   placeholder="Choose"
+                  onChangeItem={(item) => setFrequencyPeriod(item.value)}
                 />
               </View>
             </View>
@@ -211,7 +244,11 @@ const AddMedicationScreen = () => {
               />
             </View>
             <View>
-              <HomeButton onPress={() => {}} />
+              <HomeButton
+                onPress={() => {
+                  onSubmitMedicationButtonPress();
+                }}
+              />
             </View>
           </View>
         </>
