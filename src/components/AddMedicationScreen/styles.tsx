@@ -24,6 +24,13 @@ export default StyleSheet.create({
     fontSize: 18,
     marginTop: 5,
     marginLeft: 30,
+    marginBottom: 0,
+  },
+  calendarHeading: {
+    fontSize: 18,
+    marginTop: 5,
+    marginLeft: 0,
+    marginBottom: 0,
   },
   inputContainer: {
     width: 240,
@@ -31,6 +38,14 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     marginLeft: 40,
+  },
+  dateInputContainer: {
+    width: 240,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginLeft: 30,
+    marginBottom: 5,
   },
   input: {
     borderBottomWidth: 1,
@@ -43,11 +58,10 @@ export default StyleSheet.create({
     paddingBottom: 0,
   },
   medicationInputContainer: {
-    width: 320,
-    height: 50,
-    alignSelf: 'flex-end',
-    padding: 10,
-    paddingLeft: 0,
+    width: 315,
+    alignSelf: 'flex-start',
+    marginLeft: 40,
+    marginBottom: 10,
   },
   dropdownInputContainer: {
     width: 120,
@@ -72,18 +86,19 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#777',
   },
-  dateInputContainer: {
-    width: 95,
-    height: 50,
-    alignSelf: 'flex-end',
-    padding: 10,
-    paddingRight: 0,
-    paddingLeft: 0,
-    marginRight: 12,
+  dateContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  datePickerStyle: {
+    width: 150,
+    marginTop: 10,
+    marginRight: 15,
+    marginLeft: 10,
   },
   checkbox: {
-    marginLeft: 40,
-    marginTop: 5,
+    marginLeft: 35,
+    marginTop: 10,
     marginBottom: 0,
   },
   checkboxText: {

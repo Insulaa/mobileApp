@@ -46,7 +46,7 @@ const HomeScreen = () => {
   const getFourteenDayReadings = () => {
     axios
       .get<GlucoseLevelOnly[]>(
-        'http://10.0.2.2:8000/FourteenDayAvg/?patient_id=2',
+        'http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=2',
       )
       .then((response: AxiosResponse) => {
         setFourteenDayReadings({

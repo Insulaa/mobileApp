@@ -55,7 +55,7 @@ const GlucoseInputScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.numberInput}
-          onChangeText={(val) => setGlucoseLevel(val)}
+          onChangeText={(val) => setGlucoseLevel(Number(val))}
           keyboardType="numeric"
         />
         <DropDownPicker

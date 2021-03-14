@@ -13,7 +13,7 @@ class GlucoseService {
     public async getGlucoseReadings(props: {patientId: number}) {
         const {patientId} = props;
         const apiUrl = qs.stringifyUrl({
-            url: 'http://10.0.2.2:8000/GlucoseToday/',
+            url: 'http://10.0.2.2:8000/views/GlucoseToday/',
             query: {
                 patient_id: patientId,
             }
