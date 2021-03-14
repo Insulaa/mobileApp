@@ -17,6 +17,7 @@ import {actions as userMedicationActions} from '../../redux/userMedicationStore'
 import {MedicationMasterData} from '../../api/medicationService';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
 
 const frequencyTypesList: {label: string; value: string}[] = [
   {
@@ -71,13 +72,13 @@ const AddMedicationScreen = () => {
       userMedicationActions.doAddUserCurrentMedicationAsync({
         patientId,
         medication: selection[0].id,
-        image: 'posts/default.jpg',
+        image: null,
         dosage,
         unit: medicationUnit,
         frequency,
         frequencyPeriod,
         isCurrent,
-        startDate,
+        startDate: moment(startDate).format('YYYY-MM-DD'),
         endDate,
         medicationService,
       }),
