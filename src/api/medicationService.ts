@@ -14,10 +14,10 @@ export type UserMedication = {
   unit: string;
   frequency: number;
   frequency_period: string;
-  currently_taking: boolean;
+  currentlyYaking: boolean;
   start: string;
   end: string | null;
-  medication_input_id: number;
+  medicationInputId: number;
 };
 
 class MedicationService {
@@ -37,7 +37,7 @@ class MedicationService {
   public async getUserMedicationsCurrent(props: {patientId: number}) {
     const {patientId} = props;
     const apiUrl = qs.stringifyUrl({
-      url: 'http://10.0.2.2:8000/views/getMedications/',
+      url: 'http://10.0.2.2:8000/views/getMedicationsCurrent/',
       query: {
         patient_id: patientId,
       },
