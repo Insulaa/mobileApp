@@ -14,7 +14,6 @@ import {
   Medication,
 } from '../../redux/medicationStore';
 import {actions as userMedicationActions} from '../../redux/userMedicationStore';
-import {MedicationMasterData} from '../../api/medicationService';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
@@ -99,8 +98,8 @@ const AddMedicationScreen = () => {
                 <SearchableDropdown
                   items={medicationList}
                   selectedItems={selection[0]}
-                  onItemSelect={(item: MedicationMasterData) => {
-                    const items: MedicationMasterData[] = [];
+                  onItemSelect={(item: Medication) => {
+                    const items: Medication[] = [];
                     items.push(item);
                     setSelection(items);
                   }}
