@@ -41,7 +41,10 @@ const userMedicationSlice = createSlice({
       state: UserMedicationCurrentState,
       {payload}: PayloadAction<UserMedication>,
     ) {
-      state.userMedications = [...state.userMedications, payload];
+      const medicationEntry = (state.userMedications = [
+        ...state.userMedications,
+        payload,
+      ]);
       state.isLoading = false;
       state.error = null;
     },
@@ -117,7 +120,16 @@ const doAddUserCurrentMedicationAsync = (props: {
       endDate,
     });
     if (reading) {
-      dispatch(userMedicationActionsCreators.doAddUserMedication(reading));
+      const medicationsUpdated = await medicationService.getUserMedicationsCurrent(
+        {patientId},
+      );
+      if (medicationsUpdated) {
+        dispatch(
+          userMedicationActionsCreators.doSetUserMedications(
+            medicationsUpdated,
+          ),
+        );
+      }
     }
   } catch (error) {
     dispatch(
