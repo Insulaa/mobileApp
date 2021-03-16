@@ -3,7 +3,7 @@ import {TouchableOpacity, View, Text} from 'react-native';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 
-const HomeButton = ({onPress}: {onPress: React.MouseEventHandler<any>}) => {
+const HomeButton = ({onPress}: {onPress: () => void}) => {
   return (
     <View style={styles.smallerContainer}>
       <TouchableOpacity onPress={onPress}>

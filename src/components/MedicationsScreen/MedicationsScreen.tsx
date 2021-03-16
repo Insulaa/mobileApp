@@ -8,6 +8,7 @@ import {actions as userMedicationActions} from '../../redux/userMedicationStore'
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {UserMedication} from '../../api/medicationService';
+import ClickableTextButton from '../Buttons/ClickableTextButton';
 
 const patientId = 1;
 
@@ -33,7 +34,6 @@ const MedicationsScreen = () => {
         medicationService,
       }),
     );
-    console.log(userMedications);
   }, []);
 
   const createListHeader = () => {
@@ -71,9 +71,11 @@ const MedicationsScreen = () => {
             return (
               <View key={index} style={styles.listRowContainer}>
                 <View style={styles.rowEntry}>
-                  <Text style={styles.entryText}>
-                    {medication.medication.medication_name}
-                  </Text>
+                  <ClickableTextButton
+                    text={medication.medication.medication_name}
+                    onPress={() => navigation.navigate('MedicationDetails')}
+                    textSize={16}
+                  />
                 </View>
                 <View style={styles.rowEntry}>
                   <Text style={styles.entryText}>

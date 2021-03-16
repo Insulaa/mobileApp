@@ -10,7 +10,7 @@ function SkipButton() {
     <View>
       <TouchableOpacity
         onPress={() => navigation.navigate('Home')}
-        style={styles.skipButton}>
+        style={styles.clickableTextButton}>
         <Text style={styles.clickableText}>Skip For Now</Text>
       </TouchableOpacity>
     </View>
