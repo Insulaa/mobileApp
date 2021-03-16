@@ -4,12 +4,14 @@ import MedicationService, {UserMedication} from '../api/medicationService';
 
 export type UserMedicationCurrentState = {
   userMedications: UserMedication[];
+  medicationExpanded: number;
   isLoading: boolean;
   error: string | null;
 };
 
 const userMedicationCurrentIntitalState: UserMedicationCurrentState = {
   userMedications: [],
+  medicationExpanded: -1,
   isLoading: false,
   error: null,
 };
@@ -48,6 +50,10 @@ const userMedicationSlice = createSlice({
       state.isLoading = false;
       state.error = null;
     },
+    doSetMedicationToExpand(
+      state: UserMedicationCurrentState,
+      {payload}: PayloadAction<number>,
+    ) {},
   },
 });
 

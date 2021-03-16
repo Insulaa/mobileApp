@@ -9,6 +9,7 @@ import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {UserMedication} from '../../api/medicationService';
 import ClickableTextButton from '../Buttons/ClickableTextButton';
+import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
 
 const patientId = 1;
 
