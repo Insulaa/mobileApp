@@ -53,7 +53,10 @@ const userMedicationSlice = createSlice({
     doSetMedicationToExpand(
       state: UserMedicationCurrentState,
       {payload}: PayloadAction<number>,
-    ) {},
+    ) {
+      state.medicationExpanded = payload;
+      state.isLoading = false;
+    },
   },
 });
 
@@ -152,6 +155,8 @@ export const actions = {
   doSetUserMedicationsFetchError:
     userMedicationActionsCreators.doSetUserMedicationsActionError,
   doAddUserMedication: userMedicationActionsCreators.doAddUserMedication,
+  doSetMedicationToExpand:
+    userMedicationActionsCreators.doSetMedicationToExpand,
   doFetchUserCurrentMedicationsAsync,
   doAddUserCurrentMedicationAsync,
 };

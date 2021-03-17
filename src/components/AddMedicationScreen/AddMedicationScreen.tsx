@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StatusBar, Button, TouchableOpacity} from 'react-native';
+import {View, Text, StatusBar, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
@@ -16,7 +16,6 @@ import {
 import {actions as userMedicationActions} from '../../redux/userMedicationStore';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
 import {format} from 'date-fns';
 
 const frequencyTypesList: {label: string; value: string}[] = [
@@ -66,11 +65,9 @@ const AddMedicationScreen = () => {
     dispatch(
       medicationActions.doFetchMedicationMasterDataAsync({medicationService}),
     );
-    console.log(medicationList);
   }, []);
 
   const onSubmitMedicationButtonPress = () => {
-    console.log(selection);
     dispatch(
       userMedicationActions.doAddUserCurrentMedicationAsync({
         patientId,
