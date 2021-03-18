@@ -32,6 +32,16 @@ export default StyleSheet.create({
     marginLeft: 0,
     marginBottom: 0,
   },
+  calendarButton: {
+    borderBottomWidth: 1,
+    width: 150,
+    height: 30,
+    marginTop: 10,
+    marginBottom: 5,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   inputContainer: {
     width: 240,
     display: 'flex',
@@ -95,6 +105,7 @@ export default StyleSheet.create({
     marginTop: 10,
     marginRight: 15,
     marginLeft: 10,
+    backgroundColor: 'white',
   },
   checkbox: {
     marginLeft: 35,

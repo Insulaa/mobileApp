@@ -8,6 +8,7 @@ import {actions as userMedicationActions} from '../../redux/userMedicationStore'
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {UserMedication} from '../../api/medicationService';
+import ClickableTextButton from '../Buttons/ClickableTextButton';
 
 const patientId = 1;
 
@@ -18,6 +19,7 @@ const MedicationsScreen = () => {
 
   const {
     userMedications,
+    medicationExpanded,
     isLoading: isUserMedicationsLoading,
     error: userMedicationError,
   } = useSelector((state: RootState) => state.userMedicationStore);
@@ -33,8 +35,12 @@ const MedicationsScreen = () => {
         medicationService,
       }),
     );
-    console.log(userMedications);
   }, []);
+
+  const onPressMedicationButton = (medicationId: number) => {
+    dispatch(userMedicationActions.doSetMedicationToExpand(medicationId));
+    navigation.navigate('MedicationDetails');
+  };
 
   const createListHeader = () => {
     return (
@@ -71,9 +77,13 @@ const MedicationsScreen = () => {
             return (
               <View key={index} style={styles.listRowContainer}>
                 <View style={styles.rowEntry}>
-                  <Text style={styles.entryText}>
-                    {medication.medication.medication_name}
-                  </Text>
+                  <ClickableTextButton
+                    text={medication.medication.medication_name}
+                    onPress={() =>
+                      onPressMedicationButton(medication.medication_input_id)
+                    }
+                    textSize={16}
+                  />
                 </View>
                 <View style={styles.rowEntry}>
                   <Text style={styles.entryText}>

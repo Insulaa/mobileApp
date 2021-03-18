@@ -14,10 +14,10 @@ export type UserMedication = {
   unit: string;
   frequency: number;
   frequency_period: string;
-  currentlyYaking: boolean;
+  currently_taking: boolean;
   start: string;
   end: string | null;
-  medicationInputId: number;
+  medication_input_id: number;
 };
 
 class MedicationService {

@@ -16,6 +16,7 @@ import {Provider} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
 import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
+import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -124,6 +125,10 @@ const App = () => {
             <Stack.Screen
               name="AddMedication"
               component={AddMedicationScreen}
+            />
+            <Stack.Screen
+              name="MedicationDetails"
+              component={MedicationDetailsScreen}
             />
           </Stack.Navigator>
         </ServicesContext.Provider>

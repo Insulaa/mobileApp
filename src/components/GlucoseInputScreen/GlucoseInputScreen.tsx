@@ -2,9 +2,9 @@ import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles';
 import {TextInput} from 'react-native-gesture-handler';
-import HomeButton from '../Buttons/HomeButton';
+import MainButton from '../Buttons/MainButton';
 import {useState} from 'react';
-import SkipButton from '../Buttons/SkipButton';
+import ClickableTextButton from '../Buttons/ClickableTextButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useNavigation} from '@react-navigation/native';
 import ServicesContext from '../../servicesContext';
@@ -85,9 +85,15 @@ const GlucoseInputScreen = () => {
           onChangeItem={(item) => setGlucoseUnit(item.value)}
         />
       </View>
-      <SkipButton />
+      <View style={{marginTop: 60}}>
+        <ClickableTextButton
+          text="Skip For Now"
+          onPress={() => navigation.navigate('Home')}
+          textSize={20}
+        />
+      </View>
       <View style={{marginTop: 40}}>
-        <HomeButton onPress={onSubmitButtonPress} />
+        <MainButton onPress={onSubmitButtonPress} text="SUBMIT" />
       </View>
     </View>
   );

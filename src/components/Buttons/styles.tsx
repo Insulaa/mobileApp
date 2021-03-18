@@ -21,14 +21,13 @@ export default StyleSheet.create({
     textAlign: 'center',
     borderRadius: 10,
   },
-  skipButton: {
+  clickableTextButton: {
     padding: 2,
-    marginTop: 60,
     alignSelf: 'center',
   },
   clickableText: {
     color: '#21A1FD',
-    fontSize: 20,
+    textAlign: 'center',
   },
   itemContainer: {
     display: 'flex',
