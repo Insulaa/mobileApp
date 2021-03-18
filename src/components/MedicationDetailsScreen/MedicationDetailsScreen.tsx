@@ -6,6 +6,8 @@ import {actions as userMedicationActions} from '../../redux/userMedicationStore'
 import {useDispatch, useSelector} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import {UserMedication} from '../../api/medicationService';
+import MainButton from '../Buttons/MainButton';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const MedicationDetailsScreen = () => {
   const {
@@ -33,6 +35,12 @@ const MedicationDetailsScreen = () => {
           medicationListError === null &&
           medication.length > 0 && (
             <>
+              <Icon
+                name="square-edit-outline"
+                color="#21A1FD"
+                size={35}
+                style={styles.icon}
+              />
               <Text style={styles.heading}>
                 {medication[0].medication.medication_name}
               </Text>
@@ -68,7 +76,8 @@ const MedicationDetailsScreen = () => {
                   </View>
                 </View>
               </View>
-              <View style={[styles.detailsContainer, {marginLeft: 10}]}>
+              <View
+                style={[styles.detailsContainer, {marginLeft: 10, flex: 0.6}]}>
                 <View style={styles.rowContainer}>
                   <Text style={styles.label}>Notes:</Text>
                   <Text style={styles.text}>
@@ -76,10 +85,13 @@ const MedicationDetailsScreen = () => {
                   </Text>
                 </View>
               </View>
-              <View style={styles.detailsContainer}>
-                <View style={styles.rowContainer}>
-                  <Text style={styles.label}>Notes:</Text>
-                </View>
+              <View
+                style={[
+                  styles.detailsContainer,
+                  {alignItems: 'center', marginRight: 0},
+                ]}>
+                <MainButton onPress={() => {}} text="END MEDICATION" />
+                <MainButton onPress={() => {}} text="DELETE MEDICATION" />
               </View>
             </>
           )}

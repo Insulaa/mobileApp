@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
 import {TextInput} from 'react-native-gesture-handler';
 import CheckBox from 'react-native-check-box';
-import HomeButton from '../Buttons/HomeButton';
+import MainButton from '../Buttons/MainButton';
 import {useDispatch, useSelector} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import {RootState} from '../../redux/rootReducer';
@@ -261,10 +261,11 @@ const AddMedicationScreen = () => {
               />
             </View>
             <View>
-              <HomeButton
+              <MainButton
                 onPress={() => {
                   onSubmitMedicationButtonPress();
                 }}
+                text="SUBMIT"
               />
             </View>
           </View>

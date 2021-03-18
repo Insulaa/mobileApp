@@ -26,7 +26,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginRight: 10,
-    marginTop: 10,
+    marginTop: 5,
   },
   rowContainer: {
     marginTop: 10,
@@ -51,5 +51,10 @@ export default StyleSheet.create({
   text: {
     fontSize: 18,
     width: 246,
+  },
+  icon: {
+    position: 'absolute',
+    right: 10,
+    top: 20,
   },
 });

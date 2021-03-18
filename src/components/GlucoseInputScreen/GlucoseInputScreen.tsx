@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles';
 import {TextInput} from 'react-native-gesture-handler';
-import HomeButton from '../Buttons/HomeButton';
+import MainButton from '../Buttons/MainButton';
 import {useState} from 'react';
 import ClickableTextButton from '../Buttons/ClickableTextButton';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -93,7 +93,7 @@ const GlucoseInputScreen = () => {
         />
       </View>
       <View style={{marginTop: 40}}>
-        <HomeButton onPress={onSubmitButtonPress} />
+        <MainButton onPress={onSubmitButtonPress} text="SUBMIT" />
       </View>
     </View>
   );
