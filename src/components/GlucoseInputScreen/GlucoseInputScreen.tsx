@@ -11,6 +11,7 @@ import ServicesContext from '../../servicesContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/rootReducer';
 import {actions as glucoseActions} from '../../redux/glucoseStore';
+import DismissKeyboard from '../Util/DismissKeyboard';
 
 const GlucoseInputScreen = () => {
   const dispatch = useDispatch();
@@ -50,52 +51,54 @@ const GlucoseInputScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Enter Your {'\n'}Glucose Reading!</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.numberInput}
-          onChangeText={(val) => setGlucoseLevel(Number(val))}
-          keyboardType="numeric"
-        />
-        <DropDownPicker
-          items={[
-            {
-              label: 'mg/dL',
-              value: 'mg',
-            },
-            {
-              label: 'mmol/L',
-              value: 'mmol',
-            },
-          ]}
-          defaultValue={glucoseUnit}
-          style={styles.unitInput}
-          labelStyle={{
-            fontSize: 16,
-            textAlign: 'left',
-            color: '#000',
-          }}
-          activeLabelStyle={{fontWeight: 'bold'}}
-          containerStyle={styles.unitInputContainer}
-          itemStyle={{
-            justifyContent: 'flex-start',
-          }}
-          dropDownStyle={{backgroundColor: '#fafafa'}}
-          onChangeItem={(item) => setGlucoseUnit(item.value)}
-        />
+    <DismissKeyboard>
+      <View style={styles.container}>
+        <Text style={styles.title}>Enter Your {'\n'}Glucose Reading!</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.numberInput}
+            onChangeText={(val) => setGlucoseLevel(Number(val))}
+            keyboardType="numeric"
+          />
+          <DropDownPicker
+            items={[
+              {
+                label: 'mg/dL',
+                value: 'mg',
+              },
+              {
+                label: 'mmol/L',
+                value: 'mmol',
+              },
+            ]}
+            defaultValue={glucoseUnit}
+            style={styles.unitInput}
+            labelStyle={{
+              fontSize: 16,
+              textAlign: 'left',
+              color: '#000',
+            }}
+            activeLabelStyle={{fontWeight: 'bold'}}
+            containerStyle={styles.unitInputContainer}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#fafafa'}}
+            onChangeItem={(item) => setGlucoseUnit(item.value)}
+          />
+        </View>
+        <View style={{marginTop: 60}}>
+          <ClickableTextButton
+            text="Skip For Now"
+            onPress={() => navigation.navigate('Home')}
+            textSize={20}
+          />
+        </View>
+        <View style={{marginTop: 40}}>
+          <MainButton onPress={onSubmitButtonPress} text="SUBMIT" />
+        </View>
       </View>
-      <View style={{marginTop: 60}}>
-        <ClickableTextButton
-          text="Skip For Now"
-          onPress={() => navigation.navigate('Home')}
-          textSize={20}
-        />
-      </View>
-      <View style={{marginTop: 40}}>
-        <MainButton onPress={onSubmitButtonPress} text="SUBMIT" />
-      </View>
-    </View>
+    </DismissKeyboard>
   );
 };
 
