@@ -17,6 +17,7 @@ import {actions as userMedicationActions} from '../../redux/userMedicationStore'
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {format} from 'date-fns';
+import DismissKeyboard from '../Util/DismissKeyboard';
 
 const frequencyTypesList: {label: string; value: string}[] = [
   {
@@ -103,172 +104,179 @@ const AddMedicationScreen = () => {
       {!isMedicationListLoading && !medicationListError && (
         <>
           <Text style={styles.title}>Add a New Medication</Text>
-
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.heading}>Medication Name</Text>
-              <View style={styles.medicationInputContainer}>
-                <SearchableDropdown
-                  items={medicationList}
-                  selectedItems={selection[0]}
-                  onItemSelect={(item: Medication) => {
-                    const items: Medication[] = [];
-                    items.push(item);
-                    setSelection(items);
-                  }}
-                  itemStyle={{
-                    padding: 8,
-                    marginTop: 2,
-                    backgroundColor: '#D8D8D8',
-                    borderColor: '#bbb',
-                    borderWidth: 1,
-                    borderRadius: 5,
-                  }}
-                  itemTextStyle={{color: '#222', fontSize: 16}}
-                  itemsContainerStyle={{maxHeight: 140}}
-                  textInputProps={{
-                    fontSize: 16,
-                    placeholder: 'Select Medication',
-                    underlineColorAndroid: 'transparent',
-                    style: {
-                      padding: 12,
-                      borderBottomWidth: 1,
-                      borderColor: '#777',
+          <DismissKeyboard>
+            <View style={styles.container}>
+              <View>
+                <Text style={styles.heading}>Medication Name</Text>
+                <View style={styles.medicationInputContainer}>
+                  <SearchableDropdown
+                    items={medicationList}
+                    selectedItems={selection[0]}
+                    onItemSelect={(item: Medication) => {
+                      const items: Medication[] = [];
+                      items.push(item);
+                      setSelection(items);
+                    }}
+                    itemStyle={{
+                      padding: 8,
+                      marginTop: 2,
+                      backgroundColor: '#D8D8D8',
+                      borderColor: '#bbb',
+                      borderWidth: 1,
                       borderRadius: 5,
-                    },
-                  }}
-                  resetValue={false}
-                  multi={false}
-                  setSort={(item, searchedText) =>
-                    item.name
-                      .toLowerCase()
-                      .startsWith(searchedText.toLowerCase())
-                  }
-                />
-              </View>
-            </View>
-            <View>
-              <Text style={styles.heading}>Dosage</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="1000"
-                  keyboardType="numeric"
-                  onChangeText={(val) => setDosage(Number(val))}
-                />
-                <DropDownPicker
-                  items={unitTypesList}
-                  containerStyle={styles.dropdownInputContainer}
-                  style={styles.dropDownInput}
-                  labelStyle={{
-                    fontSize: 16,
-                    textAlign: 'center',
-                    color: '#000',
-                  }}
-                  placeholder="Unit"
-                  onChangeItem={(item) => setMedicationUnit(item.value)}
-                />
-              </View>
-            </View>
-            <View>
-              <Text style={styles.heading}>Taken (i.e. 3 / Daily)</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="2"
-                  keyboardType="numeric"
-                  onChangeText={(val) => setFrequency(Number(val))}
-                />
-                <DropDownPicker
-                  items={frequencyTypesList}
-                  containerStyle={styles.dropdownInputContainer}
-                  style={styles.dropDownInput}
-                  labelStyle={{
-                    fontSize: 16,
-                    textAlign: 'center',
-                    color: '#000',
-                  }}
-                  placeholder="Choose"
-                  onChangeItem={(item) => setFrequencyPeriod(item.value)}
-                />
-              </View>
-            </View>
-            <View>
-              <View style={styles.dateInputContainer}>
-                <View style={styles.dateContainer}>
-                  <Text style={styles.calendarHeading}>Start Date</Text>
-                  <View style={styles.calendarButton}>
-                    <TouchableOpacity onPress={() => setShowStartDate(true)}>
-                      {startDate === new Date(1598051730000) && (
-                        <Text style={{fontSize: 16}}> Select Start Date </Text>
-                      )}
-                      {startDate !== new Date(1598051730000) && (
-                        <Text style={{fontSize: 16}}>
-                          {format(startDate, 'yyyy - MM - dd')}{' '}
-                        </Text>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                  {showStartDate && (
-                    <DateTimePicker
-                      style={styles.datePickerStyle}
-                      display="default"
-                      value={startDate}
-                      mode="date"
-                      onChange={onStartDateChange}
-                      minimumDate={new Date(1950, 0, 1)}
-                      maximumDate={new Date(2300, 10, 20)}
-                    />
-                  )}
+                    }}
+                    itemTextStyle={{color: '#222', fontSize: 16}}
+                    itemsContainerStyle={{maxHeight: 140}}
+                    textInputProps={{
+                      fontSize: 16,
+                      placeholder: 'Select Medication',
+                      underlineColorAndroid: 'transparent',
+                      style: {
+                        padding: 12,
+                        borderBottomWidth: 1,
+                        borderColor: '#777',
+                        borderRadius: 5,
+                      },
+                    }}
+                    resetValue={false}
+                    multi={false}
+                    setSort={(item, searchedText) =>
+                      item.name
+                        .toLowerCase()
+                        .startsWith(searchedText.toLowerCase())
+                    }
+                  />
                 </View>
-                {!isCurrent && (
+              </View>
+              <View>
+                <Text style={styles.heading}>Dosage</Text>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="1000"
+                    keyboardType="numeric"
+                    onChangeText={(val) => setDosage(Number(val))}
+                  />
+                  <DropDownPicker
+                    items={unitTypesList}
+                    containerStyle={styles.dropdownInputContainer}
+                    style={styles.dropDownInput}
+                    labelStyle={{
+                      fontSize: 16,
+                      textAlign: 'center',
+                      color: '#000',
+                    }}
+                    placeholder="Unit"
+                    onChangeItem={(item) => setMedicationUnit(item.value)}
+                  />
+                </View>
+              </View>
+              <View>
+                <Text style={styles.heading}>Taken (i.e. 3 / Daily)</Text>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="2"
+                    keyboardType="numeric"
+                    onChangeText={(val) => setFrequency(Number(val))}
+                  />
+                  <DropDownPicker
+                    items={frequencyTypesList}
+                    containerStyle={styles.dropdownInputContainer}
+                    style={styles.dropDownInput}
+                    labelStyle={{
+                      fontSize: 16,
+                      textAlign: 'center',
+                      color: '#000',
+                    }}
+                    placeholder="Choose"
+                    onChangeItem={(item) => setFrequencyPeriod(item.value)}
+                  />
+                </View>
+              </View>
+              <View>
+                <View style={styles.dateInputContainer}>
                   <View style={styles.dateContainer}>
-                    <Text style={styles.calendarHeading}>End Date</Text>
+                    <Text style={styles.calendarHeading}>Start Date</Text>
                     <View style={styles.calendarButton}>
-                      <TouchableOpacity onPress={() => setShowEndDate(true)}>
-                        {endDate === new Date(1598051730000) && (
-                          <Text style={{fontSize: 16}}> Select End Date </Text>
-                        )}
-                        {endDate !== new Date(1598051730000) && (
+                      <TouchableOpacity onPress={() => setShowStartDate(true)}>
+                        {startDate === new Date(1598051730000) && (
                           <Text style={{fontSize: 16}}>
-                            {format(endDate, 'yyyy - MM - dd')}{' '}
+                            {' '}
+                            Select Start Date{' '}
+                          </Text>
+                        )}
+                        {startDate !== new Date(1598051730000) && (
+                          <Text style={{fontSize: 16}}>
+                            {format(startDate, 'yyyy - MM - dd')}{' '}
                           </Text>
                         )}
                       </TouchableOpacity>
                     </View>
-                    {showEndDate && (
+                    {showStartDate && (
                       <DateTimePicker
                         style={styles.datePickerStyle}
                         display="default"
-                        value={endDate}
+                        value={startDate}
                         mode="date"
-                        onChange={onEndDateChange}
+                        onChange={onStartDateChange}
                         minimumDate={new Date(1950, 0, 1)}
                         maximumDate={new Date(2300, 10, 20)}
                       />
                     )}
                   </View>
-                )}
+                  {!isCurrent && (
+                    <View style={styles.dateContainer}>
+                      <Text style={styles.calendarHeading}>End Date</Text>
+                      <View style={styles.calendarButton}>
+                        <TouchableOpacity onPress={() => setShowEndDate(true)}>
+                          {endDate === new Date(1598051730000) && (
+                            <Text style={{fontSize: 16}}>
+                              {' '}
+                              Select End Date{' '}
+                            </Text>
+                          )}
+                          {endDate !== new Date(1598051730000) && (
+                            <Text style={{fontSize: 16}}>
+                              {format(endDate, 'yyyy - MM - dd')}{' '}
+                            </Text>
+                          )}
+                        </TouchableOpacity>
+                      </View>
+                      {showEndDate && (
+                        <DateTimePicker
+                          style={styles.datePickerStyle}
+                          display="default"
+                          value={endDate}
+                          mode="date"
+                          onChange={onEndDateChange}
+                          minimumDate={new Date(1950, 0, 1)}
+                          maximumDate={new Date(2300, 10, 20)}
+                        />
+                      )}
+                    </View>
+                  )}
+                </View>
+                <CheckBox
+                  rightText="Currently Taking"
+                  style={styles.checkbox}
+                  rightTextStyle={styles.checkboxText}
+                  onClick={() => {
+                    setIsCurrent(!isCurrent);
+                  }}
+                  isChecked={isCurrent}
+                />
               </View>
-              <CheckBox
-                rightText="Currently Taking"
-                style={styles.checkbox}
-                rightTextStyle={styles.checkboxText}
-                onClick={() => {
-                  setIsCurrent(!isCurrent);
-                }}
-                isChecked={isCurrent}
-              />
+              <View>
+                <MainButton
+                  onPress={() => {
+                    onSubmitMedicationButtonPress();
+                  }}
+                  text="SUBMIT"
+                />
+              </View>
             </View>
-            <View>
-              <MainButton
-                onPress={() => {
-                  onSubmitMedicationButtonPress();
-                }}
-                text="SUBMIT"
-              />
-            </View>
-          </View>
+          </DismissKeyboard>
         </>
       )}
     </>
