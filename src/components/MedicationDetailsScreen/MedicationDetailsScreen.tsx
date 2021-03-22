@@ -25,6 +25,8 @@ const MedicationDetailsScreen = () => {
           medicationList.filter((x) => x.medication_input_id === medId),
         )
       : [];
+
+    console.log(medication);
   }, [medId]);
 
   return (
@@ -46,7 +48,10 @@ const MedicationDetailsScreen = () => {
               </Text>
               <View style={styles.subContainer}>
                 <View style={styles.detailsContainer}>
-                  <Image source={{uri: medication[0].image}} />
+                  <Image
+                    source={{uri: medication[0].image}}
+                    style={styles.image}
+                  />
                 </View>
                 <View style={styles.detailsContainer}>
                   <View style={styles.rowContainer}>

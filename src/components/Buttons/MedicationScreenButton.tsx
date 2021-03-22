@@ -11,10 +11,10 @@ type MedicationScreenButtonProps = {
 
 const MedicationScreenButton = (props: MedicationScreenButtonProps) => {
   return (
-    <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={props.onPress}>
-            <Icon name="plus-thick" color="white" size={60} />
-          </TouchableOpacity>
+    <View style={styles.itemContainer}>
+      <TouchableOpacity onPress={props.onPress}>
+        <Icon name="plus-thick" color="white" size={60} />
+      </TouchableOpacity>
     </View>
   );
 };

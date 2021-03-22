@@ -17,6 +17,7 @@ import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
 import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -111,24 +112,33 @@ const Auth = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Header />
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen name="Auth" component={Auth} />
-            <Stack.Screen name="Home" component={HomeTabs} />
-            <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+          <Stack.Navigator initialRouteName="Auth">
+            <Stack.Screen
+              name="Auth"
+              component={Auth}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="GlucoseInput"
+              component={GlucoseInputScreen}
+              options={{header: () => <Header />}}
+            />
             <Stack.Screen
               name="AddMedication"
               component={AddMedicationScreen}
+              options={{header: () => <Header />}}
             />
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
+              options={{header: () => <Header />}}
             />
           </Stack.Navigator>
         </ServicesContext.Provider>
