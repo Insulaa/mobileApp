@@ -114,43 +114,31 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: '#0095ff',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-                fontSize: 28,
-                alignSelf: 'center',
-              },
-            }}>
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Auth"
               component={Auth}
-              options={{title: 'LOGIN'}}
+              options={{header: () => <Header />}}
             />
             <Stack.Screen
               name="Home"
               component={HomeTabs}
-              options={{title: 'D2MP'}}
+              options={{header: () => <Header />}}
             />
             <Stack.Screen
               name="GlucoseInput"
               component={GlucoseInputScreen}
-              options={{title: 'INPUT GLUCOSE'}}
+              options={{header: () => <Header />}}
             />
             <Stack.Screen
               name="AddMedication"
               component={AddMedicationScreen}
-              options={{title: 'ADD MEDICATION'}}
+              options={{header: () => <Header />}}
             />
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
-              options={{title: 'MEDICATION DETAILS'}}
+              options={{header: () => <Header />}}
             />
           </Stack.Navigator>
         </ServicesContext.Provider>
