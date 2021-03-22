@@ -57,4 +57,15 @@ export default StyleSheet.create({
     right: 10,
     top: 20,
   },
+  image: {
+    zIndex: 10,
+    width: 160,
+    height: 140,
+    marginLeft: 20,
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#21A1FD',
+    overflow: 'hidden',
+  },
 });

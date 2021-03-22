@@ -17,6 +17,7 @@ import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
 import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -111,24 +112,45 @@ const Auth = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Header />
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
           <Stack.Navigator
             initialRouteName="Home"
             screenOptions={{
-              headerShown: false,
+              headerStyle: {
+                backgroundColor: '#0095ff',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                fontSize: 28,
+                alignSelf: 'center',
+              },
             }}>
-            <Stack.Screen name="Auth" component={Auth} />
-            <Stack.Screen name="Home" component={HomeTabs} />
-            <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+            <Stack.Screen
+              name="Auth"
+              component={Auth}
+              options={{title: 'LOGIN'}}
+            />
+            <Stack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{title: 'D2MP'}}
+            />
+            <Stack.Screen
+              name="GlucoseInput"
+              component={GlucoseInputScreen}
+              options={{title: 'INPUT GLUCOSE'}}
+            />
             <Stack.Screen
               name="AddMedication"
               component={AddMedicationScreen}
+              options={{title: 'ADD MEDICATION'}}
             />
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
+              options={{title: 'MEDICATION DETAILS'}}
             />
           </Stack.Navigator>
         </ServicesContext.Provider>
