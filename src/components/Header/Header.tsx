@@ -31,7 +31,9 @@ const Header = () => {
         <Text style={styles.title}>D2MP</Text>
       </View>
       <View style={styles.sectionEnd}>
-        <TouchableOpacity onPress={() => {}} style={styles.sectionEnd}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}
+          style={styles.sectionEnd}>
           <Icon name="account-cog-outline" color="white" size={30} />
         </TouchableOpacity>
       </View>

@@ -17,7 +17,7 @@ import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
 import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
-import LinearGradient from 'react-native-linear-gradient';
+import UserProfileScreen from '../UserProfileScreen/UserProfileScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -138,6 +138,11 @@ const App = () => {
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={UserProfileScreen}
               options={{header: () => <Header />}}
             />
           </Stack.Navigator>
