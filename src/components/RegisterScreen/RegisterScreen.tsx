@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Loader from '../Loader/loader';
+import UserService, {User} from '../../api/userService'
 
 const RegisterScreen = (props) => {
   const [userFirstName, setUserFirstName] = useState('');
@@ -52,51 +53,15 @@ const RegisterScreen = (props) => {
       return;
     }
 
-    setLoading(true);
-    var dataToSend = {
-      first_name: userFirstName,
-      last_name: userLastName,
-      password: userPassword,
-      phone_number: phoneNumber,
-      email: userEmail,
-    };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    fetch('http://10.0.2.2:8000/views/patients/', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.text())
-      .then((responseJson) => {
-        setLoading(false);
-        console.log(responseJson);
-        if (responseJson.status === 'success') {
-          setIsRegistrationSuccess(true);
-          console.log(
-            'Registration Successful. Please Login to proceed'
-          );
-        } else {
-          setErrortext(responseJson.msg);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error(error);
-      });
-  };
-  
-  if (isRegistrationSuccess) {
-    navigation.navigate('LoginScreen')
-  }
+    let userService = new UserService;
+    const response = userService.registerUser({
+        first_name: userFirstName,
+        last_name: userLastName,
+        password: userPassword,
+        email: userEmail, 
+        phone_number: phoneNumber,
+    });
+};
 
   return (
     <View style={{flex: 1, backgroundColor: '#307ecc'}}>
