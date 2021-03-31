@@ -5,6 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
+import MedicationsScreen from '../MedicationsScreen/MedicationsScreen';
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import GlucoseInputScreen from '../GlucoseInputScreen/GlucoseInputScreen';
@@ -14,6 +15,9 @@ import store from '../../redux/store';
 import {Provider} from 'react-redux';
 import ServicesContext from '../../servicesContext';
 import createServices from '../../api/services';
+import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
+import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
+import UserProfileScreen from '../UserProfileScreen/UserProfileScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -52,14 +56,6 @@ function MyTabBar({navigation}) {
     </View>
   );
 }
-
-const MedicationsScreen = () => {
-  return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Medication Screen</Text>
-    </View>
-  );
-};
 
 const ExerciseScreen = () => {
   return (
@@ -116,17 +112,39 @@ const Auth = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Header />
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator
-            initialRouteName="Auth"
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen name="Auth" component={Auth} />
-            <Stack.Screen name="Home" component={HomeTabs} />
-            <Stack.Screen name="GlucoseInput" component={GlucoseInputScreen} />
+          <Stack.Navigator initialRouteName="Auth">
+            <Stack.Screen
+              name="Auth"
+              component={Auth}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="GlucoseInput"
+              component={GlucoseInputScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="AddMedication"
+              component={AddMedicationScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="MedicationDetails"
+              component={MedicationDetailsScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={UserProfileScreen}
+              options={{header: () => <Header />}}
+            />
           </Stack.Navigator>
         </ServicesContext.Provider>
       </Provider>

@@ -5,6 +5,9 @@ export default StyleSheet.create({
     marginTop: 40,
     borderRadius: 10,
   },
+  smallerContainer: {
+    borderRadius: 0,
+  },
   mainButton: {
     width: 300,
     padding: 10,
@@ -18,13 +21,18 @@ export default StyleSheet.create({
     textAlign: 'center',
     borderRadius: 10,
   },
-  skipButton: {
+  clickableTextButton: {
     padding: 2,
-    marginTop: 60,
     alignSelf: 'center',
   },
   clickableText: {
     color: '#21A1FD',
-    fontSize: 20,
+    textAlign: 'center',
+  },
+  itemContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
