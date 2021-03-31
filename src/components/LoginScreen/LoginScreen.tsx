@@ -42,7 +42,7 @@ const LoginScreen = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://10.0.2.2:8000/views/patients/', {
+    fetch('http://127.0.0.1:8000/views/patients/', {
       method: 'POST',
       body: formBody,
       headers: {
