@@ -25,8 +25,6 @@ const MedicationDetailsScreen = () => {
           medicationList.filter((x) => x.medication_input_id === medId),
         )
       : [];
-
-    console.log(medication);
   }, [medId]);
 
   return (

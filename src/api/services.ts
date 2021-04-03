@@ -5,7 +5,7 @@ import UserProfileService from './userProfileService';
 const createServices = () => ({
   glucoseService: new GlucoseService(),
   medicationService: new MedicationService(),
-  UserProfileService: new UserProfileService(),
+  userProfileService: new UserProfileService(),
 });
 
 export default createServices;

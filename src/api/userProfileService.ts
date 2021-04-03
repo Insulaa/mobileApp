@@ -3,29 +3,37 @@ import axios from 'axios';
 
 export type UserProfileData = {
   id: number;
-  question1: string;
-  question2: string;
-  question3: string;
-  patient_id: number;
-  lower_bound: number;
-  upper_bound: number;
+  dateOfBirth: string;
+  sex: string;
+  height1: number;
+  height1_unit: string;
+  height2: number;
+  height2_unit: string;
+  weight: number;
+  weight_unit: string;
+  glucose_lower_limit: number;
+  glucose_upper_limit: number;
+  patient: number;
 };
 
 class UserProfileService {
   public async getUserProfileData(props: {patientId: number}) {
     const {patientId} = props;
     const apiUrl = qs.stringifyUrl({
-      url: 'http://127.0.0.1:8000/views/setup/',
+      url: 'http://10.0.2.2:8000/views/setup/',
       query: {
         patient_id: patientId,
       },
     });
     try {
-      const response = await axios.get<UserProfileData>(apiUrl);
+      const response = await axios.get<UserProfileData[]>(apiUrl);
+      console.log(response);
       if (response.status === 200 || response.status === 204) {
+        console.log(response);
         return response.data;
       }
     } catch (error) {
+      console.log(apiUrl);
       console.log(error);
     }
   }
