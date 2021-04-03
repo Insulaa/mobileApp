@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styles from './styles';
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, TouchableOpacity} from 'react-native';
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import ServicesContext from '../../servicesContext';
@@ -10,6 +10,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MainButton from '../Buttons/MainButton';
 import {actions as userProfileActions} from '../../redux/userProfileStore';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const UserProfileScreen = () => {
   const dispatch = useDispatch();
@@ -30,12 +31,11 @@ const UserProfileScreen = () => {
         userProfileService,
       }),
     );
+    console.log(userInfo);
   }, []);
 
-  const [upperGlucoseBound, setUpperGlucoseBound] = useState<number>(
-    userInfo.glucose_upper_limit,
-  );
-  const [lowerGlucoseBound, setLowerGlucoseBound] = useState<string>('');
+  const [upperGlucoseBound, setUpperGlucoseBound] = useState<number>(0);
+  const [lowerGlucoseBound, setLowerGlucoseBound] = useState<number>(0);
 
   const [patientHeightCm, setPatientHeightCm] = useState<string>('');
   const [patientHeightFeet, setPatientHeightFeet] = useState<string>('');
@@ -44,6 +44,7 @@ const UserProfileScreen = () => {
   const [patientWeight, setPatientWeight] = useState<string>('');
   const [weightUnit, setWeightUnit] = useState<string>('lb');
   const [patientSex, setPatientSex] = useState<string>('');
+  const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
 
   const heightUnitsList: {label: string; value: string}[] = [
     {
@@ -58,32 +59,37 @@ const UserProfileScreen = () => {
 
   const weightUnitsList: {label: string; value: string}[] = [
     {
-      label: 'lb',
-      value: 'lb',
+      label: 'lbs',
+      value: 'lbs',
     },
     {
-      label: 'kg',
-      value: 'kg',
+      label: 'kgs',
+      value: 'kgs',
     },
   ];
 
   const sexOptionsList: {label: string; value: string}[] = [
     {
       label: 'Male',
-      value: 'M',
+      value: 'Male',
     },
     {
       label: 'Female',
-      value: 'F',
+      value: 'Female',
     },
     {
       label: 'Other',
-      value: 'O',
+      value: 'Other',
     },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        onPress={() => setIsInEditMode(!isInEditMode)}
+        style={styles.icon}>
+        <Icon name="square-edit-outline" color="#21A1FD" size={35} />
+      </TouchableOpacity>
       {!userProfileLoading && userProfileError === null && (
         <>
           <Text style={styles.title}>My Settings</Text>
@@ -97,8 +103,9 @@ const UserProfileScreen = () => {
                     style={styles.smallInput}
                     placeholder="0"
                     keyboardType="numeric"
-                    value={patientHeightFeet}
+                    defaultValue={userInfo.height1.toString()}
                     onChangeText={setPatientHeightFeet}
+                    editable={isInEditMode}
                   />
                 </View>
                 <View style={styles.internalContainer}>
@@ -107,8 +114,9 @@ const UserProfileScreen = () => {
                     style={styles.smallInput}
                     placeholder="0"
                     keyboardType="numeric"
-                    value={patientHeightInches}
+                    defaultValue={userInfo.height2.toString()}
                     onChangeText={setPatientHeightInches}
+                    editable={isInEditMode}
                   />
                 </View>
               </>
@@ -120,8 +128,9 @@ const UserProfileScreen = () => {
                   style={styles.smallInput}
                   placeholder="0"
                   keyboardType="numeric"
-                  value={patientHeightCm}
+                  defaultValue={userInfo.height1.toString()}
                   onChangeText={setPatientHeightCm}
+                  editable={isInEditMode}
                 />
               </View>
             )}
@@ -136,8 +145,9 @@ const UserProfileScreen = () => {
                   textAlign: 'center',
                   color: '#000',
                 }}
-                placeholder={heightUnit}
+                defaultValue={userInfo.height1_unit}
                 onChangeItem={(item) => setHeightUnit(item.value)}
+                disabled={!isInEditMode}
               />
             </View>
           </View>
@@ -147,8 +157,9 @@ const UserProfileScreen = () => {
               style={styles.smallInput}
               placeholder="0"
               keyboardType="number-pad"
-              value={patientHeightInches}
+              defaultValue={userInfo.weight.toString()}
               onChangeText={setPatientHeightInches}
+              editable={isInEditMode}
             />
             <DropDownPicker
               items={weightUnitsList}
@@ -159,8 +170,9 @@ const UserProfileScreen = () => {
                 textAlign: 'center',
                 color: '#000',
               }}
-              placeholder={weightUnit}
+              defaultValue={userInfo.weight_unit}
               onChangeItem={(item) => setWeightUnit(item.value)}
+              disabled={!isInEditMode}
             />
           </View>
           <Text style={styles.heading}>Sex</Text>
@@ -174,8 +186,10 @@ const UserProfileScreen = () => {
                 textAlign: 'center',
                 color: '#000',
               }}
+              defaultValue={userInfo.sex}
               placeholder={'Select'}
               onChangeItem={(item) => setPatientSex(item.value)}
+              disabled={!isInEditMode}
             />
           </View>
           <Text style={styles.heading}>Glucose Range</Text>
@@ -184,20 +198,20 @@ const UserProfileScreen = () => {
               <Text style={styles.label}>Lower Limit</Text>
               <TextInput
                 style={styles.input}
-                placeholder="0"
                 keyboardType="numeric"
-                value={upperGlucoseBound.toString()}
-                onChangeText={(val) => setUpperGlucoseBound(Number(val))}
+                defaultValue={userInfo.glucose_lower_limit.toString()}
+                onChangeText={(val) => setLowerGlucoseBound(Number(val))}
+                editable={isInEditMode}
               />
             </View>
             <View style={styles.internalContainer}>
               <Text style={styles.label}>Upper Limit</Text>
               <TextInput
                 style={styles.input}
-                placeholder="0"
+                defaultValue={String(userInfo.glucose_upper_limit)}
                 keyboardType="numeric"
-                value={lowerGlucoseBound}
-                onChangeText={setLowerGlucoseBound}
+                onChangeText={(val) => setUpperGlucoseBound(Number(val))}
+                editable={isInEditMode}
               />
             </View>
           </View>

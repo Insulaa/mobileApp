@@ -73,4 +73,9 @@ export default StyleSheet.create({
     fontSize: 22,
     marginLeft: 20,
   },
+  icon: {
+    position: 'absolute',
+    right: 10,
+    top: 20,
+  },
 });

@@ -27,13 +27,10 @@ class UserProfileService {
     });
     try {
       const response = await axios.get<UserProfileData[]>(apiUrl);
-      console.log(response);
       if (response.status === 200 || response.status === 204) {
-        console.log(response);
         return response.data;
       }
     } catch (error) {
-      console.log(apiUrl);
       console.log(error);
     }
   }
