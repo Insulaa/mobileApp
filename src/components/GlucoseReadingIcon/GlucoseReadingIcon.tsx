@@ -19,7 +19,7 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
         {reading.isEmpty && (
           <>
             <View style={styles.iconContainer}>
-              <TouchableOpacity onPress={reading.onPress}>
+              <TouchableOpacity onPress={() => reading.onPress}>
                 <Icon name="plus-thick" color="#21A1FD" size={60} />
               </TouchableOpacity>
             </View>
@@ -29,7 +29,7 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
         {!reading.isEmpty && (
           <>
             <View style={styles.iconContainer}>
-              <TouchableOpacity onPress={reading.onPress}>
+              <TouchableOpacity onPress={() => reading.onPress}>
                 <Text style={styles.numberText}>{reading.glucoseReading}</Text>
                 <Text style={styles.unitText}>{reading.units}</Text>
               </TouchableOpacity>
