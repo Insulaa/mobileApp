@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useContext} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -12,9 +12,12 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Loader from '../Loader/loader';
-import UserService, {User} from '../../api/userService'
+import ServicesContext from '../../servicesContext';
+
 
 const RegisterScreen = (props) => {
+  const {userService} = useContext(ServicesContext);
+
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -53,7 +56,6 @@ const RegisterScreen = (props) => {
       return;
     }
 
-    let userService = new UserService;
     const response = userService.registerUser({
         first_name: userFirstName,
         last_name: userLastName,

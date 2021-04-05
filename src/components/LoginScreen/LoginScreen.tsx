@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useContext} from 'react';
 import {
   TextInput,
   View,
@@ -11,12 +11,14 @@ import {
 import styles from './styles';
 import RegisterButton from '../Buttons/RegisterButton';
 import AsyncStorage from '@react-native-community/async-storage';
-import UserService from '../../api/userService';
+import ServicesContext from '../../servicesContext';
 
 
 import Loader from '../Loader/loader';
 
 const LoginScreen = ({navigation}) => {
+  const {userService} = useContext(ServicesContext);
+  
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,6 @@ const LoginScreen = ({navigation}) => {
     }
     //setLoading(true);
 
-    let userService = new UserService;
     const response = userService.loginUser({
       email: userEmail,
       password: userPassword
