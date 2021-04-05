@@ -46,16 +46,17 @@ class UserService {
         const {email, password} = props;
         const apiUrl = 'http://10.0.2.2:8000/auth/login/';
         const body = {
-            email: email,
+            username: email,
             password: password,
         };
         try {
             const response = await axios.post(apiUrl, body);
-            if (response.status === 201) {
+            if (response.status === 200) {
                 return response.data;
             }
         } catch (error) {
             console.log(error);
+            return null;
         }
     }
 }

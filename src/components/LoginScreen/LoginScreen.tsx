@@ -11,6 +11,8 @@ import {
 import styles from './styles';
 import RegisterButton from '../Buttons/RegisterButton';
 import AsyncStorage from '@react-native-community/async-storage';
+import UserService from '../../api/userService';
+
 
 import Loader from '../Loader/loader';
 
@@ -22,7 +24,7 @@ const LoginScreen = ({navigation}) => {
 
   const passwordInputRef = createRef();
 
-  const handleSubmitPress = () => {
+  const handleLoginPress = () => {
     setErrortext('');
     if (!userEmail) {
       alert('Please fill Email');
@@ -32,46 +34,62 @@ const LoginScreen = ({navigation}) => {
       alert('Please fill Password');
       return;
     }
-    setLoading(true);
-    let dataToSend = {email: userEmail, password: userPassword};
-    let formBody: string[] = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    //setLoading(true);
 
-    fetch('http://127.0.0.1:8000/views/patients/', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email);
-          console.log(responseJson.data.email);
-          navigation.replace('DrawerNavigationRoutes');
-        } else {
-          setErrortext(responseJson.msg);
-          console.log('Please check your email id or password');
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
-    navigation.navigate('Home')
+    let userService = new UserService;
+    const response = userService.loginUser({
+      email: userEmail,
+      password: userPassword
+    });
+
+    if (response) {
+      navigation.navigate('Home');
+    }
+    
+    else {
+      console.log('Incorrect email or password.');
+    }
+    console.log(response);
+
+    
+    // let dataToSend = {email: userEmail, password: userPassword};
+    // let formBody: string[] = [];
+    // for (let key in dataToSend) {
+    //   let encodedKey = encodeURIComponent(key);
+    //   let encodedValue = encodeURIComponent(dataToSend[key]);
+    //   formBody.push(encodedKey + '=' + encodedValue);
+    // }
+    // formBody = formBody.join('&');
+
+    // fetch('http://127.0.0.1:8000/views/patients/', {
+    //   method: 'POST',
+    //   body: formBody,
+    //   headers: {
+    //     //Header Defination
+    //     'Content-Type':
+    //     'application/x-www-form-urlencoded;charset=UTF-8',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((responseJson) => {
+    //     //Hide Loader
+    //     setLoading(false);
+    //     console.log(responseJson);
+    //     // If server response message same as Data Matched
+    //     if (responseJson.status === 'success') {
+    //       AsyncStorage.setItem('user_id', responseJson.data.email);
+    //       console.log(responseJson.data.email);
+    //       navigation.replace('DrawerNavigationRoutes');
+    //     } else {
+    //       setErrortext(responseJson.msg);
+    //       console.log('Please check your email id or password');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     //Hide Loader
+    //     setLoading(false);
+    //     console.error(error);
+    //   });
   };
 
   return (
@@ -130,7 +148,7 @@ const LoginScreen = ({navigation}) => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={handleSubmitPress}>
+              onPress={handleLoginPress}>
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
             </TouchableOpacity>
             <RegisterButton />
