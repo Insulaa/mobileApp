@@ -9,7 +9,7 @@ type ReadingIconProps = {
   glucoseReading?: number;
   units?: string;
   time?: string;
-  onPress?: React.MouseEventHandler<any>;
+  onPress?: () => void;
 };
 
 const GlucoseReadingIcon = (reading: ReadingIconProps) => {

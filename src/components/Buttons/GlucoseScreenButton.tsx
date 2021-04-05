@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 type GlucoseScreenButtonProps = {
   buttonText: string;
-  onPress?: React.MouseEventHandler<any>;
+  onPress?: () => void;
 };
 
 const GlucoseScreenButton = (props: GlucoseScreenButtonProps) => {
