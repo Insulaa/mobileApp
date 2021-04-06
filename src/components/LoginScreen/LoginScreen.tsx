@@ -14,17 +14,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ServicesContext from '../../servicesContext';
 import {actions as userActions} from '../../redux/userStore';
 import Loader from '../Loader/loader';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/rootReducer';
 
 const LoginScreen = ({navigation}) => {
   const {userService} = useContext(ServicesContext);
-
-  const {
-    userData,
-    isLoading: isUserDataLoading,
-    error: userDataError,
-  } = useSelector((state: RootState) => state.userStore);
+  const dispatch = useDispatch();
 
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -45,16 +40,14 @@ const LoginScreen = ({navigation}) => {
     }
     //setLoading(true);
 
-    userActions.doFetchUserAsync({
-      email: userEmail,
-      password: userPassword,
-      userService,
-    });
-
-    if (!isUserDataLoading && userDataError === null) {
-      console.log(userData);
-      navigation.navigate('Home');
-    }
+    dispatch(
+      userActions.doFetchUserAsync({
+        email: userEmail,
+        password: userPassword,
+        userService,
+      }),
+    );
+    navigation.navigate('Home');
 
     // const response = userService.loginUser({
     //   email: userEmail,

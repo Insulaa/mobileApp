@@ -25,12 +25,19 @@ const HomeScreen = () => {
     error: glucoseFetchError,
   } = useSelector((state: RootState) => state.glucoseStore);
 
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
   const patientId = 2;
 
   useEffect(() => {
     dispatch(
       glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
     );
+    console.log(userData);
   }, []);
 
   const [
