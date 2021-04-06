@@ -25,12 +25,19 @@ const HomeScreen = () => {
     error: glucoseFetchError,
   } = useSelector((state: RootState) => state.glucoseStore);
 
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
   const patientId = 2;
 
   useEffect(() => {
     dispatch(
       glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
     );
+    console.log(userData);
   }, []);
 
   const [
@@ -104,7 +111,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 3]['glucose_reading']
                 }
-                units="mg/dL"
+                units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -121,7 +128,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 2]['glucose_reading']
                 }
-                units="mg/dL"
+                units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -138,7 +145,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 1]['glucose_reading']
                 }
-                units="mg/dL"
+                units={'mmol/L'}
                 time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -168,7 +175,7 @@ const HomeScreen = () => {
         <GlucoseReadingIcon
           isEmpty={false}
           glucoseReading={fourteenDayAverage}
-          units="mg/dL"
+          units="mmol/L"
         />
       </View>
       <View style={styles.buttonsContainer}>

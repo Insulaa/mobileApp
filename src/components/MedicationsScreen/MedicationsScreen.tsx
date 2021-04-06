@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UserMedication} from '../../api/medicationService';
 import ClickableTextButton from '../Buttons/ClickableTextButton';
 
-const patientId = 1;
+const patientId = 2;
 
 const MedicationsScreen = () => {
   const dispatch = useDispatch();

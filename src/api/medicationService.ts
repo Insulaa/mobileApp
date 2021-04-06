@@ -22,7 +22,7 @@ export type UserMedication = {
 
 class MedicationService {
   public async getMasterMedicationList() {
-    const apiUrl = 'http://10.0.2.2:8000/views/medicationMaster/';
+    const apiUrl = 'http://10.0.2.2:8000/views/MedicationMaster/';
 
     try {
       const response = await axios.get<MedicationMasterData[]>(apiUrl);

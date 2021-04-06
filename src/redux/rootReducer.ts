@@ -4,6 +4,7 @@ import {reducer as medicationStore} from './medicationStore';
 import {reducer as userMedicationStore} from './userMedicationStore';
 import {reducer as userProfileStore} from './userProfileStore';
 import {reducer as bloodPressureStore} from './bloodPressureStore';
+import {reducer as userStore} from './userStore';
 
 const rootReducer = combineReducers({
   glucoseStore,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   userMedicationStore,
   userProfileStore,
   bloodPressureStore,
+  userStore,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

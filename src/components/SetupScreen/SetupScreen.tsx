@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useContext} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -12,9 +12,12 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Loader from '../Loader/loader';
-import UserService, {User} from '../../api/userService'
+import ServicesContext from '../../servicesContext';
 
-const SetupScreen = (props) => {
+
+const RegisterScreen = (props) => {
+  const {userProfileService} = useContext(ServicesContext);
+
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -30,7 +33,7 @@ const SetupScreen = (props) => {
   const phoneNumberInputRef = createRef();
   const passwordInputRef = createRef();
 
-  const handleSubmitButton = () => {
+  const handleRegisterButton = () => {
     setErrortext('');
     if (!userFirstName) {
       alert('Please fill first name');
@@ -53,8 +56,7 @@ const SetupScreen = (props) => {
       return;
     }
 
-    let userService = new UserService;
-    const response = userService.registerUser({
+    const response = userProfileService.setUserProfileData({
         first_name: userFirstName,
         last_name: userLastName,
         password: userPassword,
@@ -167,7 +169,7 @@ const SetupScreen = (props) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmitButton}>
+            onPress={handleRegisterButton}>
             <Text style={styles.buttonTextStyle}>REGISTER</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -175,4 +177,4 @@ const SetupScreen = (props) => {
     </View>
   );
 };
-export default SetupScreen;
+export default RegisterScreen;

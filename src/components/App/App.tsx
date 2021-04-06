@@ -5,6 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
+import SetupScreen from '../SetupScreen/SetupScreen';
 import MedicationsScreen from '../MedicationsScreen/MedicationsScreen';
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -19,6 +20,7 @@ import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
 import UserProfileScreen from '../UserProfileScreen/UserProfileScreen';
 import BloodPressureScreen from '../BloodPressureScreen/BloodPressureScreen';
+import BloodPressureInputScreen from '../BloodPressureInputScreen/BloodPressureInputScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -82,6 +84,11 @@ const Auth = () => {
         component={RegisterScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="SetupScreen"
+        component={SetupScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -91,7 +98,7 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Auth">
             <Stack.Screen
               name="Auth"
               component={Auth}
@@ -115,6 +122,11 @@ const App = () => {
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="BloodPressureInput"
+              component={BloodPressureInputScreen}
               options={{header: () => <Header />}}
             />
             <Stack.Screen

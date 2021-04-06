@@ -15,7 +15,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   glucoseReadingsContainer: {
-    flex: 2,
+    flex: 2.5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -24,19 +24,20 @@ export default StyleSheet.create({
   buttonsContainer: {
     flex: 4,
     display: 'flex',
+    justifyContent: 'flex-end',
+    bottom: 60,
     flexDirection: 'column',
   },
   title: {
-    flex: 1,
-    top: 15,
+    flex: 1.5,
+    top: 24,
     alignSelf: 'center',
     fontSize: 32,
     color: 'black',
-    marginBottom: 15,
   },
   body: {
-    flex: 1,
-    fontSize: 22,
+    flex: 0.8,
+    fontSize: 24,
     alignSelf: 'center',
     marginTop: 10,
   },
@@ -44,11 +45,5 @@ export default StyleSheet.create({
     fontSize: 28,
     color: 'white',
     textAlign: 'center',
-  },
-  mainButton: {
-    width: 320,
-    padding: 10,
-    alignSelf: 'center',
-    borderRadius: 10,
   },
 });
