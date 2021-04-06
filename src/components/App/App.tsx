@@ -91,7 +91,7 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator initialRouteName="Auth">
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Auth"
               component={Auth}

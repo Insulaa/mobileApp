@@ -69,6 +69,7 @@ const BloodPressureScreen = () => {
                 units="mg/dL"
                 time={readings[readings.length - 3]['timestamp']}
                 onPress={() => handleAddReadingButtonPress()}
+
               />
             )}
             {readings.length > 1 && (
