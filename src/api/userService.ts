@@ -46,7 +46,7 @@ class UserService {
         const {email, password} = props;
         const apiUrl = 'http://10.0.2.2:8000/auth/login/';
         const body = {
-            username: email,
+            email: email,
             password: password,
         };
         try {
