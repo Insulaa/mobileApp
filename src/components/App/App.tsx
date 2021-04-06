@@ -19,6 +19,7 @@ import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
 import UserProfileScreen from '../UserProfileScreen/UserProfileScreen';
 import BloodPressureScreen from '../BloodPressureScreen/BloodPressureScreen';
+import BloodPressureInputScreen from '../BloodPressureInputScreen/BloodPressureInputScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -115,6 +116,11 @@ const App = () => {
             <Stack.Screen
               name="MedicationDetails"
               component={MedicationDetailsScreen}
+              options={{header: () => <Header />}}
+            />
+            <Stack.Screen
+              name="BloodPressureInput"
+              component={BloodPressureInputScreen}
               options={{header: () => <Header />}}
             />
             <Stack.Screen

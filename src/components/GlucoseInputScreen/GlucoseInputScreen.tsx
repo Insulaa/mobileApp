@@ -24,7 +24,7 @@ const GlucoseInputScreen = () => {
   const patientId = 2;
 
   let [glucoseLevel, setGlucoseLevel] = useState(0);
-  let [glucoseUnit, setGlucoseUnit] = useState('mg');
+  let [glucoseUnit, setGlucoseUnit] = useState('mmol');
   const navigation = useNavigation();
 
   const onSubmitButtonPress = () => {
