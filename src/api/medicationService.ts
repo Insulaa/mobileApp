@@ -18,6 +18,7 @@ export type UserMedication = {
   start: string;
   end: string | null;
   medication_input_id: number;
+  notes: string;
 };
 
 class MedicationService {

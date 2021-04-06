@@ -35,6 +35,10 @@ const unitTypesList: {label: string; value: string}[] = [
     label: 'mg',
     value: 'mg',
   },
+  {
+    label: 'mcg',
+    value: 'mcg',
+  },
 ];
 
 const AddMedicationScreen = () => {
