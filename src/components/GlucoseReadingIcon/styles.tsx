@@ -20,7 +20,6 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#75E4B3',
     width: 80,
     height: 80,
     borderRadius: 40,

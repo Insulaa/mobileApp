@@ -83,9 +83,7 @@ const MedicationDetailsScreen = () => {
                 style={[styles.detailsContainer, {marginLeft: 10, flex: 0.6}]}>
                 <View style={styles.rowContainer}>
                   <Text style={styles.label}>Notes:</Text>
-                  <Text style={styles.text}>
-                    I like this medication. No bad side effects!
-                  </Text>
+                  <Text style={styles.text}>{medication[0].notes}</Text>
                 </View>
               </View>
               <View

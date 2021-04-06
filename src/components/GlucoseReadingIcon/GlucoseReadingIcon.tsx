@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
 import {TouchableOpacity, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Moment from 'react-moment';
+import {actions as userProfileActions} from '../../redux/userProfileStore';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/rootReducer';
+import ServicesContext from '../../servicesContext';
 
 type ReadingIconProps = {
   isEmpty: boolean;
@@ -13,6 +17,49 @@ type ReadingIconProps = {
 };
 
 const GlucoseReadingIcon = (reading: ReadingIconProps) => {
+  const dispatch = useDispatch();
+  const patientId = 2;
+  const {userProfileService} = useContext(ServicesContext);
+
+  const [borderColor, setBorderColor] = useState<string>('');
+
+  const {
+    userInfo,
+    isLoading: userProfileLoading,
+    error: userProfileError,
+  } = useSelector((state: RootState) => state.userProfileStore);
+
+  useEffect(() => {
+    dispatch(
+      userProfileActions.doFetchUserProfileAsync({
+        patientId,
+        userProfileService,
+      }),
+    );
+    {
+      console.log(reading.glucoseReading);
+      calculateColor(reading.glucoseReading);
+    }
+  }, []);
+
+  const calculateColor = (glucoseLevel: number | undefined) => {
+    if (glucoseLevel === undefined) {
+      setBorderColor('blue');
+    } else {
+      if (glucoseLevel > 13.9 || glucoseLevel < 3) {
+        setBorderColor('#C20114');
+      } else if (
+        userInfo.glucose_lower_limit < glucoseLevel &&
+        glucoseLevel < userInfo.glucose_upper_limit
+      ) {
+        setBorderColor('#75E4B3');
+      } else {
+        setBorderColor('#C6F91F');
+      }
+    }
+    console.log(borderColor);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.itemContainer}>
@@ -26,9 +73,9 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
             <Text style={styles.timeText}> </Text>
           </>
         )}
-        {!reading.isEmpty && (
+        {!reading.isEmpty && !userProfileLoading && userProfileError === null && (
           <>
-            <View style={styles.iconContainer}>
+            <View style={[styles.iconContainer, {borderColor: borderColor}]}>
               <TouchableOpacity onPress={reading.onPress}>
                 <Text style={styles.numberText}>{reading.glucoseReading}</Text>
                 <Text style={styles.unitText}>{reading.units}</Text>
