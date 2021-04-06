@@ -34,6 +34,10 @@ class UserProfileService {
       console.log(error);
     }
   }
+
+  public async setUserProfileData() {
+    
+  }
 }
 
 export default UserProfileService;
