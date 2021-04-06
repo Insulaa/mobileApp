@@ -12,13 +12,20 @@ import styles from './styles';
 import RegisterButton from '../Buttons/RegisterButton';
 import AsyncStorage from '@react-native-community/async-storage';
 import ServicesContext from '../../servicesContext';
-
-
+import {actions as userActions} from '../../redux/userStore';
 import Loader from '../Loader/loader';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/rootReducer';
 
 const LoginScreen = ({navigation}) => {
   const {userService} = useContext(ServicesContext);
-  
+
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,21 +45,29 @@ const LoginScreen = ({navigation}) => {
     }
     //setLoading(true);
 
-    const response = userService.loginUser({
+    userActions.doFetchUserAsync({
       email: userEmail,
-      password: userPassword
+      password: userPassword,
+      userService,
     });
 
-    if (response) {
+    if (!isUserDataLoading && userDataError === null) {
+      console.log(userData);
       navigation.navigate('Home');
     }
-    
-    else {
-      console.log('Incorrect email or password.');
-    }
-    console.log(response);
 
-    
+    // const response = userService.loginUser({
+    //   email: userEmail,
+    //   password: userPassword,
+    // });
+
+    // if (response) {
+    //   navigation.navigate('Home');
+    // } else {
+    //   console.log('Incorrect email or password.');
+    // }
+    // console.log(response);
+
     // let dataToSend = {email: userEmail, password: userPassword};
     // let formBody: string[] = [];
     // for (let key in dataToSend) {
@@ -108,17 +123,14 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserEmail) =>
-                  setUserEmail(UserEmail)
-                }
+                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                 placeholder="Enter Email"
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 returnKeyType="next"
                 onSubmitEditing={() =>
-                  passwordInputRef.current &&
-                  passwordInputRef.current.focus()
+                  passwordInputRef.current && passwordInputRef.current.focus()
                 }
                 underlineColorAndroid="#f000"
                 blurOnSubmit={false}
@@ -127,9 +139,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserPassword) =>
-                  setUserPassword(UserPassword)
-                }
+                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                 placeholder="Enter Password"
                 placeholderTextColor="#8b9cb5"
                 keyboardType="default"
@@ -142,9 +152,7 @@ const LoginScreen = ({navigation}) => {
               />
             </View>
             {errortext != '' ? (
-              <Text style={styles.errorTextStyle}>
-                {errortext}
-              </Text>
+              <Text style={styles.errorTextStyle}>{errortext}</Text>
             ) : null}
             <TouchableOpacity
               style={styles.buttonStyle}
