@@ -35,7 +35,7 @@ class BloodPressureService {
     diastolic: number;
   }) {
     const {patientId, systolic, diastolic} = props;
-    const apiUrl = 'http://10.0.2.2:8000/views/glucoseLevels/';
+    const apiUrl = 'http://10.0.2.2:8000/views/BloodPressure/';
     const body = {
       systolic: systolic,
       diastolic: diastolic,

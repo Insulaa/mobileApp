@@ -81,12 +81,12 @@ const doAddBloodPressureReadingAsync = (props: {
   systolic: number;
   diastolic: number;
   patientId: number;
-  glucoseService: BloodPressureService;
+  bloodPressureService: BloodPressureService;
 }): AppThunk => async (dispatch) => {
-  const {patientId, systolic, diastolic, glucoseService} = props;
+  const {patientId, systolic, diastolic, bloodPressureService} = props;
   try {
     dispatch(bloodPressureActionsCreators.doSetBloodPressureActionInProgress());
-    const reading = await glucoseService.addBloodPressureReading({
+    const reading = await bloodPressureService.addBloodPressureReading({
       systolic,
       diastolic,
       patientId,

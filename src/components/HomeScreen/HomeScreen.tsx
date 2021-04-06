@@ -111,7 +111,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 3]['glucose_reading']
                 }
-                units="mg/dL"
+                units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -128,7 +128,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 2]['glucose_reading']
                 }
-                units="mg/dL"
+                units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -145,7 +145,7 @@ const HomeScreen = () => {
                 glucoseReading={
                   glucoseReadings[glucoseReadings.length - 1]['glucose_reading']
                 }
-                units="mg/dL"
+                units={'mmol/L'}
                 time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
@@ -175,7 +175,7 @@ const HomeScreen = () => {
         <GlucoseReadingIcon
           isEmpty={false}
           glucoseReading={fourteenDayAverage}
-          units="mg/dL"
+          units="mmol/L"
         />
       </View>
       <View style={styles.buttonsContainer}>

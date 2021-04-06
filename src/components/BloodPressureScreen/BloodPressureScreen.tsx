@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StatusBar} from 'react-native';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
-import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
+import BloodPressureReadingIcon from '../BloodPressureReadingIcon/BloodPressureReadingIcon';
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {actions as bloodPressureActions} from '../../redux/bloodPressureStore';
@@ -16,30 +16,12 @@ const BloodPressureScreen = () => {
   const navigation = useNavigation();
 
   const {
-    readings: bloodPressureReadings,
+    readings,
     isLoading: isBloodPressureLoading,
     error: bloodPressureError,
   } = useSelector((state: RootState) => state.bloodPressureStore);
 
-  const patientId = 1;
-  const [readings, setReadings] = useState<BloodPressureReading[]>([
-    {
-      id: 1,
-      date: '2020-04-05',
-      systolic: 123,
-      diastolic: 71,
-      timestamp: '20:01:32.521888',
-      patient: 1,
-    },
-    {
-      id: 2,
-      date: '2020-04-06',
-      systolic: 98,
-      diastolic: 63,
-      timestamp: '12:20:32.521888',
-      patient: 1,
-    },
-  ]);
+  const patientId = 2;
 
   useEffect(() => {
     dispatch(
@@ -56,48 +38,39 @@ const BloodPressureScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Blood Pressure Readings</Text>
-      <Text style={styles.body}>Last 3 Readings</Text>
+      <Text style={styles.body}>Recent Readings</Text>
       <View style={styles.glucoseReadingsContainer}>
         {!isBloodPressureLoading && bloodPressureError === null && (
           <>
             {readings.length > 2 && (
-              <GlucoseReadingIcon
+              <BloodPressureReadingIcon
                 isEmpty={false}
-                glucoseReading={
-                  readings[readings.length - 3]['glucose_reading']
-                }
-                units="mg/dL"
-                time={readings[readings.length - 3]['timestamp']}
-                onPress={() => handleAddReadingButtonPress()}
-
+                systolicReading={readings[readings.length - 3]['systolic']}
+                diastolicReading={readings[readings.length - 3]['diastolic']}
+                date={readings[readings.length - 3]['date']}
               />
             )}
             {readings.length > 1 && (
-              <GlucoseReadingIcon
+              <BloodPressureReadingIcon
                 isEmpty={false}
-                glucoseReading={
-                  readings[readings.length - 2]['glucose_reading']
-                }
-                units="mg/dL"
-                time={readings[readings.length - 2]['timestamp']}
+                systolicReading={readings[readings.length - 2]['systolic']}
+                diastolicReading={readings[readings.length - 2]['diastolic']}
+                date={readings[readings.length - 2]['date']}
               />
             )}
             {readings.length > 0 && (
-              <GlucoseReadingIcon
+              <BloodPressureReadingIcon
                 isEmpty={false}
-                glucoseReading={
-                  readings[readings.length - 1]['glucose_reading']
-                }
-                units="mg/dL"
-                time={readings[readings.length - 1]['timestamp']}
+                systolicReading={readings[readings.length - 1]['systolic']}
+                diastolicReading={readings[readings.length - 1]['diastolic']}
+                date={readings[readings.length - 1]['date']}
               />
             )}
           </>
         )}
       </View>
-      <Text style={styles.body}>Add</Text>
       <View style={styles.glucoseReadingsContainer}>
-        <GlucoseReadingIcon
+        <BloodPressureReadingIcon
           isEmpty={true}
           onPress={() => handleAddReadingButtonPress()}
         />

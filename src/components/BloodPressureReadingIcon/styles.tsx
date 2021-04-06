@@ -20,7 +20,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#75E4B3',
+    borderColor: '#21A1FD',
     width: 80,
     height: 80,
     borderRadius: 40,
@@ -31,12 +31,7 @@ export default StyleSheet.create({
     fontSize: 22,
     lineHeight: 26,
   },
-  unitText: {
-    textAlign: 'center',
-    fontSize: 14,
-    lineHeight: 16,
-  },
-  timeText: {
+  dateText: {
     textAlign: 'center',
     fontSize: 18,
     lineHeight: 18,
