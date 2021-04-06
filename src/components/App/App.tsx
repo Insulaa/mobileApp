@@ -18,6 +18,7 @@ import createServices from '../../api/services';
 import AddMedicationScreen from '../AddMedicationScreen/AddMedicationScreen';
 import MedicationDetailsScreen from '../MedicationDetailsScreen/MedicationDetailsScreen';
 import UserProfileScreen from '../UserProfileScreen/UserProfileScreen';
+import BloodPressureScreen from '../BloodPressureScreen/BloodPressureScreen';
 
 const Tab = createMaterialTopTabNavigator();
 const services = createServices();
@@ -42,36 +43,13 @@ function MyTabBar({navigation}) {
       <TouchableOpacity
         style={styles.tab}
         onPress={() => {
-          navigation.navigate('Exercise');
+          navigation.navigate('Blood Pressure');
         }}>
-        <Text>EXERCISE</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.tab}
-        onPress={() => {
-          navigation.navigate('Diet');
-        }}>
-        <Text>DIET</Text>
+        <Text>BLOOD PRESSURE</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const ExerciseScreen = () => {
-  return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Exercise Screen</Text>
-    </View>
-  );
-};
-
-const DietScreen = () => {
-  return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Diet Screen</Text>
-    </View>
-  );
-};
 
 const HomeTabs = () => {
   return (
@@ -84,8 +62,7 @@ const HomeTabs = () => {
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Medications" component={MedicationsScreen} />
-      <Tab.Screen name="Exercise" component={ExerciseScreen} />
-      <Tab.Screen name="Diet" component={DietScreen} />
+      <Tab.Screen name="Blood Pressure" component={BloodPressureScreen} />
     </Tab.Navigator>
   );
 };
@@ -114,7 +91,7 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <ServicesContext.Provider value={services}>
-          <Stack.Navigator initialRouteName="Auth">
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Auth"
               component={Auth}
