@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles';
 import {TextInput} from 'react-native-gesture-handler';
@@ -21,11 +21,20 @@ const GlucoseInputScreen = () => {
     (state: RootState) => state.glucoseStore,
   );
 
+  useEffect(() => {
+    console.log(userData);
+  }, []);
+
   const patientId = 2;
 
   let [glucoseLevel, setGlucoseLevel] = useState(0);
   let [glucoseUnit, setGlucoseUnit] = useState('mmol');
   const navigation = useNavigation();
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
 
   const onSubmitButtonPress = () => {
     if (glucoseEditInfo.isEdit) {
