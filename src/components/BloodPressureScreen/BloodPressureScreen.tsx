@@ -21,7 +21,7 @@ const BloodPressureScreen = () => {
     error: bloodPressureError,
   } = useSelector((state: RootState) => state.bloodPressureStore);
 
-  const patientId = 1;
+  const patientId = 2;
 
   useEffect(() => {
     dispatch(
