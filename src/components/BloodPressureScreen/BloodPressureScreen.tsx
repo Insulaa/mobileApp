@@ -3,95 +3,97 @@ import {View, Text, StatusBar} from 'react-native';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 import GlucoseReadingIcon from '../GlucoseReadingIcon/GlucoseReadingIcon';
-import {GlucoseLevelOnly, AllGlucoseLevelsOnly} from '../../api/interfaces';
 import {RootState} from '../../redux/rootReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  actions as glucoseActions,
-  GlucoseEditInfo,
-} from '../../redux/glucoseStore';
+import {actions as bloodPressureActions} from '../../redux/bloodPressureStore';
 import ServicesContext from '../../servicesContext';
 import {useNavigation} from '@react-navigation/native';
+import {BloodPressureReading} from '../../api/bloodPressureService';
 
 const BloodPressureScreen = () => {
   const dispatch = useDispatch();
-  const {glucoseService} = useContext(ServicesContext);
+  const {bloodPressureService} = useContext(ServicesContext);
   const navigation = useNavigation();
 
   const {
-    readings: glucoseReadings,
-    isLoading: isGlucoseDataLoading,
-    error: glucoseFetchError,
-  } = useSelector((state: RootState) => state.glucoseStore);
+    readings: bloodPressureReadings,
+    isLoading: isBloodPressureLoading,
+    error: bloodPressureError,
+  } = useSelector((state: RootState) => state.bloodPressureStore);
 
   const patientId = 1;
+  const [readings, setReadings] = useState<BloodPressureReading[]>([
+    {
+      id: 1,
+      date: '2020-04-05',
+      systolic: 123,
+      diastolic: 71,
+      timestamp: '20:01:32.521888',
+      patient: 1,
+    },
+    {
+      id: 2,
+      date: '2020-04-06',
+      systolic: 98,
+      diastolic: 63,
+      timestamp: '12:20:32.521888',
+      patient: 1,
+    },
+  ]);
 
   useEffect(() => {
     dispatch(
-      glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
+      bloodPressureActions.doFetchBloodPressureReadingsAsync({
+        patientId,
+        bloodPressureService,
+      }),
     );
   }, []);
 
-  const handleIconButtonPress = (glucoseEditInfo: GlucoseEditInfo) => {
-    dispatch(glucoseActions.doSetGlucoseInputStatusAsync({glucoseEditInfo}));
+  const handleAddReadingButtonPress = () => {
     navigation.navigate('BloodPressureInput');
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Glucose Levels</Text>
-      <Text style={styles.body}>Todays Readings</Text>
+      <Text style={styles.title}>Blood Pressure Readings</Text>
+      <Text style={styles.body}>Last 3 Readings</Text>
       <View style={styles.glucoseReadingsContainer}>
-        {!isGlucoseDataLoading && glucoseFetchError === null && (
+        {!isBloodPressureLoading && bloodPressureError === null && (
           <>
-            {glucoseReadings.length > 2 && (
+            {readings.length > 2 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings[glucoseReadings.length - 3]['glucose_reading']
+                  readings[readings.length - 3]['glucose_reading']
                 }
                 units="mg/dL"
-                time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
+                time={readings[readings.length - 3]['timestamp']}
                 onPress={() =>
                   handleIconButtonPress({
                     isEdit: true,
-                    glucoseReadingId:
-                      glucoseReadings[glucoseReadings.length - 3]['id'],
+                    glucoseReadingId: readings[readings.length - 3]['id'],
                   })
                 }
               />
             )}
-            {glucoseReadings.length > 1 && (
+            {readings.length > 1 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings[glucoseReadings.length - 2]['glucose_reading']
+                  readings[readings.length - 2]['glucose_reading']
                 }
                 units="mg/dL"
-                time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
-                onPress={() =>
-                  handleIconButtonPress({
-                    isEdit: true,
-                    glucoseReadingId:
-                      glucoseReadings[glucoseReadings.length - 2]['id'],
-                  })
-                }
+                time={readings[readings.length - 2]['timestamp']}
               />
             )}
-            {glucoseReadings.length > 0 && (
+            {readings.length > 0 && (
               <GlucoseReadingIcon
                 isEmpty={false}
                 glucoseReading={
-                  glucoseReadings[glucoseReadings.length - 1]['glucose_reading']
+                  readings[readings.length - 1]['glucose_reading']
                 }
                 units="mg/dL"
-                time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
-                onPress={() =>
-                  handleIconButtonPress({
-                    isEdit: true,
-                    glucoseReadingId:
-                      glucoseReadings[glucoseReadings.length - 1]['id'],
-                  })
-                }
+                time={readings[readings.length - 1]['timestamp']}
               />
             )}
           </>
@@ -101,23 +103,13 @@ const BloodPressureScreen = () => {
       <View style={styles.glucoseReadingsContainer}>
         <GlucoseReadingIcon
           isEmpty={true}
-          onPress={() =>
-            handleIconButtonPress({
-              isEdit: false,
-              glucoseReadingId: -1,
-            })
-          }
+          onPress={() => handleAddReadingButtonPress()}
         />
       </View>
       <View style={styles.buttonsContainer}>
         <GlucoseScreenButton
           buttonText="ADD READING"
-          onPress={() =>
-            handleIconButtonPress({
-              isEdit: false,
-              glucoseReadingId: -1,
-            })
-          }
+          onPress={() => handleAddReadingButtonPress()}
         />
         <GlucoseScreenButton buttonText="EXPORT DATA" />
         <StatusBar style="auto" />
