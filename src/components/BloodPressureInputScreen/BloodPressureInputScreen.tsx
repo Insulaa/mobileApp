@@ -57,7 +57,7 @@ const BloodPressureInputScreen = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.numberInput}
-            onChangeText={(val) => setSystolicValue(Number(val))}
+            onChangeText={(val) => setDiastolicValue(Number(val))}
             keyboardType="numeric"
           />
           <View style={styles.unitInputContainer}>
