@@ -31,7 +31,6 @@ const UserProfileScreen = () => {
         userProfileService,
       }),
     );
-    console.log(userInfo);
   }, []);
 
   const [upperGlucoseBound, setUpperGlucoseBound] = useState<number>(0);
