@@ -68,12 +68,7 @@ const BloodPressureScreen = () => {
                 }
                 units="mg/dL"
                 time={readings[readings.length - 3]['timestamp']}
-                onPress={() =>
-                  handleIconButtonPress({
-                    isEdit: true,
-                    glucoseReadingId: readings[readings.length - 3]['id'],
-                  })
-                }
+                onPress={() => handleAddReadingButtonPress()}
               />
             )}
             {readings.length > 1 && (
