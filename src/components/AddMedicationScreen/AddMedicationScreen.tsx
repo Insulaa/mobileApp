@@ -54,7 +54,7 @@ const AddMedicationScreen = () => {
   const [showStartDate, setShowStartDate] = useState<boolean>(false);
   const [showEndDate, setShowEndDate] = useState<boolean>(false);
 
-  const patientId = 1;
+  const patientId = 2;
 
   const {
     medications: medicationList,

@@ -22,7 +22,7 @@ const UserProfileScreen = () => {
     error: userProfileError,
   } = useSelector((state: RootState) => state.userProfileStore);
 
-  const patientId = 1;
+  const patientId = 2;
 
   useEffect(() => {
     dispatch(
