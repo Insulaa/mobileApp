@@ -16,7 +16,7 @@ class BloodPressureService {
     const apiUrl = qs.stringifyUrl({
       url: 'http://10.0.2.2:8000/views/BloodPressure/',
       query: {
-        patient: patientId,
+        patient_id: patientId,
       },
     });
     try {
