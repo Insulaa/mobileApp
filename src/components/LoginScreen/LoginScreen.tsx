@@ -47,7 +47,7 @@ const LoginScreen = ({navigation}) => {
         userService,
       }),
     );
-    navigation.navigate('Home');
+    navigation.navigate('SetupScreen');
 
     // const response = userService.loginUser({
     //   email: userEmail,

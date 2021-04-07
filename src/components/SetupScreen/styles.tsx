@@ -27,6 +27,13 @@ export default StyleSheet.create({
       paddingVertical: 10,
       fontSize: 16,
     },
+    header: {
+      color: '#FFFFFF',
+      textAlign: 'left',
+      flex: 0.8,
+      fontSize: 14,
+      marginTop: 10,
+    },
     inputStyle: {
       flex: 1,
       color: 'white',
@@ -46,5 +53,18 @@ export default StyleSheet.create({
       textAlign: 'center',
       fontSize: 18,
       padding: 30,
+    },
+    unitInput: {
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+      borderBottomWidth: 1,
+      borderBottomColor: '#777',
+    },
+    unitInputContainer: {
+      width: 120,
+      height: 60,
+      alignSelf: 'flex-end',
+      padding: 10,
     },
   });

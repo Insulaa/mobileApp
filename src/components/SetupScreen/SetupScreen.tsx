@@ -13,56 +13,42 @@ import {
 import styles from './styles';
 import Loader from '../Loader/loader';
 import ServicesContext from '../../servicesContext';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 
 const RegisterScreen = (props) => {
   const {userProfileService} = useContext(ServicesContext);
 
-  const [userFirstName, setUserFirstName] = useState('');
-  const [userLastName, setUserLastName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const patient_id = 2;
+  const [date_of_birth, setDateOfBirth] = useState('');
+  const [sex, setSex] = useState('male');
+  const [height1, setHeight1] = useState('');
+  const [height1_unit, setHeight1Unit] = useState('feet');
+  const [height2, setHeight2] = useState('');
+  const [height2_unit, setHeight2Unit] = useState('inches');
+  const [weight, setWeight] = useState('');
+  const [weight_unit, setWeightUnit] = useState('lbs');
+  const [glucose_lower_limit, setGlucoseLowerLimit] = useState('');
+  const [glucose_upper_limit, setGlucoseUpperLimit] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-  const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
-  const firstNameInputRef = createRef();
-  const lastNameInputRef = createRef();
-  const emailInputRef = createRef();
-  const phoneNumberInputRef = createRef();
-  const passwordInputRef = createRef();
-
-  const handleRegisterButton = () => {
-    setErrortext('');
-    if (!userFirstName) {
-      alert('Please fill first name');
-      return;
-    }
-    if (!userLastName) {
-      alert('Please fill last name');
-      return;
-    }
-    if (!phoneNumber) {
-      alert('Please fill phone number');
-      return;
-    }
-    if (!userEmail) {
-      alert('Please fill email');
-      return;
-    }
-    if (!userPassword) {
-      alert('Please fill Password');
-      return;
-    }
-
+  const handleSubmitButton = () => {
     const response = userProfileService.setUserProfileData({
-        first_name: userFirstName,
-        last_name: userLastName,
-        password: userPassword,
-        email: userEmail, 
-        phone_number: phoneNumber,
+        patient_id: patient_id,
+        date_of_birth: date_of_birth,
+        sex: sex,
+        height1: height1,
+        height1_unit: height1_unit,
+        height2: height2,
+        height2_unit: height2_unit,
+        weight: weight,
+        weight_unit: weight_unit,
+        glucose_lower_limit: glucose_lower_limit,
+        glucose_upper_limit: glucose_upper_limit,
     });
+    props.navigation.navigate('Home');
 };
 
   return (
@@ -77,87 +63,109 @@ const RegisterScreen = (props) => {
         <View style={{alignItems: 'center'}}>
         </View>
         <KeyboardAvoidingView enabled>
+          <Text style={styles.header}>Select your sex</Text>
+          <View style={styles.SectionStyle}>
+              <DropDownPicker
+                items={[
+                    {
+                        label: 'Male',
+                        value: 'male',
+                    },
+                    {
+                        label: 'Female',
+                        value: 'male',
+                    },  
+                ]}
+                defaultValue={sex}
+                style={styles.unitInput}
+                labelStyle={{
+                  fontSize: 16,
+                  textAlign: 'left',
+                  color: '#000',
+                }}
+                activeLabelStyle={{fontWeight: 'bold'}}
+                containerStyle={styles.unitInputContainer}
+                itemStyle={{
+                  justifyContent: 'flex-start',
+                }}
+                dropDownStyle={{backgroundColor: '#fafafa'}}
+                onChangeItem={(item) => setSex(item.value)}
+              />
+          </View>
+          <Text style={styles.header}>Date of birth</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserFirstName) => setUserFirstName(UserFirstName)}
+              onChangeText={(dateOfBirth) => setDateOfBirth(dateOfBirth)}
               underlineColorAndroid="#f000"
-              placeholder="Enter First Name"
+              placeholder="Date of Birth"
               placeholderTextColor="#8b9cb5"
-              ref={firstNameInputRef}
-              autoCapitalize="sentences"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                firstNameInputRef.current && 
-                firstNameInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Height (feet)</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserLastName) => setUserLastName(UserLastName)}
+              onChangeText={(height1) => setHeight1(height1)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Last Name"
-              placeholderTextColor="#8b9cb5"
-              ref={lastNameInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                lastNameInputRef.current &&
-                lastNameInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Password"
-              placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
-              returnKeyType="next"
-              secureTextEntry={true}
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(PhoneNumber) => setPhoneNumber(PhoneNumber)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Phone Number"
+              placeholder="Feet"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
-              ref={phoneNumberInputRef}
               returnKeyType="next"
-              onSubmitEditing={() =>
-                phoneNumberInputRef.current &&
-                phoneNumberInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Height (inches)</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
+              onChangeText={(height2) => setHeight2(height2)}
               underlineColorAndroid="#f000"
-              placeholder="Enter Email"
+              placeholder="Inches"
               placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              ref={emailInputRef}
+              keyboardType="numeric"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
+              blurOnSubmit={false}
+            />
+          </View>
+          <Text style={styles.header}>Weight (lbs)</Text>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(weight) => setWeight(weight)}
+              underlineColorAndroid="#f000"
+              placeholder="Weight (lbs)"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="numeric"
+              returnKeyType="next"
+              blurOnSubmit={false}
+            />
+          </View>
+          <Text style={styles.header}>Glucose lower limit</Text>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(lowerLimit) => setGlucoseLowerLimit(lowerLimit)}
+              underlineColorAndroid="#f000"
+              placeholder="Glucose Lower Limit"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="numeric"
+              returnKeyType="next"
+              blurOnSubmit={false}
+            />
+          </View>
+          <Text style={styles.header}>Glucose upper limit</Text>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(upperLimit) => setGlucoseUpperLimit(upperLimit)}
+              underlineColorAndroid="#f000"
+              placeholder="Glucose Upper Limit"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="numeric"
+              returnKeyType="next"
               blurOnSubmit={false}
             />
           </View>
@@ -169,8 +177,8 @@ const RegisterScreen = (props) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleRegisterButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            onPress={handleSubmitButton}>
+            <Text style={styles.buttonTextStyle}>Confirm</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
