@@ -26,12 +26,7 @@ const SetupScreen = (props) => {
     isLoading: isUserDataLoading,
     error: userDataError,
   } = useSelector((state: RootState) => state.userStore);
-  // console.log("USER")
-  // console.log(userData)
-  // if (userData.user.completed_setup) {
-  //   console.log("HOME")
-  //   props.navigation.navigate('Home')
-  // }
+
   const patient_id = userData.user.patient_id;
   const [date_of_birth, setDateOfBirth] = useState('');
   const [sex, setSex] = useState('male');
@@ -112,7 +107,7 @@ const SetupScreen = (props) => {
                 onChangeItem={(item) => setSex(item.value)}
               />
           </View>
-          <Text style={styles.header}>Date of birth</Text>
+          <Text style={styles.header}>Date of birth (yyyy/mm/dd)</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}

@@ -16,6 +16,7 @@ import {actions as userActions} from '../../redux/userStore';
 import Loader from '../Loader/loader';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/rootReducer';
+import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 
 const LoginScreen = ({navigation}) => {
   const {userService} = useContext(ServicesContext);
@@ -25,8 +26,6 @@ const LoginScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-
-  const passwordInputRef = createRef();
 
   async function handleLoginPress() {
     setErrortext('');
@@ -64,57 +63,51 @@ const LoginScreen = ({navigation}) => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
         }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <Text style={styles.header}>Email</Text>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Enter Email"
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current && passwordInputRef.current.focus()
-                }
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-              />
-            </View>
-            <Text style={styles.header}>Password</Text>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                placeholder="Enter Password"
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                ref={passwordInputRef}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}>{errortext}</Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleLoginPress}>
-              <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
-            <RegisterButton />
-          </KeyboardAvoidingView>
-        </View>
+        <KeyboardAvoidingView enabled>
+          <Text style={styles.header}>Email</Text>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
+              placeholder="Enter Email"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              returnKeyType="next"
+              underlineColorAndroid="#f000"
+              blurOnSubmit={false}
+            />
+          </View>
+          <Text style={styles.header}>Password</Text>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
+              placeholder="Enter Password"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="default"
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+              secureTextEntry={true}
+              underlineColorAndroid="#f000"
+              returnKeyType="next"
+            />
+          </View>
+          {errortext != '' ? (
+            <Text style={styles.errorTextStyle}>{errortext}</Text>
+          ) : null}
+          <GlucoseScreenButton
+            buttonText="Login"
+            onPress={() => handleLoginPress()}
+          />
+          <GlucoseScreenButton
+            buttonText="Create New User"
+            onPress={() => navigation.navigate('RegisterScreen')}
+          />
+        </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );
