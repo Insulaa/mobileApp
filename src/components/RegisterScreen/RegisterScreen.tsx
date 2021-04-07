@@ -13,6 +13,7 @@ import {
 import styles from './styles';
 import Loader from '../Loader/loader';
 import ServicesContext from '../../servicesContext';
+import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
 
 
 const RegisterScreen = (props) => {
@@ -25,13 +26,6 @@ const RegisterScreen = (props) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-  const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
-
-  const firstNameInputRef = createRef();
-  const lastNameInputRef = createRef();
-  const emailInputRef = createRef();
-  const phoneNumberInputRef = createRef();
-  const passwordInputRef = createRef();
 
   const handleRegisterButton = () => {
     setErrortext('');
@@ -63,6 +57,14 @@ const RegisterScreen = (props) => {
         email: userEmail, 
         phone_number: phoneNumber,
     });
+
+    if (response) {
+      alert('Account successfully created!')
+      props.navigation.navigate('LoginScreen')
+    }
+    else {
+      alert('Registration failed.  Please try again.')
+    }
 };
 
   return (
@@ -77,6 +79,7 @@ const RegisterScreen = (props) => {
         <View style={{alignItems: 'center'}}>
         </View>
         <KeyboardAvoidingView enabled>
+          <Text style={styles.header}>First Name</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -84,16 +87,12 @@ const RegisterScreen = (props) => {
               underlineColorAndroid="#f000"
               placeholder="Enter First Name"
               placeholderTextColor="#8b9cb5"
-              ref={firstNameInputRef}
               autoCapitalize="sentences"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                firstNameInputRef.current && 
-                firstNameInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Last Name</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -101,15 +100,11 @@ const RegisterScreen = (props) => {
               underlineColorAndroid="#f000"
               placeholder="Enter Last Name"
               placeholderTextColor="#8b9cb5"
-              ref={lastNameInputRef}
               returnKeyType="next"
-              onSubmitEditing={() =>
-                lastNameInputRef.current &&
-                lastNameInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Password</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -117,16 +112,12 @@ const RegisterScreen = (props) => {
               underlineColorAndroid="#f000"
               placeholder="Enter Password"
               placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
               returnKeyType="next"
               secureTextEntry={true}
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Phone Number</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -135,15 +126,11 @@ const RegisterScreen = (props) => {
               placeholder="Enter Phone Number"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
-              ref={phoneNumberInputRef}
               returnKeyType="next"
-              onSubmitEditing={() =>
-                phoneNumberInputRef.current &&
-                phoneNumberInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
+          <Text style={styles.header}>Email</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -152,12 +139,7 @@ const RegisterScreen = (props) => {
               placeholder="Enter Email"
               placeholderTextColor="#8b9cb5"
               keyboardType="email-address"
-              ref={emailInputRef}
               returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
               blurOnSubmit={false}
             />
           </View>
@@ -166,12 +148,10 @@ const RegisterScreen = (props) => {
               {errortext}
             </Text>
           ) : null}
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleRegisterButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
-          </TouchableOpacity>
+          <GlucoseScreenButton
+            buttonText="Create User"
+            onPress={() => handleRegisterButton()}
+          />
         </KeyboardAvoidingView>
       </ScrollView>
     </View>

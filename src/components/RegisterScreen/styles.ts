@@ -27,6 +27,14 @@ export default StyleSheet.create({
       paddingVertical: 10,
       fontSize: 16,
     },
+    header: {
+      color: '#FFFFFF',
+      textAlign: 'left',
+      flex: 0.8,
+      fontSize: 14,
+      marginTop: 10,
+      marginLeft: 45,
+    },
     inputStyle: {
       flex: 1,
       color: 'white',
