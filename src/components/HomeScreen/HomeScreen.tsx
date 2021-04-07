@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, PermissionsAndroid, Alert} from 'react-native';
 import axios, {AxiosResponse} from 'axios';
 import styles from './styles';
 import GlucoseScreenButton from '../Buttons/GlucoseScreenButton';
@@ -13,6 +13,7 @@ import {
 } from '../../redux/glucoseStore';
 import ServicesContext from '../../servicesContext';
 import {useNavigation} from '@react-navigation/native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -76,6 +77,46 @@ const HomeScreen = () => {
       });
   };
 
+  const getPDF = () => {
+    const {dirs} = RNFetchBlob.fs;
+    const apiUrl = `http://10.0.2.2:8000/views/FetchReport/download?patient_id=${patientId}`;
+    RNFetchBlob.config({
+      fileCache: true,
+      addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        mediaScannable: true,
+        title: `patientReportSummary.pdf`,
+        path: `${dirs.DownloadDir}/test.pdf`,
+      },
+    })
+      .fetch('GET', apiUrl, {})
+      .then((res) => {
+        console.log('The file saved to ', res.path());
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const exportPatientSummary = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        getPDF();
+      } else {
+        Alert.alert(
+          'Permission Denied!',
+          'You need to give storage permission to download the file',
+        );
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   const calculateFourteenDayAverage = ({
     glucoseLevels,
   }: {
@@ -110,15 +151,14 @@ const HomeScreen = () => {
       if (glucoseLevel > 13.9 || glucoseLevel < 3) {
         borderColor = '#C20114';
       } else if (
-        userInfo.glucose_lower_limit < glucoseLevel &&
-        glucoseLevel < userInfo.glucose_upper_limit
+        userInfo.glucose_lower_limit <= glucoseLevel &&
+        glucoseLevel <= userInfo.glucose_upper_limit
       ) {
         borderColor = '#75E4B3';
       } else {
         borderColor = '#C6F91F';
       }
     }
-    console.log(borderColor);
     return borderColor;
   };
 
@@ -228,7 +268,10 @@ const HomeScreen = () => {
             })
           }
         />
-        <GlucoseScreenButton buttonText="EXPORT DATA" />
+        <GlucoseScreenButton
+          buttonText="EXPORT DATA"
+          onPress={exportPatientSummary}
+        />
         <StatusBar style="auto" />
       </View>
     </View>
