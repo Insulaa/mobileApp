@@ -32,13 +32,11 @@ const HomeScreen = () => {
   } = useSelector((state: RootState) => state.userStore);
 
   const patientId = userData.user.patient_id;
-  console.log(patientId)
 
   useEffect(() => {
     dispatch(
       glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
     );
-    console.log(userData);
   }, []);
 
   const [
@@ -52,12 +50,9 @@ const HomeScreen = () => {
   const [fourteenDayAverage, setFourteenDayAverage] = useState<number>(0);
 
   const getFourteenDayReadings = () => {
-    const apiUrl = `http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=${patientId}`
-    console.log(apiUrl)
+    const apiUrl = `http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=${patientId}`;
     axios
-      .get<GlucoseLevelOnly[]>(
-        apiUrl,
-      )
+      .get<GlucoseLevelOnly[]>(apiUrl)
       .then((response: AxiosResponse) => {
         setFourteenDayReadings({
           glucoseLevels: response.data,

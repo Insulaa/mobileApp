@@ -18,9 +18,7 @@ type ReadingIconProps = {
 
 const GlucoseReadingIcon = (reading: ReadingIconProps) => {
   const dispatch = useDispatch();
-  const patientId = 2;
   const {userProfileService} = useContext(ServicesContext);
-
   const [borderColor, setBorderColor] = useState<string>('');
 
   const {
@@ -28,6 +26,14 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
     isLoading: userProfileLoading,
     error: userProfileError,
   } = useSelector((state: RootState) => state.userProfileStore);
+
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
+  const patientId = userData.user.patient_id;
 
   useEffect(() => {
     dispatch(
@@ -37,7 +43,6 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
       }),
     );
     {
-      console.log(reading.glucoseReading);
       calculateColor(reading.glucoseReading);
     }
   }, []);
@@ -57,7 +62,6 @@ const GlucoseReadingIcon = (reading: ReadingIconProps) => {
         setBorderColor('#C6F91F');
       }
     }
-    console.log(borderColor);
   };
 
   return (

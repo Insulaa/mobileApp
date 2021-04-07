@@ -21,8 +21,13 @@ const BloodPressureScreen = () => {
     error: bloodPressureError,
   } = useSelector((state: RootState) => state.bloodPressureStore);
 
-  const patientId = 2;
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
 
+  const patientId = userData.user.patient_id;
   useEffect(() => {
     dispatch(
       bloodPressureActions.doFetchBloodPressureReadingsAsync({
