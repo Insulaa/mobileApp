@@ -21,20 +21,18 @@ const GlucoseInputScreen = () => {
     (state: RootState) => state.glucoseStore,
   );
 
-  useEffect(() => {
-    console.log(userData);
-  }, []);
-
-  const patientId = 2;
-
-  let [glucoseLevel, setGlucoseLevel] = useState(0);
-  let [glucoseUnit, setGlucoseUnit] = useState('mmol');
-  const navigation = useNavigation();
   const {
     userData,
     isLoading: isUserDataLoading,
     error: userDataError,
   } = useSelector((state: RootState) => state.userStore);
+
+  const patientId = userData.user.patient_id;
+
+  let [glucoseLevel, setGlucoseLevel] = useState(0);
+  let [glucoseUnit, setGlucoseUnit] = useState('mmol');
+
+  const navigation = useNavigation();
 
   const onSubmitButtonPress = () => {
     if (glucoseEditInfo.isEdit) {

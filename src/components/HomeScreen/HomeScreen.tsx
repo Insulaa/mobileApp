@@ -30,13 +30,19 @@ const HomeScreen = () => {
     isLoading: isUserDataLoading,
     error: userDataError,
   } = useSelector((state: RootState) => state.userStore);
+
+  const {
+    userInfo,
+    isLoading: userProfileLoading,
+    error: userProfileError,
+  } = useSelector((state: RootState) => state.userProfileStore);
+
   const patientId = userData.user.patient_id;
 
   useEffect(() => {
     dispatch(
       glucoseActions.doFetchGlucoseReadingsAsync({patientId, glucoseService}),
     );
-    console.log(userData);
   }, []);
 
   const [
@@ -50,12 +56,9 @@ const HomeScreen = () => {
   const [fourteenDayAverage, setFourteenDayAverage] = useState<number>(0);
 
   const getFourteenDayReadings = () => {
-    const apiUrl = `http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=${patientId}`
-    console.log(apiUrl)
+    const apiUrl = `http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=${patientId}`;
     axios
-      .get<GlucoseLevelOnly[]>(
-        apiUrl,
-      )
+      .get<GlucoseLevelOnly[]>(apiUrl)
       .then((response: AxiosResponse) => {
         setFourteenDayReadings({
           glucoseLevels: response.data,
@@ -99,6 +102,26 @@ const HomeScreen = () => {
     navigation.navigate('GlucoseInput');
   };
 
+  const calculateColor = (glucoseLevel: number) => {
+    var borderColor = '';
+    if (glucoseLevel === undefined) {
+      borderColor = 'blue';
+    } else {
+      if (glucoseLevel > 13.9 || glucoseLevel < 3) {
+        borderColor = '#C20114';
+      } else if (
+        userInfo.glucose_lower_limit < glucoseLevel &&
+        glucoseLevel < userInfo.glucose_upper_limit
+      ) {
+        borderColor = '#75E4B3';
+      } else {
+        borderColor = '#C6F91F';
+      }
+    }
+    console.log(borderColor);
+    return borderColor;
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Glucose Levels</Text>
@@ -114,6 +137,11 @@ const HomeScreen = () => {
                 }
                 units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 3]['timestamp']}
+                borderColor={calculateColor(
+                  glucoseReadings[glucoseReadings.length - 3][
+                    'glucose_reading'
+                  ],
+                )}
                 onPress={() =>
                   handleIconButtonPress({
                     isEdit: true,
@@ -131,6 +159,11 @@ const HomeScreen = () => {
                 }
                 units="mmol/L"
                 time={glucoseReadings[glucoseReadings.length - 2]['timestamp']}
+                borderColor={calculateColor(
+                  glucoseReadings[glucoseReadings.length - 2][
+                    'glucose_reading'
+                  ],
+                )}
                 onPress={() =>
                   handleIconButtonPress({
                     isEdit: true,
@@ -148,6 +181,11 @@ const HomeScreen = () => {
                 }
                 units={'mmol/L'}
                 time={glucoseReadings[glucoseReadings.length - 1]['timestamp']}
+                borderColor={calculateColor(
+                  glucoseReadings[glucoseReadings.length - 1][
+                    'glucose_reading'
+                  ],
+                )}
                 onPress={() =>
                   handleIconButtonPress({
                     isEdit: true,
@@ -176,6 +214,7 @@ const HomeScreen = () => {
         <GlucoseReadingIcon
           isEmpty={false}
           glucoseReading={fourteenDayAverage}
+          borderColor={calculateColor(fourteenDayAverage)}
           units="mmol/L"
         />
       </View>

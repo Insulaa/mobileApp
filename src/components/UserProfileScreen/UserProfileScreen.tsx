@@ -22,7 +22,13 @@ const UserProfileScreen = () => {
     error: userProfileError,
   } = useSelector((state: RootState) => state.userProfileStore);
 
-  const patientId = 2;
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
+  const patientId = userData.user.patient_id;
 
   useEffect(() => {
     dispatch(

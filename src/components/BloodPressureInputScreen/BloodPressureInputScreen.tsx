@@ -17,8 +17,13 @@ const BloodPressureInputScreen = () => {
   const dispatch = useDispatch();
   const {bloodPressureService} = useContext(ServicesContext);
 
-  const patientId = 2;
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
 
+  const patientId = userData.user.patient_id;
   let [systolicValue, setSystolicValue] = useState<number>(0);
   let [diastolicValue, setDiastolicValue] = useState<number>(0);
 

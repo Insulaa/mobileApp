@@ -10,8 +10,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UserMedication} from '../../api/medicationService';
 import ClickableTextButton from '../Buttons/ClickableTextButton';
 
-const patientId = 2;
-
 const MedicationsScreen = () => {
   const dispatch = useDispatch();
   const {medicationService} = useContext(ServicesContext);
@@ -23,6 +21,14 @@ const MedicationsScreen = () => {
     isLoading: isUserMedicationsLoading,
     error: userMedicationError,
   } = useSelector((state: RootState) => state.userMedicationStore);
+
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+
+  const patientId = userData.user.patient_id;
 
   const onAddMedicationButtonClick = () => {
     navigation.navigate('AddMedication');
