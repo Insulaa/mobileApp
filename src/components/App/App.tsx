@@ -5,6 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
+import SetupScreen from '../SetupScreen/SetupScreen';
 import MedicationsScreen from '../MedicationsScreen/MedicationsScreen';
 import Header from '../Header/Header';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -81,6 +82,11 @@ const Auth = () => {
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SetupScreen"
+        component={SetupScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

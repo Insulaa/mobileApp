@@ -34,6 +34,44 @@ class UserProfileService {
       console.log(error);
     }
   }
+
+  public async setUserProfileData(props: {
+    patient_id: number;
+    date_of_birth: string;
+    sex: string;
+    height1: string;
+    height1_unit: string;
+    height2: string;
+    height2_unit: string;
+    weight: string;
+    weight_unit: string;
+    glucose_lower_limit: string;
+    glucose_upper_limit: string;
+  }) {
+    const {patient_id, date_of_birth, sex, height1, height1_unit, height2, height2_unit, weight, weight_unit, glucose_lower_limit, glucose_upper_limit} = props;
+    const apiUrl = 'http://10.0.2.2:8000/views/setup/';
+    const body = {
+      patient: patient_id,
+      dateOfBirth: date_of_birth,
+      sex: sex,
+      height1: height1,
+      height1_unit: height1_unit,
+      height2: height2,
+      height2_unit: height2_unit,
+      weight: weight,
+      weight_unit: weight_unit,
+      glucose_lower_limit: glucose_lower_limit,
+      glucose_upper_limit: glucose_upper_limit
+    };
+    try {
+      const response = await axios.post(apiUrl, body);
+      if (response.status === 201) {
+        return response.data
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export default UserProfileService;
