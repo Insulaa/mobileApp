@@ -13,6 +13,7 @@ export type UserInfo = {
   date_joined: string;
   groups: [];
   user_permissions: [];
+  completed_setup: boolean;
 };
 
 export type User = {
@@ -62,6 +63,22 @@ class UserService {
     } catch (error) {
       console.log(error);
       return null;
+    }
+  }
+
+  public async setCompletedSetupTrue(props: {patient_id: number}) {
+    const {patient_id} = props;
+    const apiUrl = `http://10.0.2.2:8000/views/patients/${patient_id}/`;
+    const body = {
+      completed_setup: true
+    };
+    try {
+      const response = await axios.patch(apiUrl, body);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }

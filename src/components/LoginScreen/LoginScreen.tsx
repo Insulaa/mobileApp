@@ -46,7 +46,12 @@ const LoginScreen = ({navigation}) => {
       });
       if (login) {
         dispatch(userActions.doSetUser(login));
-        navigation.navigate('SetupScreen');
+        if (login.user.completed_setup){
+          navigation.navigate('Home')
+        }
+        else {
+          navigation.navigate('SetupScreen');
+        }
       }
       else {
         alert('Incorrect email or password.');
@@ -65,7 +70,7 @@ const LoginScreen = ({navigation}) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
-            <Text style={styles.header}>Select your sex</Text>
+            <Text style={styles.header}>Email</Text>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}

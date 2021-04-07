@@ -118,7 +118,6 @@ const HomeScreen = () => {
         borderColor = '#C6F91F';
       }
     }
-    console.log(borderColor);
     return borderColor;
   };
 
