@@ -14,13 +14,19 @@ import styles from './styles';
 import Loader from '../Loader/loader';
 import ServicesContext from '../../servicesContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/rootReducer';
 
 
-
-const RegisterScreen = (props) => {
+const SetupScreen = (props) => {
   const {userProfileService} = useContext(ServicesContext);
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
 
-  const patient_id = 2;
+  const patient_id = userData.user.patient_id;
   const [date_of_birth, setDateOfBirth] = useState('');
   const [sex, setSex] = useState('male');
   const [height1, setHeight1] = useState('');
@@ -185,4 +191,4 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default SetupScreen;

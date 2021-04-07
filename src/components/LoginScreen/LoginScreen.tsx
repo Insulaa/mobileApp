@@ -46,12 +46,15 @@ const LoginScreen = ({navigation}) => {
       });
       if (login) {
         dispatch(userActions.doSetUser(login));
-        navigation.navigate('Home');
+        navigation.navigate('SetupScreen');
+      }
+      else {
+        alert('Incorrect email or password.');
       }
   };
 
   return (
-    <View style={styles.mainBody}>
+    <View style={{flex: 1, backgroundColor: '#307ecc'}}>
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -62,6 +65,7 @@ const LoginScreen = ({navigation}) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
+            <Text style={styles.header}>Select your sex</Text>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -78,6 +82,7 @@ const LoginScreen = ({navigation}) => {
                 blurOnSubmit={false}
               />
             </View>
+            <Text style={styles.header}>Password</Text>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}

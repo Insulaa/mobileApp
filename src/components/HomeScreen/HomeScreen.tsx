@@ -30,9 +30,7 @@ const HomeScreen = () => {
     isLoading: isUserDataLoading,
     error: userDataError,
   } = useSelector((state: RootState) => state.userStore);
-
   const patientId = userData.user.patient_id;
-  console.log(patientId)
 
   useEffect(() => {
     dispatch(
