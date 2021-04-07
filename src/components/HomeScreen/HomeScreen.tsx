@@ -87,7 +87,7 @@ const HomeScreen = () => {
         notification: true,
         mediaScannable: true,
         title: `patientReportSummary.pdf`,
-        path: `${dirs.DownloadDir}/test.pdf`,
+        path: `${dirs.DownloadDir}/patientReportSummary.pdf`,
       },
     })
       .fetch('GET', apiUrl, {})
