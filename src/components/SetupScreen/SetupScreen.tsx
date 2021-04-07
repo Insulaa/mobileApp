@@ -14,13 +14,25 @@ import styles from './styles';
 import Loader from '../Loader/loader';
 import ServicesContext from '../../servicesContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/rootReducer';
 
 
-
-const RegisterScreen = (props) => {
+const SetupScreen = (props) => {
   const {userProfileService} = useContext(ServicesContext);
-
-  const patient_id = 2;
+  const {userService} = useContext(ServicesContext);
+  const {
+    userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useSelector((state: RootState) => state.userStore);
+  // console.log("USER")
+  // console.log(userData)
+  // if (userData.user.completed_setup) {
+  //   console.log("HOME")
+  //   props.navigation.navigate('Home')
+  // }
+  const patient_id = userData.user.patient_id;
   const [date_of_birth, setDateOfBirth] = useState('');
   const [sex, setSex] = useState('male');
   const [height1, setHeight1] = useState('');
@@ -48,7 +60,15 @@ const RegisterScreen = (props) => {
         glucose_lower_limit: glucose_lower_limit,
         glucose_upper_limit: glucose_upper_limit,
     });
-    props.navigation.navigate('Home');
+
+    if (response) {
+      userService.setCompletedSetupTrue({patient_id})
+      props.navigation.navigate('Home');
+    }
+
+    else {
+      alert('User profile setup failed.  Try again.');
+    }
 };
 
   return (
@@ -185,4 +205,4 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default SetupScreen;

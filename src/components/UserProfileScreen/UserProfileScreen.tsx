@@ -22,6 +22,9 @@ const UserProfileScreen = () => {
     error: userProfileError,
   } = useSelector((state: RootState) => state.userProfileStore);
 
+  console.log("USER INFO")
+  console.log(userInfo)
+
   const {
     userData,
     isLoading: isUserDataLoading,
@@ -76,15 +79,11 @@ const UserProfileScreen = () => {
   const sexOptionsList: {label: string; value: string}[] = [
     {
       label: 'Male',
-      value: 'Male',
+      value: 'male',
     },
     {
       label: 'Female',
-      value: 'Female',
-    },
-    {
-      label: 'Other',
-      value: 'Other',
+      value: 'female',
     },
   ];
 
