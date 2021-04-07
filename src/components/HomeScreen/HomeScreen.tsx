@@ -31,7 +31,8 @@ const HomeScreen = () => {
     error: userDataError,
   } = useSelector((state: RootState) => state.userStore);
 
-  const patientId = 2;
+  const patientId = userData.user.patient_id;
+  console.log(patientId)
 
   useEffect(() => {
     dispatch(
@@ -51,9 +52,11 @@ const HomeScreen = () => {
   const [fourteenDayAverage, setFourteenDayAverage] = useState<number>(0);
 
   const getFourteenDayReadings = () => {
+    const apiUrl = `http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=${patientId}`
+    console.log(apiUrl)
     axios
       .get<GlucoseLevelOnly[]>(
-        'http://10.0.2.2:8000/views/FourteenDayAvg/?patient_id=2',
+        apiUrl,
       )
       .then((response: AxiosResponse) => {
         setFourteenDayReadings({

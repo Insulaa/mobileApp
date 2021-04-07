@@ -24,6 +24,7 @@ export default StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 5,
+    borderColor: '#21A1FD',
   },
   numberText: {
     textAlign: 'center',
