@@ -25,7 +25,7 @@ export default StyleSheet.create({
     flex: 4,
     display: 'flex',
     justifyContent: 'flex-end',
-    bottom: 60,
+    bottom: 40,
     flexDirection: 'column',
   },
   title: {
