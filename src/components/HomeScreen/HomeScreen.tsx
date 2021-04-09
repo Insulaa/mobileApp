@@ -145,7 +145,10 @@ const HomeScreen = () => {
 
   const calculateColor = (glucoseLevel: number) => {
     var borderColor = '';
-    if (glucoseLevel === undefined) {
+    if (
+      glucoseLevel === undefined ||
+      fourteenDayReadings.glucoseLevels.length === 0
+    ) {
       borderColor = 'blue';
     } else {
       if (glucoseLevel > 13.9 || glucoseLevel < 3) {
@@ -250,14 +253,21 @@ const HomeScreen = () => {
         )}
       </View>
       <Text style={styles.body}>14 Day Average</Text>
-      <View style={styles.glucoseReadingsContainer}>
-        <GlucoseReadingIcon
-          isEmpty={false}
-          glucoseReading={fourteenDayAverage}
-          borderColor={calculateColor(fourteenDayAverage)}
-          units="mmol/L"
-        />
-      </View>
+      {fourteenDayReadings.glucoseLevels.length > 0 && (
+        <View style={styles.glucoseReadingsContainer}>
+          <GlucoseReadingIcon
+            isEmpty={false}
+            glucoseReading={fourteenDayAverage}
+            borderColor={calculateColor(fourteenDayAverage)}
+            units="mmol/L"
+          />
+        </View>
+      )}
+      {fourteenDayReadings.glucoseLevels.length === 0 && (
+        <View style={styles.glucoseReadingsContainer}>
+          <GlucoseReadingIcon isEmpty={false} borderColor={'#21A1FD'} />
+        </View>
+      )}
       <View style={styles.buttonsContainer}>
         <GlucoseScreenButton
           buttonText="ADD READING"
