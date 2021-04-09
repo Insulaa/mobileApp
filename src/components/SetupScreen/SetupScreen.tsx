@@ -158,8 +158,6 @@ const SetupScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
-          <Text style={styles.header}>Glucose lower limit</Text>
-          <Text style={styles.header}>Glucose upper limit</Text>
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}>{errortext}</Text>
           ) : null}
