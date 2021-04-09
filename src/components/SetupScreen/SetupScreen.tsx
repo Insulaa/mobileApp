@@ -107,7 +107,7 @@ const SetupScreen = (props) => {
               onChangeItem={(item) => setSex(item.value)}
             />
           </View>
-          <Text style={styles.header}>Date of birth (yyyy/mm/dd)</Text>
+          <Text style={styles.header}>Date of birth (yyyy-mm-dd)</Text>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
